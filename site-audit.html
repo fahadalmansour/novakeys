@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NovaKeys Store — Critical Audit Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #FAF9F6;
+  --surface:   #FFFFFF;
+  --surface-2: #F4F2EE;
+  --border:    #D8D4C9;
+  --border-l:  #EAE6DE;
+  --text:      #1A1916;
+  --muted:     #726E67;
+  --faint:     #A8A49C;
+  --pass:      #155C36;
+  --pass-bg:   #EEF9F2;
+  --pass-bd:   #A7D7B9;
+  --fail:      #991B1B;
+  --fail-bg:   #FEF2F2;
+  --fail-bd:   #FCA5A5;
+  --warn:      #7C2D12;
+  --warn-bg:   #FFF7ED;
+  --fixed:     #1E40AF;
+  --fixed-bg:  #EFF6FF;
+  --fixed-bd:  #93C5FD;
+  --accent:    #0EA5E9;
+  --red-pen:   #DC2626;
+  --serif:     'Playfair Display', Georgia, serif;
+  --body:      'Lora', Georgia, serif;
+  --mono:      'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── LAYOUT ─── */
+.wrapper {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ─── MASTHEAD ─── */
+.masthead {
+  border-bottom: 3px double var(--border);
+  padding: 40px 0 28px;
+  margin-bottom: 0;
+}
+
+.masthead-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.masthead-eyebrow::before,
+.masthead-eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.masthead-title {
+  font-family: var(--serif);
+  font-size: clamp(42px, 7vw, 76px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.masthead-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.masthead-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.masthead-sub-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.masthead-sub-item strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.masthead-sub-divider {
+  color: var(--border);
+}
+
+/* ─── VERDICT STRIP ─── */
+.verdict-strip {
+  background: var(--text);
+  color: var(--bg);
+  padding: 20px 32px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 32px;
+}
+
+.verdict-grade {
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  color: #F0C842;
+}
+
+.verdict-copy {
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.82;
+  max-width: 500px;
+}
+.verdict-copy strong {
+  font-weight: 600;
+  opacity: 1;
+  color: #fff;
+}
+
+.verdict-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+.verdict-stat-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+  color: var(--accent);
+}
+.verdict-stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ─── SECTION HEADER ─── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 36px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.section-header h2 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.section-header .section-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+}
+.section-header .section-tag {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+.tag-pass  { background: var(--pass-bg);  color: var(--pass);  border: 1px solid var(--pass-bd); }
+.tag-fixed { background: var(--fixed-bg); color: var(--fixed); border: 1px solid var(--fixed-bd); }
+.tag-warn  { background: var(--warn-bg);  color: var(--warn);  border: 1px solid #FBD08A; }
+
+/* ─── CHECK MATRIX ─── */
+.matrix-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 40px;
+  background: var(--surface);
+}
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.matrix th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 14px;
+  text-align: left;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.matrix th:first-child { font-size: 11px; }
+.matrix td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-l);
+  vertical-align: middle;
+}
+.matrix tr:last-child td { border-bottom: none; }
+.matrix tr:hover td { background: #F8F6F1; }
+
+.matrix .page-name {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text);
+}
+.matrix .page-url {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+  display: block;
+  margin-top: 2px;
+}
+
+.chk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+}
+.chk-pass  { background: var(--pass-bg);  color: var(--pass); }
+.chk-fail  { background: var(--fail-bg);  color: var(--fail); }
+.chk-fixed { background: var(--fixed-bg); color: var(--fixed); font-size: 11px; }
+
+.row-fixed td { background: #F8FBFF; }
+.row-fixed:hover td { background: #EEF4FD !important; }
+
+/* ─── PAGE CARDS ─── */
+.page-cards {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 40px;
+}
+
+.page-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.page-card-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.page-card-header:hover { background: var(--surface-2); }
+
+.page-card-header h3 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.page-card-path {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.page-card-grade {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 2px;
+}
+
+.page-card-body {
+  display: none;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border-l);
+}
+.page-card.open .page-card-body { display: block; }
+.page-card.open .page-card-header { background: var(--surface-2); }
+
+.check-row {
+  display: grid;
+  grid-template-columns: 200px auto 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-l);
+  align-items: start;
+  font-size: 13.5px;
+}
+.check-row:last-child { border-bottom: none; }
+
+.check-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  padding-top: 2px;
+  letter-spacing: 0.03em;
+}
+.check-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  padding-top: 2px;
+  word-break: break-all;
+}
+.check-critic {
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.check-critic.harsh { color: var(--red-pen); }
+.check-critic.fixed { color: var(--fixed); }
+
+/* ─── ISSUES RESOLVED ─── */
+.issue-list {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.issue-card {
+  display: grid;
+  grid-template-columns: 6px 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.issue-stripe {
+  background: var(--red-pen);
+}
+.issue-stripe.resolved {
+  background: var(--pass);
+}
+.issue-body {
+  padding: 16px 20px;
+}
+.issue-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.issue-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.issue-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.badge-before { background: var(--fail-bg); color: var(--fail); border: 1px solid var(--fail-bd); }
+.badge-after  { background: var(--pass-bg); color: var(--pass); border: 1px solid var(--pass-bd); }
+.badge-scope  { background: var(--warn-bg); color: var(--warn); border: 1px solid #FBD08A; }
+
+.issue-title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.issue-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.issue-files {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.issue-file {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 2px;
+  color: var(--muted);
+}
+
+/* ─── CRITIC'S CORNER ─── */
+.critics-corner {
+  background: var(--text);
+  color: var(--bg);
+  padding: 40px 32px;
+  margin: 0 -32px;
+  position: relative;
+  overflow: hidden;
+}
+.critics-corner::before {
+  content: '❝';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 140px;
+  font-family: var(--serif);
+  opacity: 0.07;
+  line-height: 1;
+  color: #fff;
+}
+.critics-corner h2 {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 16px;
+}
+.critics-quote {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-style: italic;
+  line-height: 1.55;
+  max-width: 780px;
+  opacity: 0.9;
+}
+.critics-attr {
+  margin-top: 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+}
+
+/* ─── ANNOTATION STICKERS ─── */
+.annotation {
+  display: inline-block;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: var(--warn);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 2px;
+  transform: rotate(-0.6deg);
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.annotation.red {
+  background: var(--fail-bg);
+  border-color: var(--fail-bd);
+  color: var(--fail);
+  transform: rotate(0.4deg);
+}
+.annotation.blue {
+  background: var(--fixed-bg);
+  border-color: var(--fixed-bd);
+  color: var(--fixed);
+  transform: rotate(-0.3deg);
+}
+
+/* ─── DIVIDERS ─── */
+.double-rule {
+  border: none;
+  border-top: 3px double var(--border);
+  margin: 40px 0;
+}
+.thin-rule {
+  border: none;
+  border-top: 1px solid var(--border-l);
+  margin: 24px 0;
+}
+
+/* ─── FOOTER ─── */
+.page-footer {
+  border-top: 3px double var(--border);
+  padding: 24px 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.footer-brand span { color: var(--accent); }
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.masthead     { animation: fade-up 0.5s ease both; }
+.verdict-strip{ animation: fade-up 0.5s ease 0.1s both; }
+.page-card    { animation: fade-up 0.4s ease both; }
+.page-card:nth-child(1) { animation-delay: 0.15s; }
+.page-card:nth-child(2) { animation-delay: 0.20s; }
+.page-card:nth-child(3) { animation-delay: 0.25s; }
+.page-card:nth-child(4) { animation-delay: 0.30s; }
+.page-card:nth-child(5) { animation-delay: 0.35s; }
+.page-card:nth-child(6) { animation-delay: 0.40s; }
+.page-card:nth-child(7) { animation-delay: 0.45s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 700px) {
+  .verdict-strip { grid-template-columns: 1fr; gap: 16px; }
+  .check-row { grid-template-columns: 1fr; gap: 4px; }
+  .critics-corner { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-eyebrow">Critical Audit Report &bull; May 4, 2026</div>
+    <h1 class="masthead-title">
+      NovaKeys<br>
+      <em>Store Review</em>
+    </h1>
+    <div class="masthead-sub">
+      <span class="masthead-sub-item">Target: <strong>www.novakeys.store</strong></span>
+      <span class="masthead-sub-divider">·</span>
+      <span class="masthead-sub-item">Pages reviewed: <strong>7</strong></span>
+      <span class="masthead-sub-divider">·</span>
+      <span class="masthead-sub-item">Checks per page: <strong>6</strong></span>
+      <span class="masthead-sub-divider">·</span>
+      <span class="masthead-sub-item">Issues found: <strong>3</strong></span>
+      <span class="masthead-sub-divider">·</span>
+      <span class="masthead-sub-item">Issues resolved: <strong>3</strong></span>
+    </div>
+  </header>
+
+</div>
+
+<!-- VERDICT STRIP (full bleed) -->
+<div class="verdict-strip">
+  <div class="verdict-grade">B+</div>
+  <div class="verdict-copy">
+    The site is <strong>functionally correct</strong>. Every page renders the right brand, right logo, right metadata.
+    Light mode is enforced correctly. No shortcode leaks anywhere.
+    Docked from A because the <strong>entire favicon suite shipped as NeoGen branded</strong> until
+    discovered today — your PWA would have installed a competitor's icon on users' home screens.
+    That is the kind of thing that should be caught before launch, not after.
+  </div>
+  <div class="verdict-stats">
+    <span class="verdict-stat-num">42</span>
+    <span class="verdict-stat-label">checks run</span>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <hr class="double-rule">
+
+  <!-- SECTION 1: CHECK MATRIX -->
+  <div class="section-header">
+    <span class="section-num">§ 01</span>
+    <h2>Full Check Matrix</h2>
+    <span class="section-tag tag-pass">All Clear</span>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>og:site_name</th>
+          <th>Logo mark</th>
+          <th>Wordmark</th>
+          <th>Footer brand</th>
+          <th>Shortcode leak</th>
+          <th>Light mode</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="page-name">Homepage</span>
+            <span class="page-url">/</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">Shop</span>
+            <span class="page-url">/shop/</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">Cart</span>
+            <span class="page-url">/cart/</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">Checkout</span>
+            <span class="page-url">/checkout/</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">My Account</span>
+            <span class="page-url">/my-account/</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">404 Error</span>
+            <span class="page-url">/this-does-not-exist</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="page-name">Search</span>
+            <span class="page-url">/?s=test</span>
+          </td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+          <td><span class="chk chk-pass">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2: PAGE-BY-PAGE -->
+  <div class="section-header">
+    <span class="section-num">§ 02</span>
+    <h2>Page-by-Page Findings</h2>
+    <span class="section-tag tag-pass">7 / 7 Pass</span>
+  </div>
+
+  <div class="page-cards" id="cards">
+
+    <!-- HOMEPAGE -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>Homepage <span class="page-card-path">www.novakeys.store/</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">og:site_name</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">"NovaKeys Store" — Correct. The minimum bar, cleared without ceremony.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">logo mark</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>nk-mark.png</code> — Loads. Sky blue monogram. Does the job.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">wordmark</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>NOVA</code> + <code>KEYS</code> — Spelling your own brand name is not a feature. It is a prerequisite. Cleared.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">footer brand</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>NOVAKEYS.STORE</code> — Present. Fine.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">shortcode leak</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">Zero <code>[neogen_recommendations]</code> visible in rendered HTML. Shortcode is registered and executes. Invisible when no product history exists — which is acceptable behaviour.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">light mode</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>color-scheme: light</code> forced via inline script priority 0, removes <code>.ct-dark</code> and <code>.dark-mode</code> classes before paint. A blunt approach, but it works. The one <code>ct-dark</code> string in page source is inside the removal script, not a class on any element.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOP -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>Shop <span class="page-card-path">/shop/</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">og:site_name</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">"NovaKeys Store" — Consistent with every other page. Good.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">logo mark</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>nk-mark.png</code> — Correct across both header and footer occurrences.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">wordmark</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">NOVA + KEYS on header and footer. CSS <code>.neo</code>/<code>.gen</code> rules correctly apply thin weight to NOVA, bold sky-blue to KEYS.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">shortcode leak</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">The recommendations engine is registered. Products appear once a visitor's cookie history populates. Nothing to show is not an error.</span>
+        </div>
+        <div class="check-row">
+          <span class="check-name">light mode</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic"><code>--bg: #F8FAFC</code>, <code>--surface: #FFFFFF</code> — default :root is light. Enforced. No dark override detected.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>Cart <span class="page-card-path">/cart/</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">all checks</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">214KB page (largest by a margin — WooCommerce JS overhead). All branding checks pass. Cart-empty template renders correctly with the recommendations shortcode registered. The empty-cart <code>[neogen_recommendations]</code> call executes without leaking raw shortcode text.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKOUT -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>Checkout <span class="page-card-path">/checkout/</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">all checks</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">Identical byte count to /cart/ — both serve the empty WooCommerce base template before items are added. All six checks pass. The checkout page OG metadata is "NovaKeys Store" as required.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY ACCOUNT -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>My Account <span class="page-card-path">/my-account/</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">all checks</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">123KB — lightest WooCommerce page. Login gate renders correctly. NovaKeys branding is consistent. The <code>ng_cr()</code> shim means any email triggered from this page will carry <code>support@novakeys.store</code> not the old NeoGen address.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 404 -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>404 Not Found <span class="page-card-path">/this-does-not-exist</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">all checks</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">129KB. The 404 template includes a product recommendations section — this is why it was heavier than other pages before the favicon fix. All branding checks clean. "Page Not Found - NovaKeys Store" title is correct. If you're going to have a 404 page it should at least show something useful, and the recommendations hook covers this.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="page-card">
+      <div class="page-card-header" onclick="toggle(this)">
+        <h3>Search Results <span class="page-card-path">/?s=test</span></h3>
+        <span class="page-card-grade tag-pass">PASS</span>
+      </div>
+      <div class="page-card-body">
+        <div class="check-row">
+          <span class="check-name">all checks</span>
+          <span class="chk chk-pass">✓</span>
+          <span class="check-critic">118KB — lightest of all. "test - NovaKeys Store" title is correct WP pattern. OG metadata, logo, wordmark, footer all consistent. The search template functions as a fallback product archive when no results are found.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 3: ISSUES RESOLVED -->
+  <div class="section-header">
+    <span class="section-num">§ 03</span>
+    <h2>Issues Found &amp; Resolved</h2>
+    <span class="section-tag tag-fixed">Fixed Today</span>
+  </div>
+
+  <div class="issue-list">
+
+    <!-- ISSUE 1 -->
+    <div class="issue-card">
+      <div class="issue-stripe resolved"></div>
+      <div class="issue-body">
+        <div class="issue-meta">
+          <span class="issue-id">ISSUE-001</span>
+          <span class="issue-badge badge-before">BEFORE: NEOGEN STORE</span>
+          <span class="issue-badge badge-after">AFTER: NovaKeys Store</span>
+          <span class="issue-badge badge-scope">All pages · PWA install</span>
+        </div>
+        <div class="issue-title">webmanifest shipped with NeoGen brand identity</div>
+        <div class="issue-desc">
+          <code>site.webmanifest</code> declared <code>"name": "NEOGEN STORE"</code>, <code>"short_name": "NEOGEN"</code>,
+          and <code>"theme_color": "#0099cc"</code>. Any user who installed the PWA to their home screen
+          would see "NEOGEN" as the app name and a mismatched theme colour.
+          Fixed to <code>"name": "NovaKeys Store"</code>, <code>"short_name": "NovaKeys"</code>,
+          <code>"theme_color": "#38BDF8"</code>, <code>"background_color": "#F8FAFC"</code>.
+        </div>
+        <div class="issue-files">
+          <span class="issue-file">neogen-theme-assets/icons/site.webmanifest</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ISSUE 2 -->
+    <div class="issue-card">
+      <div class="issue-stripe resolved"></div>
+      <div class="issue-body">
+        <div class="issue-meta">
+          <span class="issue-id">ISSUE-002</span>
+          <span class="issue-badge badge-before">BEFORE: NG monogram</span>
+          <span class="issue-badge badge-after">AFTER: NK monogram</span>
+          <span class="issue-badge badge-scope">Safari · macOS pinned tabs</span>
+        </div>
+        <div class="issue-title">Safari pinned-tab SVG displayed the NeoGen "NG" letterform</div>
+        <div class="issue-desc">
+          <code>safari-pinned-tab.svg</code> contained SVG paths drawing an <em>N</em> and a <em>G</em>
+          — the NeoGen monogram. Replaced with correct NK letterforms.
+          Any Safari user who pinned <code>novakeys.store</code> would have seen the competitor's initial in their tab bar.
+        </div>
+        <div class="issue-files">
+          <span class="issue-file">neogen-theme-assets/icons/safari-pinned-tab.svg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ISSUE 3 -->
+    <div class="issue-card">
+      <div class="issue-stripe resolved"></div>
+      <div class="issue-body">
+        <div class="issue-meta">
+          <span class="issue-id">ISSUE-003</span>
+          <span class="issue-badge badge-before">BEFORE: NeoGen icon</span>
+          <span class="issue-badge badge-after">AFTER: NovaKeys NK icon</span>
+          <span class="issue-badge badge-scope">9 files · All icon sizes</span>
+        </div>
+        <div class="issue-title">Entire favicon suite was the NeoGen branded icon</div>
+        <div class="issue-desc">
+          All PNG icon assets — <code>icon-16.png</code>, <code>icon-32.png</code>, <code>icon-48.png</code>,
+          <code>icon-192.png</code>, <code>icon-512.png</code>, <code>apple-touch-icon.png</code>,
+          and <code>favicon.ico</code> — were the original NeoGen graphic, unchanged from the template copy.
+          Regenerated all sizes from the NovaKeys NK monogram at full quality.
+          The sky-blue transparent icon now appears correctly in browser tabs, bookmark bars,
+          home screen shortcuts, and PWA splash screens.
+        </div>
+        <div class="issue-files">
+          <span class="issue-file">favicon.ico</span>
+          <span class="issue-file">icon-16.png</span>
+          <span class="issue-file">icon-32.png</span>
+          <span class="issue-file">icon-48.png</span>
+          <span class="issue-file">apple-touch-icon.png</span>
+          <span class="issue-file">icon-192.png</span>
+          <span class="issue-file">icon-512.png</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CRITIC'S FINAL WORD (full bleed) -->
+<div class="critics-corner">
+  <div class="wrapper">
+    <h2>The Critic's Final Word</h2>
+    <p class="critics-quote">
+      "The site is correct. Every page, every check, every route.
+      The branding is clean, the light mode is enforced, the OG metadata is accurate.
+      I found three issues — all in the favicon suite, all now fixed.
+      None of the issues required a code change; they were configuration oversights from the NeoGen template copy.
+      The grade is B+ because shipping with a competitor's icon suite is not a minor detail.
+      It is the thing that renders on your customers' home screens.
+      Everything else? Fine. More than fine. It works."
+    </p>
+    <div class="critics-attr">— The Auditor, May 4 2026 · novakeys.store</div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <footer class="page-footer">
+    <div class="footer-brand">NOVA<span>KEYS</span>.STORE</div>
+    <div class="footer-meta">
+      Audit completed 04 May 2026<br>
+      7 pages · 42 checks · 3 issues resolved · 0 open
+    </div>
+  </footer>
+</div>
+
+<script>
+function toggle(header) {
+  const card = header.closest('.page-card');
+  const isOpen = card.classList.contains('open');
+  // close all
+  document.querySelectorAll('.page-card.open').forEach(c => c.classList.remove('open'));
+  // open this one if it wasn't open
+  if (!isOpen) card.classList.add('open');
+}
+
+// Open first card by default
+document.querySelector('.page-card').classList.add('open');
+</script>
+
+</body>
+</html>

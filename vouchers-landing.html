@@ -489,12 +489,13 @@ footer p {
 
 <!-- FILTERS -->
 <div class="filters" id="filters">
-  <button class="filter-btn active" data-cat="all" onclick="filter(this)">All <span class="count">15</span></button>
-  <button class="filter-btn" data-cat="gaming" onclick="filter(this)">Gaming <span class="count">6</span></button>
+  <button class="filter-btn active" data-cat="all" onclick="filter(this)">All <span class="count">18</span></button>
+  <button class="filter-btn" data-cat="gaming" onclick="filter(this)">Gaming <span class="count">5</span></button>
   <button class="filter-btn" data-cat="shopping" onclick="filter(this)">Shopping <span class="count">3</span></button>
-  <button class="filter-btn" data-cat="entertainment" onclick="filter(this)">Entertainment <span class="count">3</span></button>
-  <button class="filter-btn" data-cat="telecom" onclick="filter(this)">Telecom <span class="count">1</span></button>
-  <button class="filter-btn" data-cat="productivity" onclick="filter(this)">Productivity <span class="count">2</span></button>
+  <button class="filter-btn" data-cat="entertainment" onclick="filter(this)">Entertainment <span class="count">2</span></button>
+  <button class="filter-btn" data-cat="apps" onclick="filter(this)">Apps <span class="count">2</span></button>
+  <button class="filter-btn" data-cat="telecom" onclick="filter(this)">Telecom <span class="count">3</span></button>
+  <button class="filter-btn" data-cat="productivity" onclick="filter(this)">Productivity <span class="count">3</span></button>
 </div>
 
 <!-- GRID -->
@@ -546,15 +547,6 @@ footer p {
         <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/ROBLOX.svg" alt="Roblox"></div>
         <div class="card-bottom">
           <div><div class="card-name">Roblox</div><div class="card-range">SAR 15 – 150</div></div>
-          <div class="card-arrow">→</div>
-        </div>
-      </div>
-
-      <div class="card" data-cat="gaming" style="animation-delay:.30s">
-        <div class="card-top"><span class="card-cat">Gaming</span><span class="card-badge badge-new">New</span></div>
-        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/Google_Play.svg" alt="Google Play"></div>
-        <div class="card-bottom">
-          <div><div class="card-name">Google Play</div><div class="card-range">SAR 25 – 400</div></div>
           <div class="card-arrow">→</div>
         </div>
       </div>
@@ -620,11 +612,28 @@ footer p {
         </div>
       </div>
 
-      <div class="card" data-cat="entertainment" style="animation-delay:.15s">
-        <div class="card-top"><span class="card-cat">Entertainment</span></div>
-        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/mcafee.svg" alt="McAfee"></div>
+    </div>
+  </div>
+
+  <!-- APPS -->
+  <div class="cat-section" data-section="apps">
+    <div class="cat-label">Apps &amp; Software</div>
+    <div class="card-grid">
+
+      <div class="card" data-cat="apps" style="animation-delay:.05s">
+        <div class="card-top"><span class="card-cat">Apps</span><span class="card-badge badge-new">New</span></div>
+        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/Google_Play.svg" alt="Google Play"></div>
         <div class="card-bottom">
-          <div><div class="card-name">McAfee</div><div class="card-range">SAR 60 – 300</div></div>
+          <div><div class="card-name">Google Play</div><div class="card-range">SAR 25 – 400</div></div>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="card" data-cat="apps" style="animation-delay:.10s">
+        <div class="card-top"><span class="card-cat">Apps</span><span class="card-badge badge-hot">Popular</span></div>
+        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/Apple.svg" alt="Apple Gift Card"></div>
+        <div class="card-bottom">
+          <div><div class="card-name">Apple Gift Card</div><div class="card-range">SAR 25 – 500</div></div>
           <div class="card-arrow">→</div>
         </div>
       </div>
@@ -642,6 +651,24 @@ footer p {
         <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/stc.svg" alt="STC"></div>
         <div class="card-bottom">
           <div><div class="card-name">STC Cards</div><div class="card-range">SAR 30 – 500</div></div>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="card" data-cat="telecom" style="animation-delay:.10s">
+        <div class="card-top"><span class="card-cat">Telecom</span></div>
+        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/Zain.svg" alt="Zain"></div>
+        <div class="card-bottom">
+          <div><div class="card-name">Zain Cards</div><div class="card-range">SAR 10 – 500</div></div>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="card" data-cat="telecom" style="animation-delay:.15s">
+        <div class="card-top"><span class="card-cat">Telecom</span></div>
+        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/Mobily.svg" alt="Mobily"></div>
+        <div class="card-bottom">
+          <div><div class="card-name">Mobily Cards</div><div class="card-range">SAR 10 – 500</div></div>
           <div class="card-arrow">→</div>
         </div>
       </div>
@@ -668,6 +695,15 @@ footer p {
         <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/microsoft.svg" alt="Microsoft"></div>
         <div class="card-bottom">
           <div><div class="card-name">Microsoft</div><div class="card-range">SAR 50 – 800</div></div>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="card" data-cat="productivity" style="animation-delay:.15s">
+        <div class="card-top"><span class="card-cat">Productivity</span></div>
+        <div class="card-logo"><img src="file:///Users/fahadalmansour/Downloads/logos/mcafee.svg" alt="McAfee"></div>
+        <div class="card-bottom">
+          <div><div class="card-name">McAfee</div><div class="card-range">SAR 60 – 300</div></div>
           <div class="card-arrow">→</div>
         </div>
       </div>

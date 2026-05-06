@@ -64,19 +64,20 @@ function nk_vouchers_shortcode() {
     <h2>Vouchers &amp; <em>Gift Cards.</em></h2>
     <p class="nk-v-sub">Instant digital delivery. Top-up and gift cards for gaming, entertainment, shopping, and more.</p>
     <div class="nk-v-stats">
-      <div><span class="nk-v-stat-num">15+</span><span class="nk-v-stat-lbl">Brands available</span></div>
-      <div><span class="nk-v-stat-num">SAR 15–2000</span><span class="nk-v-stat-lbl">Value range</span></div>
+      <div><span class="nk-v-stat-num">18+</span><span class="nk-v-stat-lbl">Brands available</span></div>
+      <div><span class="nk-v-stat-num">SAR 10–2000</span><span class="nk-v-stat-lbl">Value range</span></div>
       <div><span class="nk-v-stat-num">&lt; 60s</span><span class="nk-v-stat-lbl">Instant delivery</span></div>
     </div>
   </div>
 
   <div class="nk-v-filters">
-    <button class="nk-vf-btn nk-active" data-cat="all" onclick="nkFilter(this)">All <span class="nk-vf-count">15</span></button>
-    <button class="nk-vf-btn" data-cat="gaming"         onclick="nkFilter(this)">Gaming <span class="nk-vf-count">6</span></button>
-    <button class="nk-vf-btn" data-cat="shopping"       onclick="nkFilter(this)">Shopping <span class="nk-vf-count">3</span></button>
-    <button class="nk-vf-btn" data-cat="entertainment"  onclick="nkFilter(this)">Entertainment <span class="nk-vf-count">3</span></button>
-    <button class="nk-vf-btn" data-cat="telecom"        onclick="nkFilter(this)">Telecom <span class="nk-vf-count">1</span></button>
-    <button class="nk-vf-btn" data-cat="productivity"   onclick="nkFilter(this)">Productivity <span class="nk-vf-count">2</span></button>
+    <button class="nk-vf-btn nk-active" data-cat="all"           onclick="nkFilter(this)">All <span class="nk-vf-count">18</span></button>
+    <button class="nk-vf-btn" data-cat="gaming"                  onclick="nkFilter(this)">Gaming <span class="nk-vf-count">5</span></button>
+    <button class="nk-vf-btn" data-cat="shopping"                onclick="nkFilter(this)">Shopping <span class="nk-vf-count">3</span></button>
+    <button class="nk-vf-btn" data-cat="entertainment"           onclick="nkFilter(this)">Entertainment <span class="nk-vf-count">2</span></button>
+    <button class="nk-vf-btn" data-cat="apps"                    onclick="nkFilter(this)">Apps <span class="nk-vf-count">2</span></button>
+    <button class="nk-vf-btn" data-cat="telecom"                 onclick="nkFilter(this)">Telecom <span class="nk-vf-count">3</span></button>
+    <button class="nk-vf-btn" data-cat="productivity"            onclick="nkFilter(this)">Productivity <span class="nk-vf-count">3</span></button>
   </div>
 
   <!-- GAMING -->
@@ -88,7 +89,6 @@ function nk_vouchers_shortcode() {
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><img src="<?= $b ?>steam.svg" alt="Steam"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Steam</div><div class="nk-card-range">SAR 25–300</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Hot</span></div><div class="nk-card-logo"><img src="<?= $b ?>pubg.svg" alt="PUBG Mobile"></div><div class="nk-card-bottom"><div><div class="nk-card-name">PUBG Mobile</div><div class="nk-card-range">SAR 15–200</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><img src="<?= $b ?>ROBLOX.svg" alt="Roblox"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Roblox</div><div class="nk-card-range">SAR 15–150</div></div><div class="nk-card-arrow">→</div></div></div>
-      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><img src="<?= $b ?>Google_Play.svg" alt="Google Play"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
     </div>
   </div>
 
@@ -108,7 +108,15 @@ function nk_vouchers_shortcode() {
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?= $b ?>AMAZON_PRIME.svg" alt="Amazon Prime"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon Prime</div><div class="nk-card-range">SAR 30–200</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span></div><div class="nk-card-logo"><img src="<?= $b ?>Twitch.svg" alt="Twitch"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Twitch</div><div class="nk-card-range">SAR 25–150</div></div><div class="nk-card-arrow">→</div></div></div>
-      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span></div><div class="nk-card-logo"><img src="<?= $b ?>mcafee.svg" alt="McAfee"></div><div class="nk-card-bottom"><div><div class="nk-card-name">McAfee</div><div class="nk-card-range">SAR 60–300</div></div><div class="nk-card-arrow">→</div></div></div>
+    </div>
+  </div>
+
+  <!-- APPS -->
+  <div class="nk-v-section" data-section="apps">
+    <div class="nk-v-cat-lbl">Apps &amp; Software</div>
+    <div class="nk-v-grid">
+      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><img src="<?= $b ?>Google_Play.svg" alt="Google Play"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
+      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>Apple.svg" alt="Apple Gift Card"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Apple Gift Card</div><div class="nk-card-range">SAR 25–500</div></div><div class="nk-card-arrow">→</div></div></div>
     </div>
   </div>
 
@@ -117,6 +125,8 @@ function nk_vouchers_shortcode() {
     <div class="nk-v-cat-lbl">Telecom</div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>stc.svg" alt="STC"></div><div class="nk-card-bottom"><div><div class="nk-card-name">STC Cards</div><div class="nk-card-range">SAR 30–500</div></div><div class="nk-card-arrow">→</div></div></div>
+      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><img src="<?= $b ?>Zain.svg" alt="Zain"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Zain Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
+      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><img src="<?= $b ?>Mobily.svg" alt="Mobily"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Mobily Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
     </div>
   </div>
 
@@ -126,6 +136,7 @@ function nk_vouchers_shortcode() {
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?= $b ?>Adobe.svg" alt="Adobe"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Adobe</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?= $b ?>microsoft.svg" alt="Microsoft"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Microsoft</div><div class="nk-card-range">SAR 50–800</div></div><div class="nk-card-arrow">→</div></div></div>
+      <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?= $b ?>mcafee.svg" alt="McAfee"></div><div class="nk-card-bottom"><div><div class="nk-card-name">McAfee</div><div class="nk-card-range">SAR 60–300</div></div><div class="nk-card-arrow">→</div></div></div>
     </div>
   </div>
 

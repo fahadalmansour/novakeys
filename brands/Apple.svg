@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <rect width="240" height="80" fill="white"/>
+  <text x="120" y="27" text-anchor="middle" font-family="-apple-system,Helvetica Neue,sans-serif" font-size="10" font-weight="400" fill="#6E6E73" letter-spacing="4">APPLE</text>
+  <text x="120" y="57" text-anchor="middle" font-family="-apple-system,Helvetica Neue,sans-serif" font-size="23" font-weight="200" fill="#1D1D1F" letter-spacing="-0.5">Gift Card</text>
+</svg>

@@ -75,6 +75,12 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-customer-endpoint.php';
 		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-bootstrap-tool.php';
 		require_once NK_COMMERCE_DIR . 'includes/gift-cards/gift-card-keys-functions.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-points.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-points-rest.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-referral.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-coupon-rest.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-gift-mailer.php';
+		require_once NK_COMMERCE_DIR . 'includes/loyalty/loyalty-functions.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
 

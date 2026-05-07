@@ -145,6 +145,64 @@ if ( ! function_exists( 'ng_render_recommendations' ) ) {
 	}
 }
 
+/* -- seo module ------------------------------------------------------ */
+
+if ( ! function_exists( 'ng_home_description_ar' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_home_description_ar()}.
+	 *
+	 * @return string
+	 */
+	function ng_home_description_ar(): string {
+		return function_exists( 'nk_home_description_ar' ) ? nk_home_description_ar() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_home_title_ar' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_home_title_ar()}.
+	 *
+	 * @return string
+	 */
+	function ng_home_title_ar(): string {
+		return function_exists( 'nk_home_title_ar' ) ? nk_home_title_ar() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_seo_rewrite_legacy_host' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_seo_rewrite_legacy_host()}.
+	 *
+	 * @param mixed $value Value to rewrite.
+	 * @return mixed
+	 */
+	function ng_seo_rewrite_legacy_host( $value ) {
+		return function_exists( 'nk_seo_rewrite_legacy_host' ) ? nk_seo_rewrite_legacy_host( $value ) : $value;
+	}
+}
+
+if ( ! function_exists( 'ng_og_image_url' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_og_image_url()}.
+	 *
+	 * @return string
+	 */
+	function ng_og_image_url(): string {
+		return function_exists( 'nk_og_image_url' ) ? nk_og_image_url() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_twitter_image_url' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_twitter_image_url()}.
+	 *
+	 * @return string
+	 */
+	function ng_twitter_image_url(): string {
+		return function_exists( 'nk_twitter_image_url' ) ? nk_twitter_image_url() : '';
+	}
+}
+
 /* -- product-meta module --------------------------------------------- */
 
 if ( ! function_exists( 'ng_product_ar_title_meta_box' ) ) {

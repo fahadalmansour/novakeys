@@ -62,6 +62,11 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/recommendations/class-recommender.php';
 		require_once NK_COMMERCE_DIR . 'includes/vouchers/class-shortcode.php';
 		require_once NK_COMMERCE_DIR . 'includes/site/class-customizations.php';
+		require_once NK_COMMERCE_DIR . 'includes/seo/class-headers.php';
+		require_once NK_COMMERCE_DIR . 'includes/seo/class-text-routes.php';
+		require_once NK_COMMERCE_DIR . 'includes/seo/class-legacy-host-rewriter.php';
+		require_once NK_COMMERCE_DIR . 'includes/seo/class-rank-math-bridge.php';
+		require_once NK_COMMERCE_DIR . 'includes/seo/seo-functions.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
 

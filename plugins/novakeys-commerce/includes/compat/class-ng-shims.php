@@ -17,5 +17,54 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Shims are added per-module in phase 2. Phase 1 ships the file empty
-// so subsequent commits can extend without touching the loader.
+/* -- icons module ----------------------------------------------------- */
+
+if ( ! function_exists( 'ng_icons_catalog' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_icons_catalog()}.
+	 *
+	 * @return array<string, string>
+	 */
+	function ng_icons_catalog(): array {
+		return function_exists( 'nk_icons_catalog' ) ? nk_icons_catalog() : array();
+	}
+}
+
+if ( ! function_exists( 'ng_icon' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_icon()}.
+	 *
+	 * @param string $name        Icon name.
+	 * @param int    $size        Icon size in px.
+	 * @param string $extra_class Extra CSS class names.
+	 * @return string
+	 */
+	function ng_icon( string $name, int $size = 20, string $extra_class = '' ): string {
+		return function_exists( 'nk_icon' ) ? nk_icon( $name, $size, $extra_class ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_icon_sprite' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_icon_sprite()}.
+	 *
+	 * @return string
+	 */
+	function ng_icon_sprite(): string {
+		return function_exists( 'nk_icon_sprite' ) ? nk_icon_sprite() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_icon_use' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_icon_use()}.
+	 *
+	 * @param string $name        Icon name.
+	 * @param int    $size        Icon size in px.
+	 * @param string $extra_class Extra CSS class names.
+	 * @return string
+	 */
+	function ng_icon_use( string $name, int $size = 20, string $extra_class = '' ): string {
+		return function_exists( 'nk_icon_use' ) ? nk_icon_use( $name, $size, $extra_class ) : '';
+	}
+}

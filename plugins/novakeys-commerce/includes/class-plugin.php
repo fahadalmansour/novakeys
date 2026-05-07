@@ -54,9 +54,14 @@ final class Plugin {
 	 * @return void
 	 */
 	private function boot(): void {
-		// Backwards-compat shims: define `ng_*` aliases for any `nk_*` we ship.
-		// Always loaded so external callers (snippets/, scripts/, third-party
-		// hooks) keep working until phase 4.
+		// Modules — each one is self-registering on load. Loaded BEFORE
+		// the compat shim file so `nk_*` functions exist by the time the
+		// shims fall back to them.
+		require_once NK_COMMERCE_DIR . 'includes/icons/class-icon-registry.php';
+
+		// Backwards-compat shims: define `ng_*` aliases for any `nk_*` we
+		// ship. Always loaded so external callers (snippets/, scripts/,
+		// third-party hooks) keep working until phase 4.
 		require_once NK_COMMERCE_DIR . 'includes/compat/class-ng-shims.php';
 
 		// Load i18n early so module strings translate.

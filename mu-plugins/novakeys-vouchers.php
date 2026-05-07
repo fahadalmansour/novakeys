@@ -5,6 +5,40 @@ add_shortcode('nk_vouchers', 'nk_vouchers_shortcode');
 
 function nk_vouchers_shortcode() {
     $b = plugin_dir_url(__FILE__) . 'neogen-theme-assets/img/brands/';
+    $is_ar = function_exists('is_rtl') && is_rtl();
+    $t = $is_ar ? [
+        'eyebrow'        => 'منتجات رقمية',
+        'heading_a'      => 'القسائم و',
+        'heading_b'      => 'بطاقات الهدايا.',
+        'sub'            => 'تسليم رقمي فوري. بطاقات تعبئة وقسائم هدايا للألعاب والترفيه والتسوق وأكثر.',
+        'stat_brands'    => 'علامة تجارية متاحة',
+        'stat_value'     => 'نطاق القيمة',
+        'stat_speed'     => 'تسليم فوري',
+        'all'            => 'الكل',
+        'gaming'         => 'ألعاب',
+        'shopping'       => 'تسوّق',
+        'entertainment'  => 'ترفيه',
+        'apps'           => 'تطبيقات',
+        'apps_section'   => 'تطبيقات وبرامج',
+        'telecom'        => 'اتصالات',
+        'productivity'   => 'إنتاجية',
+    ] : [
+        'eyebrow'        => 'Digital Products',
+        'heading_a'      => 'Vouchers &amp; ',
+        'heading_b'      => 'Gift Cards.',
+        'sub'            => 'Instant digital delivery. Top-up and gift cards for gaming, entertainment, shopping, and more.',
+        'stat_brands'    => 'Brands available',
+        'stat_value'     => 'Value range',
+        'stat_speed'     => 'Instant delivery',
+        'all'            => 'All',
+        'gaming'         => 'Gaming',
+        'shopping'       => 'Shopping',
+        'entertainment'  => 'Entertainment',
+        'apps'           => 'Apps',
+        'apps_section'   => 'Apps &amp; Software',
+        'telecom'        => 'Telecom',
+        'productivity'   => 'Productivity',
+    ];
     ob_start();
     ?>
 <style>
@@ -59,30 +93,30 @@ function nk_vouchers_shortcode() {
 
 <div id="nk-vouchers-wrap">
 
-  <div class="nk-v-hero">
-    <div class="nk-v-label">Digital Products</div>
-    <h2>Vouchers &amp; <em>Gift Cards.</em></h2>
-    <p class="nk-v-sub">Instant digital delivery. Top-up and gift cards for gaming, entertainment, shopping, and more.</p>
+  <div class="nk-v-hero"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-label"><?php echo esc_html($t['eyebrow']); ?></div>
+    <h2><?php echo $t['heading_a']; ?><em><?php echo esc_html($t['heading_b']); ?></em></h2>
+    <p class="nk-v-sub"><?php echo esc_html($t['sub']); ?></p>
     <div class="nk-v-stats">
-      <div><span class="nk-v-stat-num">18+</span><span class="nk-v-stat-lbl">Brands available</span></div>
-      <div><span class="nk-v-stat-num">SAR 10–2000</span><span class="nk-v-stat-lbl">Value range</span></div>
-      <div><span class="nk-v-stat-num">&lt; 60s</span><span class="nk-v-stat-lbl">Instant delivery</span></div>
+      <div><span class="nk-v-stat-num">18+</span><span class="nk-v-stat-lbl"><?php echo esc_html($t['stat_brands']); ?></span></div>
+      <div><span class="nk-v-stat-num">SAR 10–2000</span><span class="nk-v-stat-lbl"><?php echo esc_html($t['stat_value']); ?></span></div>
+      <div><span class="nk-v-stat-num">&lt; 60s</span><span class="nk-v-stat-lbl"><?php echo esc_html($t['stat_speed']); ?></span></div>
     </div>
   </div>
 
-  <div class="nk-v-filters">
-    <button class="nk-vf-btn nk-active" data-cat="all"           onclick="nkFilter(this)">All <span class="nk-vf-count">18</span></button>
-    <button class="nk-vf-btn" data-cat="gaming"                  onclick="nkFilter(this)">Gaming <span class="nk-vf-count">5</span></button>
-    <button class="nk-vf-btn" data-cat="shopping"                onclick="nkFilter(this)">Shopping <span class="nk-vf-count">3</span></button>
-    <button class="nk-vf-btn" data-cat="entertainment"           onclick="nkFilter(this)">Entertainment <span class="nk-vf-count">2</span></button>
-    <button class="nk-vf-btn" data-cat="apps"                    onclick="nkFilter(this)">Apps <span class="nk-vf-count">2</span></button>
-    <button class="nk-vf-btn" data-cat="telecom"                 onclick="nkFilter(this)">Telecom <span class="nk-vf-count">3</span></button>
-    <button class="nk-vf-btn" data-cat="productivity"            onclick="nkFilter(this)">Productivity <span class="nk-vf-count">3</span></button>
+  <div class="nk-v-filters"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <button class="nk-vf-btn nk-active" data-cat="all"           onclick="nkFilter(this)"><?php echo esc_html($t['all']); ?> <span class="nk-vf-count">18</span></button>
+    <button class="nk-vf-btn" data-cat="gaming"                  onclick="nkFilter(this)"><?php echo esc_html($t['gaming']); ?> <span class="nk-vf-count">5</span></button>
+    <button class="nk-vf-btn" data-cat="shopping"                onclick="nkFilter(this)"><?php echo esc_html($t['shopping']); ?> <span class="nk-vf-count">3</span></button>
+    <button class="nk-vf-btn" data-cat="entertainment"           onclick="nkFilter(this)"><?php echo esc_html($t['entertainment']); ?> <span class="nk-vf-count">2</span></button>
+    <button class="nk-vf-btn" data-cat="apps"                    onclick="nkFilter(this)"><?php echo esc_html($t['apps']); ?> <span class="nk-vf-count">2</span></button>
+    <button class="nk-vf-btn" data-cat="telecom"                 onclick="nkFilter(this)"><?php echo esc_html($t['telecom']); ?> <span class="nk-vf-count">3</span></button>
+    <button class="nk-vf-btn" data-cat="productivity"            onclick="nkFilter(this)"><?php echo esc_html($t['productivity']); ?> <span class="nk-vf-count">3</span></button>
   </div>
 
   <!-- GAMING -->
-  <div class="nk-v-section" data-section="gaming">
-    <div class="nk-v-cat-lbl">Gaming</div>
+  <div class="nk-v-section" data-section="gaming"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo esc_html($t['gaming']); ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>playstation.svg" alt="PlayStation Store"></div><div class="nk-card-bottom"><div><div class="nk-card-name">PlayStation Store</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?= $b ?>xbox.svg" alt="Xbox"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Xbox</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -93,8 +127,8 @@ function nk_vouchers_shortcode() {
   </div>
 
   <!-- SHOPPING -->
-  <div class="nk-v-section" data-section="shopping">
-    <div class="nk-v-cat-lbl">Shopping</div>
+  <div class="nk-v-section" data-section="shopping"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo esc_html($t['shopping']); ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>amazon.svg" alt="Amazon"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon</div><div class="nk-card-range">SAR 50–1000</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span></div><div class="nk-card-logo"><img src="<?= $b ?>NOON.svg" alt="NOON"></div><div class="nk-card-bottom"><div><div class="nk-card-name">NOON</div><div class="nk-card-range">SAR 50–2000</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -103,8 +137,8 @@ function nk_vouchers_shortcode() {
   </div>
 
   <!-- ENTERTAINMENT -->
-  <div class="nk-v-section" data-section="entertainment">
-    <div class="nk-v-cat-lbl">Entertainment</div>
+  <div class="nk-v-section" data-section="entertainment"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo esc_html($t['entertainment']); ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?= $b ?>AMAZON_PRIME.svg" alt="Amazon Prime"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon Prime</div><div class="nk-card-range">SAR 30–200</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span></div><div class="nk-card-logo"><img src="<?= $b ?>Twitch.svg" alt="Twitch"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Twitch</div><div class="nk-card-range">SAR 25–150</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -112,8 +146,8 @@ function nk_vouchers_shortcode() {
   </div>
 
   <!-- APPS -->
-  <div class="nk-v-section" data-section="apps">
-    <div class="nk-v-cat-lbl">Apps &amp; Software</div>
+  <div class="nk-v-section" data-section="apps"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo $t['apps_section']; ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><img src="<?= $b ?>Google_Play.svg" alt="Google Play"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>Apple.svg" alt="Apple Gift Card"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Apple Gift Card</div><div class="nk-card-range">SAR 25–500</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -121,8 +155,8 @@ function nk_vouchers_shortcode() {
   </div>
 
   <!-- TELECOM -->
-  <div class="nk-v-section" data-section="telecom">
-    <div class="nk-v-cat-lbl">Telecom</div>
+  <div class="nk-v-section" data-section="telecom"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo esc_html($t['telecom']); ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?= $b ?>stc.svg" alt="STC"></div><div class="nk-card-bottom"><div><div class="nk-card-name">STC Cards</div><div class="nk-card-range">SAR 30–500</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><img src="<?= $b ?>Zain.svg" alt="Zain"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Zain Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -131,8 +165,8 @@ function nk_vouchers_shortcode() {
   </div>
 
   <!-- PRODUCTIVITY -->
-  <div class="nk-v-section" data-section="productivity">
-    <div class="nk-v-cat-lbl">Productivity</div>
+  <div class="nk-v-section" data-section="productivity"<?php if ($is_ar) echo ' dir="rtl"'; ?>>
+    <div class="nk-v-cat-lbl"><?php echo esc_html($t['productivity']); ?></div>
     <div class="nk-v-grid">
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?= $b ?>Adobe.svg" alt="Adobe"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Adobe</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
       <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?= $b ?>microsoft.svg" alt="Microsoft"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Microsoft</div><div class="nk-card-range">SAR 50–800</div></div><div class="nk-card-arrow">→</div></div></div>

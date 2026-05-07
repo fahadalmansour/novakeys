@@ -1,0 +1,612 @@
+[
+  {
+    "SKU": "GC-SW-ACC1",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Adobe Creative Cloud 1 Year"
+  },
+  {
+    "SKU": "GC-SW-KTS1",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Kaspersky Total Security 1 Year"
+  },
+  {
+    "SKU": "GC-APL-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple Gift Card $100"
+  },
+  {
+    "SKU": "GC-GP-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $50 Gift Card"
+  },
+  {
+    "SKU": "GC-NFX-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Netflix Gift Card $100"
+  },
+  {
+    "SKU": "GC-XBX-GPU3",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Game Pass Ultimate 3 Months"
+  },
+  {
+    "SKU": "GC-STM-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $50 Gift Card"
+  },
+  {
+    "SKU": "GC-PSN-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $50 Gift Card"
+  },
+  {
+    "SKU": "GC-SW-OFF24",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Microsoft Office 2024 Pro Plus"
+  },
+  {
+    "SKU": "GC-SW-WIN11",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Windows 11 Pro License Key"
+  },
+  {
+    "SKU": "GM-RTR-ASU-001",
+    "Category": "Gaming",
+    "Name": "ASUS ROG Rapture GT-BE19000AI (WiFi 7)"
+  },
+  {
+    "SKU": "GM-PGA-JSA-001",
+    "Category": "Gaming",
+    "Name": "JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)"
+  },
+  {
+    "SKU": "GM-STR-HPX-001",
+    "Category": "Gaming",
+    "Name": "HyperX QuadCast S USB Microphone"
+  },
+  {
+    "SKU": "GM-STR-ELG-001",
+    "Category": "Gaming",
+    "Name": "Elgato Stream Deck MK.2"
+  },
+  {
+    "SKU": "GM-CAP-AVR-001",
+    "Category": "Gaming",
+    "Name": "AVerMedia Live Gamer Ultra S"
+  },
+  {
+    "SKU": "GM-CAP-ELG-001",
+    "Category": "Gaming",
+    "Name": "Elgato HD60 X Capture Card"
+  },
+  {
+    "SKU": "GM-CTR-SON-001",
+    "Category": "Gaming",
+    "Name": "Sony DualSense Edge Controller"
+  },
+  {
+    "SKU": "GM-CTR-MSF-001",
+    "Category": "Gaming",
+    "Name": "Xbox Elite Controller Series 2 Core"
+  },
+  {
+    "SKU": "GM-RGB-GOV-001",
+    "Category": "Gaming",
+    "Name": "Govee DreamView G1 Pro Gaming Light"
+  },
+  {
+    "SKU": "GM-RGB-COR-001",
+    "Category": "Gaming",
+    "Name": "Corsair iCUE LC100 Lighting Panels"
+  },
+  {
+    "SKU": "GM-CHR-RAZ-001",
+    "Category": "Gaming",
+    "Name": "Razer Iskur V2 NewGen"
+  },
+  {
+    "SKU": "GM-CHR-SEC-001",
+    "Category": "Gaming",
+    "Name": "Secretlab Titan Evo"
+  },
+  {
+    "SKU": "GM-HST-RAZ-001",
+    "Category": "Gaming",
+    "Name": "Razer BlackShark V2 Pro 2023"
+  },
+  {
+    "SKU": "GM-HST-STS-001",
+    "Category": "Gaming",
+    "Name": "SteelSeries Arctis Nova 7 Wireless"
+  },
+  {
+    "SKU": "GM-HST-HPX-001",
+    "Category": "Gaming",
+    "Name": "HyperX Cloud Alpha Wireless (300hr)"
+  },
+  {
+    "SKU": "GM-MOU-RAZ-002",
+    "Category": "Gaming",
+    "Name": "Razer Viper V3 Pro (54g Wireless)"
+  },
+  {
+    "SKU": "GM-MOU-LOG-001",
+    "Category": "Gaming",
+    "Name": "Logitech G Pro X Superlight 2 DEX"
+  },
+  {
+    "SKU": "GM-MOU-RAZ-001",
+    "Category": "Gaming",
+    "Name": "Razer DeathAdder V4 Pro (57g Wireless)"
+  },
+  {
+    "SKU": "GM-KBD-KEY-001",
+    "Category": "Gaming",
+    "Name": "Keychron K10 HE (Arabic Layout)"
+  },
+  {
+    "SKU": "GM-KBD-LOG-001",
+    "Category": "Gaming",
+    "Name": "Logitech G Pro X TKL LIGHTSPEED"
+  },
+  {
+    "SKU": "GM-KBD-COR-001",
+    "Category": "Gaming",
+    "Name": "Corsair K70 MAX RGB"
+  },
+  {
+    "SKU": "GM-KBD-RAZ-001",
+    "Category": "Gaming",
+    "Name": "Razer Huntsman V3 Pro TKL"
+  },
+  {
+    "SKU": "GM-MON-DEL-001",
+    "Category": "Gaming",
+    "Name": "Dell Alienware AW2725DF (27\" QD-OLED 360Hz)"
+  },
+  {
+    "SKU": "GM-MON-LGE-001",
+    "Category": "Gaming",
+    "Name": "LG UltraGear OLED 27GR95QE-B (27\" QHD 240Hz)"
+  },
+  {
+    "SKU": "GM-MON-SAM-002",
+    "Category": "Gaming",
+    "Name": "Samsung Odyssey G7 G70D (32\" 4K 144Hz)"
+  },
+  {
+    "SKU": "GM-MON-SAM-001",
+    "Category": "Gaming",
+    "Name": "Samsung Odyssey OLED G8 (34\" UWQHD 175Hz)"
+  },
+  {
+    "SKU": "GM-MON-ASU-001",
+    "Category": "Gaming",
+    "Name": "ASUS ROG Swift OLED PG27AQDM (27\" QHD 240Hz)"
+  },
+  {
+    "SKU": "NG-GAM-012",
+    "Category": "Gaming",
+    "Name": "Elgato Wave:3 - Premium USB Condenser Microphone for Streaming"
+  },
+  {
+    "SKU": "NG-GAM-011",
+    "Category": "Gaming",
+    "Name": "SteelSeries QcK Heavy XXL - Extra-Large Gaming Mouse Pad"
+  },
+  {
+    "SKU": "NG-GAM-010",
+    "Category": "Gaming",
+    "Name": "BenQ Zowie XL2546K - 240Hz Esports Gaming Monitor"
+  },
+  {
+    "SKU": "NG-GAM-009",
+    "Category": "Gaming",
+    "Name": "Corsair K70 RGB Pro - Legendary Mechanical Gaming Keyboard"
+  },
+  {
+    "SKU": "NG-GAM-008",
+    "Category": "Gaming",
+    "Name": "Razer Basilisk V3 X HyperSpeed - Versatile Wireless Gaming Mouse"
+  },
+  {
+    "SKU": "NG-GAM-007",
+    "Category": "Gaming",
+    "Name": "8BitDo Arcade Stick - Authentic Arcade Experience at Home"
+  },
+  {
+    "SKU": "NG-GAM-006",
+    "Category": "Gaming",
+    "Name": "SteelSeries Arctis Nova 7 - Multi-Platform Wireless Gaming Headset"
+  },
+  {
+    "SKU": "NG-GAM-005",
+    "Category": "Gaming",
+    "Name": "Elgato HD60 X - External Capture Card for Streaming and Recording"
+  },
+  {
+    "SKU": "NG-GAM-004",
+    "Category": "Gaming",
+    "Name": "Razer BlackWidow V4 75% - Compact Mechanical Gaming Keyboard"
+  },
+  {
+    "SKU": "NG-GAM-003",
+    "Category": "Gaming",
+    "Name": "HyperX Cloud III Wireless - Premium Wireless Gaming Headset"
+  },
+  {
+    "SKU": "NG-GAM-002",
+    "Category": "Gaming",
+    "Name": "Razer DeathAdder V3 HyperSpeed - Ultra-Light Wireless Gaming Mouse"
+  },
+  {
+    "SKU": "NG-GAM-001",
+    "Category": "Gaming",
+    "Name": "8BitDo Ultimate C Bluetooth Controller - Multi-Platform Gaming"
+  },
+  {
+    "SKU": "GC-PSN-US-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $10 (US)"
+  },
+  {
+    "SKU": "GC-PSN-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $25 (US)"
+  },
+  {
+    "SKU": "GC-PSN-US-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $50 (US)"
+  },
+  {
+    "SKU": "GC-PSN-US-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $100 (US)"
+  },
+  {
+    "SKU": "GC-PSN-KSA-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $10 (KSA)"
+  },
+  {
+    "SKU": "GC-PSN-KSA-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $25 (KSA)"
+  },
+  {
+    "SKU": "GC-PSN-KSA-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $50 (KSA)"
+  },
+  {
+    "SKU": "GC-PSN-KSA-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Store $100 (KSA)"
+  },
+  {
+    "SKU": "GC-XBX-US-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $10 (US)"
+  },
+  {
+    "SKU": "GC-XBX-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $25 (US)"
+  },
+  {
+    "SKU": "GC-XBX-US-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $50 (US)"
+  },
+  {
+    "SKU": "GC-XBX-US-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $100 (US)"
+  },
+  {
+    "SKU": "GC-XBX-KSA-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $10 (KSA)"
+  },
+  {
+    "SKU": "GC-XBX-KSA-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $25 (KSA)"
+  },
+  {
+    "SKU": "GC-XBX-KSA-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $50 (KSA)"
+  },
+  {
+    "SKU": "GC-XBX-KSA-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $100 (KSA)"
+  },
+  {
+    "SKU": "GC-XBX-UK-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $10 (UK)"
+  },
+  {
+    "SKU": "GC-XBX-UK-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $25 (UK)"
+  },
+  {
+    "SKU": "GC-XBX-UK-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $50 (UK)"
+  },
+  {
+    "SKU": "GC-XBX-UK-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Xbox Live $100 (UK)"
+  },
+  {
+    "SKU": "GC-STM-GLOBAL-5",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $5 (Global)"
+  },
+  {
+    "SKU": "GC-STM-GLOBAL-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $10 (Global)"
+  },
+  {
+    "SKU": "GC-STM-GLOBAL-20",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $20 (Global)"
+  },
+  {
+    "SKU": "GC-STM-GLOBAL-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $50 (Global)"
+  },
+  {
+    "SKU": "GC-STM-GLOBAL-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Steam Wallet $100 (Global)"
+  },
+  {
+    "SKU": "GC-RZR-GLOBAL-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Razer Gold $10 (Global)"
+  },
+  {
+    "SKU": "GC-RZR-GLOBAL-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Razer Gold $25 (Global)"
+  },
+  {
+    "SKU": "GC-RZR-GLOBAL-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Razer Gold $50 (Global)"
+  },
+  {
+    "SKU": "GC-RZR-GLOBAL-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Razer Gold $100 (Global)"
+  },
+  {
+    "SKU": "GC-RBX-US-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Roblox $10 (US)"
+  },
+  {
+    "SKU": "GC-RBX-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Roblox $25 (US)"
+  },
+  {
+    "SKU": "GC-RBX-US-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Roblox $50 (US)"
+  },
+  {
+    "SKU": "GC-RBX-US-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Roblox $100 (US)"
+  },
+  {
+    "SKU": "GC-PBG-GLOBAL-60",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PUBG Mobile UC 60 UC (Global)"
+  },
+  {
+    "SKU": "GC-PBG-GLOBAL-325",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PUBG Mobile UC 325 UC (Global)"
+  },
+  {
+    "SKU": "GC-PBG-GLOBAL-660",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PUBG Mobile UC 660 UC (Global)"
+  },
+  {
+    "SKU": "GC-PBG-GLOBAL-1800",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PUBG Mobile UC 1800 UC (Global)"
+  },
+  {
+    "SKU": "GC-PBG-GLOBAL-3850",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PUBG Mobile UC 3850 UC (Global)"
+  },
+  {
+    "SKU": "GC-FRF-GLOBAL-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Free Fire Diamonds 100 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-FRF-GLOBAL-310",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Free Fire Diamonds 310 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-FRF-GLOBAL-1080",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Free Fire Diamonds 1080 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-FRF-GLOBAL-2200",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Free Fire Diamonds 2200 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-MLB-GLOBAL-86",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Mobile Legends Diamonds 86 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-MLB-GLOBAL-172",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Mobile Legends Diamonds 172 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-MLB-GLOBAL-706",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Mobile Legends Diamonds 706 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-MLB-GLOBAL-2195",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Mobile Legends Diamonds 2195 Diamonds (Global)"
+  },
+  {
+    "SKU": "GC-APL-US-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $10 (US)"
+  },
+  {
+    "SKU": "GC-APL-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $25 (US)"
+  },
+  {
+    "SKU": "GC-APL-US-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $50 (US)"
+  },
+  {
+    "SKU": "GC-APL-US-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $100 (US)"
+  },
+  {
+    "SKU": "GC-APL-KSA-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $10 (KSA)"
+  },
+  {
+    "SKU": "GC-APL-KSA-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $25 (KSA)"
+  },
+  {
+    "SKU": "GC-APL-KSA-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $50 (KSA)"
+  },
+  {
+    "SKU": "GC-APL-KSA-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Apple iTunes / App Store $100 (KSA)"
+  },
+  {
+    "SKU": "GC-GP-US-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $10 (US)"
+  },
+  {
+    "SKU": "GC-GP-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $25 (US)"
+  },
+  {
+    "SKU": "GC-GP-US-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $50 (US)"
+  },
+  {
+    "SKU": "GC-GP-US-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $100 (US)"
+  },
+  {
+    "SKU": "GC-GP-KSA-10",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $10 (KSA)"
+  },
+  {
+    "SKU": "GC-GP-KSA-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $25 (KSA)"
+  },
+  {
+    "SKU": "GC-GP-KSA-50",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $50 (KSA)"
+  },
+  {
+    "SKU": "GC-GP-KSA-100",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Google Play $100 (KSA)"
+  },
+  {
+    "SKU": "GC-SPF-GLOBAL-30",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Spotify Premium $30 (Global)"
+  },
+  {
+    "SKU": "GC-SPF-GLOBAL-60",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Spotify Premium $60 (Global)"
+  },
+  {
+    "SKU": "GC-SPF-GLOBAL-99",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Spotify Premium $99 (Global)"
+  },
+  {
+    "SKU": "GC-DSP-US-25",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Disney+ $25 (US)"
+  },
+  {
+    "SKU": "GC-DSP-US-80",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "Disney+ $80 (US)"
+  },
+  {
+    "SKU": "GC-PSP-US-1",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 1 Months (US)"
+  },
+  {
+    "SKU": "GC-PSP-US-3",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 3 Months (US)"
+  },
+  {
+    "SKU": "GC-PSP-US-12",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 12 Months (US)"
+  },
+  {
+    "SKU": "GC-PSP-KSA-1",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 1 Months (KSA)"
+  },
+  {
+    "SKU": "GC-PSP-KSA-3",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 3 Months (KSA)"
+  },
+  {
+    "SKU": "GC-PSP-KSA-12",
+    "Category": "Gift Cards & Software Keys",
+    "Name": "PlayStation Plus 12 Months (KSA)"
+  }
+]

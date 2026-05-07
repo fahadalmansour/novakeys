@@ -333,6 +333,88 @@ function nk_category_image_fallback( $slug ) {
 add_action('woocommerce_before_shop_loop', 'nk_shop_category_tiles_top', 5);
 add_action('woocommerce_after_shop_loop',  'nk_shop_category_tiles_bottom', 15);
 
+/**
+ * Empty-archive chrome rendering. WC core skips
+ * woocommerce_before_shop_loop / _after_shop_loop entirely when
+ * woocommerce_product_loop() is false (zero products in the term),
+ * so any chrome registered there doesn't render on empty archives.
+ * Mirror the registrations onto woocommerce_no_products_found so
+ * the gift-cards region tabs, brand grid, and shop category tiles
+ * still appear on a freshly-seeded category. Each callback's own
+ * is_*() guards keep it from firing on irrelevant pages.
+ */
+add_action( 'woocommerce_no_products_found', 'nk_shop_category_tiles_top', 5 );
+add_action( 'woocommerce_no_products_found', 'nk_gift_cards_archive_extras', 6 );
+add_action( 'woocommerce_no_products_found', 'nk_gift_cards_brand_grid', 7 );
+add_action( 'woocommerce_no_products_found', 'nk_shop_category_tiles_bottom', 20 );
+
+/**
+ * Render archive chrome around the WC product-collection block (DA-H5).
+ *
+ * The FSE archive templates (themes/novakeys/templates/archive-product.html
+ * and taxonomy-product_cat.html) use wp:woocommerce/product-collection,
+ * which does NOT fire the classic woocommerce_before_shop_loop hook —
+ * so the chrome registered above (shop category tiles, gift-cards
+ * region tabs, brand grid) never renders on FSE archives. Hook into
+ * the block render filter instead and prepend / append the same
+ * callbacks' output around the rendered block HTML.
+ *
+ * The classic add_action() registrations stay in place so any future
+ * route that uses wp:woocommerce/legacy-template still gets the chrome
+ * once. A static render-once guard prevents double-rendering when both
+ * paths happen to coexist on a page.
+ *
+ * @since 0.2.2
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block metadata.
+ * @return string
+ */
+add_filter( 'render_block_woocommerce/product-collection', function ( $block_content, $block ) {
+    static $rendered = false;
+    if ( $rendered ) {
+        return $block_content;
+    }
+    if ( ! function_exists( 'is_shop' ) || ! function_exists( 'is_product_category' ) ) {
+        return $block_content;
+    }
+    $is_shop_ctx = is_shop();
+    $is_cat_ctx  = is_product_category();
+    if ( ! $is_shop_ctx && ! $is_cat_ctx ) {
+        return $block_content;
+    }
+    $is_giftcards = $is_cat_ctx && is_product_category( 'gift-cards' );
+
+    $capture = static function ( callable $fn ): string {
+        ob_start();
+        $fn();
+        return (string) ob_get_clean();
+    };
+
+    $before = '';
+    $after  = '';
+
+    if ( $is_shop_ctx && function_exists( 'nk_shop_category_tiles_top' ) ) {
+        $before .= $capture( 'nk_shop_category_tiles_top' );
+    }
+    if ( $is_giftcards && function_exists( 'nk_gift_cards_archive_extras' ) ) {
+        $before .= $capture( 'nk_gift_cards_archive_extras' );
+    }
+
+    if ( $is_giftcards && function_exists( 'nk_gift_cards_brand_grid' ) ) {
+        $after .= $capture( 'nk_gift_cards_brand_grid' );
+    }
+    if ( $is_cat_ctx && function_exists( 'nk_shop_category_tiles_bottom' ) ) {
+        $after .= $capture( 'nk_shop_category_tiles_bottom' );
+    }
+
+    if ( '' === $before && '' === $after ) {
+        return $block_content;
+    }
+
+    $rendered = true;
+    return $before . $block_content . $after;
+}, 10, 2 );
+
 function nk_shop_category_tiles_top() {
     if ( ! function_exists('is_shop') ) return;
     if ( ! is_shop() ) return; // category archives render via _bottom

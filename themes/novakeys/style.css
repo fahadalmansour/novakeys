@@ -1,0 +1,14 @@
+/*
+Theme Name: NovaKeys
+Theme URI: https://novakeys.store/
+Author: Fahad Almansour
+Author URI: https://novakeys.store/
+Description: FSE block theme for NovaKeys Store. Visual tokens (colour, typography, spacing) live in theme.json. Most commerce + chrome logic ships via the novakeys-commerce companion plugin; this theme provides the template hierarchy and design tokens. Bilingual (en, ar-SA) with RTL support.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 6.9
+Requires PHP: 8.0
+License: Proprietary
+Text Domain: novakeys
+Tags: full-site-editing, block-theme, e-commerce, woocommerce, rtl-language-support
+*/

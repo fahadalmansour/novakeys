@@ -1,0 +1,66 @@
+name: claude-ops
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - name: PHP syntax check
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            php -l "$f" || fail=1
+          done < <(find . -path ./vendor -prune -o -name '*.php' -print)
+          exit $fail
+
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+      - name: Run gift-card matcher smoke test
+        run: php tests/test-gift-card-matcher.php
+
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+      - name: Install WPCS
+        run: |
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --dev "squizlabs/php_codesniffer=*" "wp-coding-standards/wpcs=*" "dealerdirect/phpcodesniffer-composer-installer=*"
+      - name: Run PHPCS
+        run: |
+          ~/.composer/vendor/bin/phpcs --standard=WordPress-Extra --extensions=php \
+            --ignore=*/vendor/*,*/node_modules/*,*/data/* \
+            mu-plugins plugins themes scripts snippets || true
+        continue-on-error: true
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

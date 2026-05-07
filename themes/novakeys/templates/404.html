@@ -1,0 +1,31 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+	<!-- wp:heading {"level":1,"textAlign":"center","style":{"typography":{"fontSize":"clamp(3rem,8vw,5rem)"}}} -->
+	<h1 class="wp-block-heading has-text-align-center" style="font-size:clamp(3rem,8vw,5rem)">404</h1>
+	<!-- /wp:heading -->
+
+	<!-- wp:heading {"textAlign":"center","level":2} -->
+	<h2 class="wp-block-heading has-text-align-center">Route not found</h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph {"align":"center","textColor":"brand-slate"} -->
+	<p class="has-text-align-center has-brand-slate-color has-text-color">The page you're looking for has moved, been removed, or never existed.</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+	<div class="wp-block-buttons">
+		<!-- wp:button -->
+		<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/">Back to home</a></div>
+		<!-- /wp:button -->
+
+		<!-- wp:button {"className":"is-style-outline"} -->
+		<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/shop/">Browse shop</a></div>
+		<!-- /wp:button -->
+	</div>
+	<!-- /wp:buttons -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

@@ -4,66 +4,102 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-NovaKeys is a Saudi gift-card / software-key WooCommerce store. The repo holds **only the custom code that drops into a WordPress install** — a block theme, a companion plugin, mu-plugins (transitional), one-off WP-CLI scripts, a smoke test, and a migration audit folder. It is not a self-contained WordPress install: there is no `wp-config.php`, no core, no `wp-content/` tree.
+NovaKeys is a Saudi gift-card / software-key WooCommerce store. The repo is a **WordPress block theme + companion plugin** dropped into a WP install — no core, no `wp-config.php`, no `wp-content/` tree.
 
-**Mid-refactor (2026-05-07).** The codebase is being restructured from "11 mu-plugins + stub theme" into a proper **FSE block theme + companion WordPress plugin** layout. See the plan at `.claude/plans/gentle-kindling-biscuit.md` for the phased migration. While in transition both layouts coexist; modules move from `mu-plugins/novakeys-<module>.php` to `plugins/novakeys-commerce/includes/<module>/` one at a time, with the source mu-plugin renamed to `*.php.disabled` in the same commit.
+Two deployable trees:
+
+- **`themes/novakeys/`** — FSE block theme. Owns the visual layer: `theme.json` design tokens (colour, typography, spacing), block templates, parts, patterns. Slim `functions.php` (theme support + enqueue only).
+- **`plugins/novakeys-commerce/`** — companion plugin. Owns commerce + chrome logic: gift-card pipeline (matcher, key vault, customer endpoint, refund revoker, bootstrap admin), NK Points loyalty + REST endpoints, vouchers shortcode, SEO/security headers, recommendations, product-meta metabox, theme-bridge fallbacks for chrome WP can't render via FSE blocks.
+
+The codebase was split out of NeoGen Store on 2026-05-07. Phase 1 scaffolded the plugin; phase 2 migrated all 11 mu-plugins into the plugin's `includes/<module>/` tree and renamed `ng_*` symbols to `nk_*` (postmeta keys + cookies + REST namespace stayed verbatim — those are live-data contracts). Phase 3 lands the FSE theme. Phase 4 is cleanup. See `.claude/plans/gentle-kindling-biscuit.md`.
 
 **Engineering standards:** every PHP commit follows `.claude/skills/wordpress.md` — WPCS, Yoda conditions, sanitize-on-input + late-escape, nonces on every state mutation, capability checks, WC CRUD over postmeta, HPOS-compatible. Trigger an audit anytime with *"Audit the current file using the standards in .claude/skills/wordpress.md."*
 
-The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/migrated-from-neogen-20260507-072457/MIGRATION-NOTES.md`). Filenames have been renamed to the `novakeys-*` prefix (matching the live install at `wp-content/mu-plugins/novakeys-custom/mu-plugins/`), but **internal symbols still use `ng_*` / `_ng_*`** (function names, postmeta keys, options, action hooks). Keep that prefix when extending those modules — the postmeta namespace especially must stay `_ng_*` for cross-plugin compatibility. Use `nk_*` only where it already exists (`nk_cr`, `[nk_vouchers]`, `nk_*` shortcodes).
-
 ## Layout
 
-- `plugins/novakeys-commerce/` — companion plugin (target home for all commerce + chrome modules). Drop-in to `wp-content/plugins/`. Phase-1 scaffold present; modules land in phase 2.
-- `themes/novakeys/` — currently a stub (`header.php`, `footer.php`, `app-shell.php`, `functions.php`). Phase 3 replaces with an FSE block theme (theme.json + templates/ + parts/ + patterns/).
-- `mu-plugins/` — transitional. Drop-in to `wp-content/mu-plugins/`. Modules migrate out into the companion plugin during phase 2; folder is deleted at end of phase 4.
-- `scripts/` — one-off WP-CLI utilities (run via `wp eval-file`, not web-accessible).
-- `snippets/gift-cards-header.php` — gift-card picker + region selector. Not auto-loaded; intended to be wired into a future snippet loader or activated manually.
-- `tests/test-gift-card-matcher.php` — single plain-PHP smoke test (no PHPUnit).
+- `themes/novakeys/` — FSE block theme.
+  - `theme.json` — design tokens (8-colour palette anchored on `#38BDF8`, three font families, fluid typography, 7-step spacing scale, 1100px content / 1280px wide).
+  - `style.css` — theme metadata header (no body styles).
+  - `functions.php` — theme support flags + `wp_enqueue_*` for `assets/app.js` (when present); no `template_include` filters.
+  - `templates/` — `index.html`, `page.html`, `page-legal.html`, `single.html`, `search.html`, `404.html`. Phase 3 ships only the basics; Woo block templates (`single-product`, `archive-product`, `cart`, `checkout`, `my-account`) inherit Woo defaults + overrides from the companion plugin until block versions land.
+  - `parts/` — `header.html`, `footer.html`. Site-wide chrome pulled from the plugin's `theme-bridge.php` via `wp_body_open` / `wp_footer` hooks.
+  - `patterns/` — `legal-disclosure.php` (MOC identity readout fed by `nk_cr()`).
+- `plugins/novakeys-commerce/` — companion plugin.
+  - `novakeys-commerce.php` — bootstrap, version constant, activation/deactivation hooks.
+  - `includes/class-plugin.php` — singleton; loads modules in dependency order.
+  - `includes/compat/class-ng-shims.php` — `function_exists`-guarded `ng_*` aliases for back-compat.
+  - `includes/migrations/class-option-migrator.php` — one-shot `ng_*` → `nk_*` option-key rename on activation.
+  - `includes/<module>/` — one folder per module (gift-cards, loyalty, seo, site, recommendations, vouchers, icons, product-meta, security, theme).
+- `scripts/` — one-off WP-CLI utilities (`wp eval-file`, not web-accessible).
+- `snippets/gift-cards-header.php` — gift-card picker + region selector. Standalone snippet, not auto-loaded.
+- `tests/test-gift-card-matcher.php` — single plain-PHP smoke test (no PHPUnit). Loads the matcher + compat shims.
 - `data/migrated-from-neogen-*/` — migration audit log + CSVs. Documentation only; no code reads from it.
-- `assets/` — brand SVGs/webps consumed by the asset mapper.
-- `.github/workflows/php.yml` + `composer.json` — minimal manifest (`php >=8.0`, no deps) added solely so CI's `composer validate --strict` passes. There are no actual PHP package dependencies; don't add runtime deps without a real reason.
+- `assets/` — brand SVGs/webps consumed by the asset matcher.
+- `.github/workflows/php.yml` + `composer.json` — minimal manifest (`php >=8.0`, no deps) so CI's `composer validate --strict` passes.
 
-## Mu-plugin architecture
+## Plugin module map
 
-Three layers, with the rest as independent feature plugins:
+Under `plugins/novakeys-commerce/includes/`:
 
-1. **Core matcher** — `mu-plugins/novakeys-gift-cards.php`
-   Defines `ng_gift_card_asset_map()` (brand → webp/svg paths for ~18 brands incl. Apple, PlayStation, Steam, STC, Mobily, Etisalat) and the matching helpers (`ng_gift_card_asset_for_product`, `ng_gift_card_image_url`, `ng_gift_card_clean_product_name`, `ng_gift_card_normalize_match_text`). Constants: `NG_THEME_ASSET_DIR`, `NG_THEME_ASSET_URL`.
-2. **Product seeder** — `mu-plugins/novakeys-gift-cards-bootstrap.php`
-   Admin page at **Tools → NovaKeys Gift Cards · Bootstrap**. Idempotent: scans the asset map, creates one **draft** WC product per brand slot keyed by SKU `gc-<slot>`, sets postmeta `_ng_gift_card_brand`. Does NOT set prices or publish — operator does that manually.
-3. **Order fulfillment / key vault** — `mu-plugins/novakeys-gift-card-keys.php`
-   Per-order-item gift-card code storage. AES-256-CTR at-rest encryption keyed off `wp_salt('logged_in')` via `ng_gck_encrypt()` / `ng_gck_decrypt()`. Item meta: `_ng_gift_card_code`, `_ng_gift_card_status` (pending/active/consumed/revoked), `_ng_gift_card_expires_at`, `_ng_gift_card_brand`, `_ng_gift_card_region`. Operators paste codes via a metabox on the WC order edit screen; customers retrieve them via the `/my-account/gift-card-keys/` endpoint registered by the same plugin. A `woocommerce_order_status_changed` hook flips status to `revoked` on `refunded`/`cancelled`/`failed`.
+- `gift-cards/` — the backbone.
+  - `gift-cards-matcher.php` — `nk_gift_card_asset_map()` + 11 helpers + 8 WC filter callbacks. Procedural global-namespace because filter registrations reference callback names by string. Postmeta `_ng_gift_card_brand` (preserved verbatim) is the per-product override.
+  - `class-vault.php` — AES-256-GCM (`enc:v2:`) for new writes; AES-256-CTR (`enc:v1:`) read back-compat. Key derived from `wp_salt('logged_in')`.
+  - `class-store.php` — `Store::set_code()` / `Store::get_keys_for_user()`. Per-line-item meta: `_ng_gift_card_code`, `_ng_gift_card_status` (pending/active/consumed/revoked), `_ng_gift_card_expires_at`, `_ng_gift_card_brand`, `_ng_gift_card_region`.
+  - `class-admin.php` — order-edit metabox (HPOS-aware). `nk_gck_save_<order_id>` nonce + `edit_shop_orders` cap.
+  - `class-refund-revoker.php` — flips status to `revoked` on `woocommerce_order_status_changed` (terminal statuses) AND `woocommerce_order_refunded` (partial refunds). Idempotent.
+  - `class-customer-endpoint.php` — `/my-account/gift-card-keys/` (`NK_GCK_ENDPOINT`). Bilingual EN/AR labels, copy-to-clipboard, status pills.
+  - `class-bootstrap-tool.php` — Tools → NovaKeys Gift Cards · Bootstrap. Idempotent product seeder (creates drafts only). Page slug `neogen-gift-cards-bootstrap` preserved as URL contract.
+  - `gift-card-keys-functions.php` — procedural wrappers (`nk_gck_*`, `nk_gift_card_set_code`, `nk_get_gift_card_keys`).
+- `loyalty/` — NK Points + referral + share-to-unlock coupon.
+  - `class-points.php` — 10 pts/SAR (2× for `nk_is_premium`), `NK_WELCOME_POINTS=50`, `NK_REFERRAL_POINTS=250`. Idempotent `_nk_points_awarded` order-meta written via WC CRUD.
+  - `class-points-rest.php` — `GET /wp-json/nk/v1/points` (login required).
+  - `class-referral.php` — `?ref=u<ID>` URL handler + `GET /wp-json/nk/v1/referral/<code>`. **Strict `^u\d+$` validation** (audit-2 fix), per-IP rate limit (10/min), Lax/HttpOnly cookie. Self-referral blocked.
+  - `class-coupon-rest.php` — `POST /wp-json/nk/v1/coupon`. **Login required + per-user 1/24h transient throttle** (audit-1 fix). 10% off, single-use, expires next day. WC_Coupon CRUD writes.
+  - `class-gift-mailer.php` — gift email + WhatsApp note on order completion. **`esc_html()` on `$gift_phone`, `esc_url()` on the WhatsApp deep link** (audit-4 fix).
+  - `loyalty-functions.php` — `nk_get_points()`, `nk_add_points()`.
+- `seo/` — security headers + text routes + Rank Math bridge + legacy host rewriter.
+  - `class-headers.php` — CSP / HSTS / X-Frame / Referrer / Permissions. CSP enforcement via `NK_CSP_ENFORCE` (legacy `NG_CSP_ENFORCE` honoured). `nk_csp_directives` filter.
+  - `class-text-routes.php` — `/ads.txt` (option `nk_adsense_client_id`), `/llms.txt`, `robots.txt` citation-crawler filter.
+  - `class-legacy-host-rewriter.php` — `ngs1.blazr.net` → `novakeys.store` rewrites across content/widgets/menus/Rank Math sitemap.
+  - `class-rank-math-bridge.php` — homepage title/description/robots/canonical, JSON-LD entity scrubber (drops Person, demo.local, dup Store/WebSite), Twitter card cleanup, OG image emission, author display rewrite.
+  - `seo-functions.php` — `nk_home_*`, `nk_seo_rewrite_legacy_host()`, `nk_og_image_url()`, `nk_twitter_image_url()`.
+- `site/class-customizations.php` — timezone lock to Asia/Riyadh, admin-bar version badge, WC compat sentinel, public WC REST read opener (paired with `security/class-mcp-meta-guard.php` to scrub `_ng_*` meta from REST), `window.NK` bootstrap.
+- `recommendations/class-recommender.php` — recently-viewed cookie (`ng_recent`, 30d, HttpOnly, SameSite=Lax) + rule-based recs. Shortcodes: `[nk_recommendations]` + legacy `[neogen_recommendations]` alias.
+- `vouchers/class-shortcode.php` — `[nk_vouchers]` filterable voucher gallery (6 categories, RTL-aware). Brand artwork URL filterable via `nk_vouchers_brand_url_base`.
+- `icons/class-icon-registry.php` — 44-icon SVG sprite + `nk_icon()` / `nk_icon_use()` / `nk_icon_sprite()`. CSS classes (`ngrd-icon`) and sprite IDs preserved for stylesheet compat.
+- `product-meta/class-arabic-title.php` — Arabic-title metabox on product edit; writes `_ng_ar_title` via WC CRUD.
+- `security/class-mcp-meta-guard.php` — strips `_ng_gift_card_*` from outbound REST/MCP responses (defense-in-depth for the WC REST public-read opener).
+- `theme/theme-bridge.php` — sitewide chrome consolidation (taxonomy ordering, shop category tiles, gift-cards archive helpers, info-page registry, legal/info-page virtual routes with the priority-1001 routing fix, Schema.org Store JSON-LD, sysbar/header/footer markup, WC template overrides). Phase 3 will keep eating into this as more chrome moves into FSE patterns.
 
-Independent feature plugins (no cross-deps):
-
-- `novakeys-theme.php` — sitewide visual/legal skin: footer, header, `/legal` route (MOC identity, CR 7053130576), Schema.org Store JSON-LD, bilingual `"English | Arabic"` labels via `ng_ar_label()`, custom taxonomy ordering, WC template overrides under `mu-plugins/neogen-theme-assets/templates/woocommerce/`.
-- `novakeys-recommendations.php` — recently-viewed cookie (`ng_recent`, 30d, HttpOnly, SameSite=Lax) + rule-based recs. Shortcode `[neogen_recommendations]`. Auto-injects on `woocommerce_after_single_product`. Admin debug: `?ng_simulate_recent=12,15,22`.
-- `novakeys-seo.php` — security headers (CSP report-only, HSTS, X-Frame-Options), `/ads.txt`, `/llms.txt`, robots.txt AI-crawler blocking.
-- `novakeys-site-custom.php` — global tweaks. **Locks timezone to Asia/Riyadh** (`pre_option_timezone_string`/`pre_option_gmt_offset` filters). WC compat check (`NG_TESTED_WC`). Opens WC REST API for unauthenticated reads via `woocommerce_rest_check_permissions`.
-- `novakeys-vouchers.php` — `[nk_vouchers]` shortcode rendering a filterable voucher gallery (gaming / shopping / entertainment / apps / telecom / productivity). Inlines its own CSS + vanilla JS, no external assets. RTL-aware via `is_rtl()`.
-- `novakeys-icons.php` — SVG icon sprite + `ng_icon($name, $size, $extra_class)` helper. Catalogue of ~44 icons mirrored from `icons.jsx`. Sprite renders once per page in `wp_footer`; templates reference icons by name. Strokes use `currentColor` so colour follows CSS.
-- `novakeys-product-meta.php` — per-product Arabic-title metabox on the WC product edit screen. Saves `_ng_ar_title`, read by `templates/front-page.php` and `templates/woocommerce/content-product.php` to render Arabic-first product titles. Bulk import column: `Meta: _ng_ar_title`.
-- `novakeys-nk-features.php` — NK Points loyalty + referral + share-to-unlock coupons. Constants: `NK_POINTS_PER_SAR=10`, `NK_WELCOME_POINTS=50`, `NK_REFERRAL_POINTS=250`. User meta: `nk_points`, `nk_is_premium` (set by SKU `NK-MEMBER-25`, doubles point earn rate), `nk_referred_by`. Referral cookie `nk_ref` (7d) set by `?ref=uID` URL param or `GET /wp-json/nk/v1/referral/<code>`. REST endpoints under `nk/v1/`: `points` (current user balance), `referral/<code>` (set cookie), `coupon` (POST → 10% one-shot coupon expiring next day). Also hooks `woocommerce_order_status_completed` to send a WhatsApp / email gift message when an order item carries `_gift_phone` / `_gift_email` meta.
-
-**Shared `_ng_*` postmeta namespace** ties the gift-card plugins together — e.g. bootstrap writes `_ng_gift_card_brand`, the matcher and the keys plugin both read it. Keep that prefix for new gift-card meta.
+**Shared `_ng_*` postmeta namespace** ties the gift-card pipeline together. Keep that prefix for new gift-card meta — postmeta keys are a live-data contract.
 
 ## Common operations
 
-- **Run the matcher smoke test:** `php tests/test-gift-card-matcher.php`. It uses inline WP/WC stubs; no PHPUnit, no fixtures dir.
-- **Run a one-off script:** `wp eval-file scripts/<name>.php --user=1` from the WP install root. They are not safe to load via web — never `require` them from a plugin.
-  - `neogen-gift-cards-bulk.php` — bulk-creates ~70 SKUs across ~14 brands. Idempotent by SKU. FX: USD→SAR at 3.75 + 7% markup.
-  - `neogen-reprice-gift-cards.php` — repricing pass to a 20% gross-margin floor; backs up original to `_ng_pre_reprice_regular_price`.
-  - `neogen-amazon-sa-reprice-gc.php` — KSA-specific Amazon repricing.
+- **Run the matcher smoke test:** `php tests/test-gift-card-matcher.php`. WP-less; uses inline stubs.
+- **Run a one-off WP-CLI utility:** `wp eval-file scripts/<name>.php --user=1` from the WP install root.
+  - `neogen-gift-cards-bulk.php` — bulk-creates ~70 SKUs across ~14 brands. Idempotent by SKU. USD → SAR at 3.75 + 7% markup.
+  - `neogen-reprice-gift-cards.php` — repricing pass to a 20% gross-margin floor; backs original to `_ng_pre_reprice_regular_price`.
+  - `neogen-amazon-sa-reprice-gc.php` — KSA Amazon-specific repricing.
   - `neogen-delete-netflix.php` — one-time Netflix product purge.
-  - `neogen-gift-cards-brand-cats.php` — generates brand sub-terms under the gift-cards `product_cat`.
+  - `neogen-gift-cards-brand-cats.php` — generates brand sub-terms under the `gift-cards` `product_cat`.
 - **Bootstrap products from assets:** WP Admin → Tools → NovaKeys Gift Cards · Bootstrap.
-- **Build / lint:** none. No Composer, no npm, no Makefile.
+- **Build / lint:** none. No npm, no Makefile. `composer validate --strict` runs in CI.
 
 ## Project-specific gotchas
 
-- Filenames are `novakeys-*` but most internal symbols are `ng_*` / `_ng_*` (`ng_gift_card_*`, `ng_gck_*`, `ng_ar_label`, `ng_recent`, `_ng_*` meta). A few features use `nk_*` (`nk_cr`, `[nk_vouchers]`). Match the existing symbol prefix in the file you're editing rather than renaming.
-- The bootstrap plugin **never publishes products and never sets prices**. Don't "fix" that — it's intentional so the operator reviews each SKU.
-- Order-item gift-card codes are encrypted at rest. Don't log raw codes; always go through `ng_get_gift_card_keys()` / `ng_gck_decrypt()`.
-- Timezone is force-locked to Asia/Riyadh by `novakeys-site-custom.php`. The WP admin Settings → General timezone field is effectively read-only.
-- `themes/novakeys/` is a stub — adding theme features there is almost always wrong; extend `mu-plugins/novakeys-theme.php` instead.
+- **`_ng_*` postmeta keys never rename.** They back live order/product data. CI grep should fail any new `update_post_meta($x, '_nk_gift_card_*'`.
+- **`enc:v1:` decrypt path stays forever.** Existing customer gift-card codes are encrypted under v1 (CTR); new writes use v2 (GCM). Removing v1 read = breaking live keys.
+- **Procedural functions used as filter callbacks must be in the global namespace.** When adding to `gift-cards-matcher.php` or extending `theme-bridge.php`, don't wrap in a `namespace ...;` declaration.
+- **Cookie names `ng_recent` and `nk_ref` are data contracts.** Customers carry these from prior sessions; renaming evicts referral attribution and recently-viewed history.
+- **REST namespace `nk/v1/` is canonical.** Do not introduce `ng/v1/`.
+- **The bootstrap tool never publishes products and never sets prices.** Operator publishes manually after pricing — intentional.
+- **Order-item gift-card codes are encrypted at rest.** Don't `error_log()` raw codes; always go through `nk_get_gift_card_keys()` / `Vault::decrypt()`.
+- **Timezone is force-locked to Asia/Riyadh** by `site/class-customizations.php`. The WP admin Settings → General timezone field is effectively read-only.
+
+## Operator-blocked items (publish-readiness)
+
+Tracked in the Notion publish-readiness study. Three items still require operator action and cannot be completed by code alone:
+
+- **B2 — Legal copy sign-off.** `theme/theme-bridge.php`'s `nk_info_pages()` returns the policy registry. Counsel must finalise the body text and remove the `ng-pending` "draft" chips.
+- **G3 — CSP enforcement.** Define `NK_CSP_ENFORCE` true in `wp-config.php` after a clean reporting window. Plugin already reads both `NK_CSP_ENFORCE` and legacy `NG_CSP_ENFORCE`.
+- **G6 — AdSense publisher ID.** Set option `nk_adsense_client_id` to the `pub-XXXXXXXXXXXXXXXX` value (or wire AdSense via Site Kit). `/ads.txt` falls back to a placeholder until then.

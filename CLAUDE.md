@@ -103,3 +103,19 @@ Tracked in the Notion publish-readiness study. Three items still require operato
 - **B2 — Legal copy sign-off.** `theme/theme-bridge.php`'s `nk_info_pages()` returns the policy registry. Counsel must finalise the body text and remove the `ng-pending` "draft" chips.
 - **G3 — CSP enforcement.** Define `NK_CSP_ENFORCE` true in `wp-config.php` after a clean reporting window. Plugin already reads both `NK_CSP_ENFORCE` and legacy `NG_CSP_ENFORCE`.
 - **G6 — AdSense publisher ID.** Set option `nk_adsense_client_id` to the `pub-XXXXXXXXXXXXXXXX` value (or wire AdSense via Site Kit). `/ads.txt` falls back to a placeholder until then.
+
+## Pre-flight checklist (binding before any commit) — added 2026-05-07
+
+Every PHP commit goes through the standards contract before merge:
+
+- **Trigger:** *"Audit the current file using the standards in `wordpress-engineer` and fix any violations."*
+- **Skill stack loaded:** `wordpress-engineer` (user-scope, master) → `wordpress` (project-local, NovaKeys gotchas) → `woocommerce-specialist` (when the file touches Woo).
+- **Slash command:** `/check-all` (runs the auditor against current file or branch arg).
+- **Auditor agent:** `wp-woo-standards-auditor` (with persistent memory at `~/.claude/agent-memory/wp-woo-standards-auditor/`).
+- **Cutover guard:** if `.cutover-active` exists at repo root, audit refuses (Phase-4 is done; this should never trigger now).
+
+## Repo-readiness backlog
+
+- Latest readiness audit: `~/.claude/reports/novakeys/readiness-2026-05-07.md`
+- Open BLOCKERs: B1 `<html lang>` mismatch, B2 cart `aria-label="state.*"` literals, B3 LSCache off, B4 legal copy sign-off, B5 `sanitize_key` ordering bug in referral, B6 xmlrpc reachable, B7 wp-cron public, B8 `.gitignore` missing.
+- See full HIGH/MEDIUM list in the report.

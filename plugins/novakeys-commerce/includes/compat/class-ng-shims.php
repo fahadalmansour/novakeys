@@ -203,6 +203,70 @@ if ( ! function_exists( 'ng_twitter_image_url' ) ) {
 	}
 }
 
+/* -- gift-card key vault -------------------------------------------- */
+
+if ( ! function_exists( 'ng_gck_key' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gck_key()}.
+	 *
+	 * @return string
+	 */
+	function ng_gck_key(): string {
+		return function_exists( 'nk_gck_key' ) ? nk_gck_key() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gck_encrypt' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gck_encrypt()}.
+	 *
+	 * @param string $plain Plaintext.
+	 * @return string
+	 */
+	function ng_gck_encrypt( $plain ): string {
+		return function_exists( 'nk_gck_encrypt' ) ? nk_gck_encrypt( $plain ) : (string) $plain;
+	}
+}
+
+if ( ! function_exists( 'ng_gck_decrypt' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gck_decrypt()}.
+	 *
+	 * @param string $cipher Cipher envelope.
+	 * @return string
+	 */
+	function ng_gck_decrypt( $cipher ): string {
+		return function_exists( 'nk_gck_decrypt' ) ? nk_gck_decrypt( $cipher ) : (string) $cipher;
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_set_code' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_set_code()}.
+	 *
+	 * @param int                  $order_id Order ID.
+	 * @param int                  $item_id  Item ID.
+	 * @param string               $code     Plaintext code.
+	 * @param array<string, mixed> $extras   Extras.
+	 * @return bool
+	 */
+	function ng_gift_card_set_code( $order_id, $item_id, $code, $extras = array() ): bool {
+		return function_exists( 'nk_gift_card_set_code' ) ? nk_gift_card_set_code( $order_id, $item_id, $code, $extras ) : false;
+	}
+}
+
+if ( ! function_exists( 'ng_get_gift_card_keys' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_get_gift_card_keys()}.
+	 *
+	 * @param int $user_id User ID.
+	 * @return array<int, array<string, mixed>>
+	 */
+	function ng_get_gift_card_keys( $user_id = 0 ): array {
+		return function_exists( 'nk_get_gift_card_keys' ) ? nk_get_gift_card_keys( $user_id ) : array();
+	}
+}
+
 /* -- gift-cards matcher --------------------------------------------- */
 
 if ( ! function_exists( 'ng_gift_card_asset_map' ) ) {

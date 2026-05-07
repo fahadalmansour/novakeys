@@ -68,6 +68,12 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/seo/class-rank-math-bridge.php';
 		require_once NK_COMMERCE_DIR . 'includes/seo/seo-functions.php';
 		require_once NK_COMMERCE_DIR . 'includes/gift-cards/gift-cards-matcher.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-vault.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-store.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-admin.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-refund-revoker.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/class-customer-endpoint.php';
+		require_once NK_COMMERCE_DIR . 'includes/gift-cards/gift-card-keys-functions.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
 

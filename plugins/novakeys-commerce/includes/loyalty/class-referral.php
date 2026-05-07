@@ -78,7 +78,11 @@ final class Referral {
 		if ( isset( $_COOKIE[ self::COOKIE ] ) ) {
 			return;
 		}
-		$raw = sanitize_key( wp_unslash( (string) $_GET['ref'] ) );
+		// Audit B5: validate raw input first; sanitize_key() before the
+		// regex would strip dashes/letters and turn `u1-2a` into `u12`,
+		// silently mutating the referral ID. Regex pass implies the
+		// string is already a subset of sanitize_key()'s allowed charset.
+		$raw = wp_unslash( (string) $_GET['ref'] );
 		if ( ! self::valid_code( $raw ) ) {
 			return;
 		}
@@ -118,7 +122,9 @@ final class Referral {
 	 * @return array<string, mixed>|\WP_Error
 	 */
 	public static function rest_handler( \WP_REST_Request $req ) {
-		$code = sanitize_key( (string) $req['code'] );
+		// Audit B5: validate raw against the strict regex BEFORE sanitize_key().
+		// Sanitising first would let `u1-2a` mutate to `u12` and pass.
+		$code = (string) $req['code'];
 		if ( ! self::valid_code( $code ) ) {
 			return new \WP_Error(
 				'nk_referral_invalid',

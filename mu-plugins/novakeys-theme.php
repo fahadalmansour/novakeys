@@ -1360,6 +1360,44 @@ add_filter('query_vars', function ($vars) {
     return $vars;
 });
 
+// Fix conditional state late, after WP_Query has finished. Without this,
+// /terms/, /privacy/, /legal/, etc. keep is_home=true (no post-type
+// identifier in their parsed query) which makes Rank Math emit
+// CollectionPage schema, gives the body 'blog' class, and uses the
+// homepage <title>.
+add_action('wp', function () {
+    if (!get_query_var('novakeys_page')) { return; }
+    global $wp_query;
+    $wp_query->is_home    = false;
+    $wp_query->is_archive = false;
+    $wp_query->is_404     = false;
+});
+
+// Without a real WP post backing /terms/ etc., the document title falls back
+// to "Page Array – Site Name". Override per-route. Priority 999 so SEO
+// plugins (Rank Math) that filter the title earlier still get overridden.
+add_filter('pre_get_document_title', function ($title) {
+    $page = get_query_var('novakeys_page');
+    if (!$page) { return $title; }
+    $site = get_bloginfo('name');
+    if ($page === 'legal') {
+        return 'Legal Disclosure — ' . $site;
+    }
+    if (function_exists('ng_info_pages')) {
+        $info = ng_info_pages();
+        if (isset($info[$page]['h1_en']) && $info[$page]['h1_en']) {
+            return ucwords(strtolower($info[$page]['h1_en'])) . ' — ' . $site;
+        }
+    }
+    return ucfirst($page) . ' — ' . $site;
+}, 999);
+
+// When a virtual /terms/, /privacy/, /legal/, etc. route fires, the matched
+// query has no post-type identifier so WP defaults is_home=true. The active
+// theme's priority-999 template_include then swaps in app-shell.php for any
+// is_home() request, clobbering our legal template. Flip is_home off here so
+// the theme filter no longer matches and the body class loses 'blog'.
+
 add_filter('template_include', function ($template) {
     if (is_admin()) { return $template; }
 
@@ -1417,7 +1455,13 @@ add_filter('template_include', function ($template) {
     }
 
     return $template;
-}, 98);
+// Priority 1001 so we run AFTER the active theme's priority-999
+// template_include in themes/novakeys/functions.php, which otherwise
+// blanket-rewrites is_home() requests to its app-shell.php and
+// clobbers our virtual /terms/, /legal/, /returns/, /privacy/,
+// /warranty/, /usage/ routes (those keep is_home=true because WP has
+// no post-type identifier in their parsed query).
+}, 1001);
 
 /**
  * Route WooCommerce template parts to our overrides. Keeps all

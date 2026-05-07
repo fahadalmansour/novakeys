@@ -98,11 +98,13 @@ Under `plugins/novakeys-commerce/includes/`:
 
 ## Operator-blocked items (publish-readiness)
 
-Tracked in the Notion publish-readiness study. Three items still require operator action and cannot be completed by code alone:
+Tracked in the Notion publish-readiness study. Two items still require operator action and cannot be completed by code alone:
 
-- **B2 — Legal copy sign-off.** `theme/theme-bridge.php`'s `nk_info_pages()` returns the policy registry. Counsel must finalise the body text and remove the `ng-pending` "draft" chips.
 - **G3 — CSP enforcement.** Define `NK_CSP_ENFORCE` true in `wp-config.php` after a clean reporting window. Plugin already reads both `NK_CSP_ENFORCE` and legacy `NG_CSP_ENFORCE`.
 - **G6 — AdSense publisher ID.** Set option `nk_adsense_client_id` to the `pub-XXXXXXXXXXXXXXXX` value (or wire AdSense via Site Kit). `/ads.txt` falls back to a placeholder until then.
+
+**Resolved:**
+- ~~B2 Legal copy sign-off~~ — bodies for Returns / Warranty / Terms / Privacy / Acceptable-Use ported into `nk_info_pages()` 2026-05-07; NTS LLC parent entity disclosed via `NK_CR['parent']` and the `novakeys/legal-disclosure` pattern; ng-pending chips removed; `'draft' => false` everywhere. Pending operational follow-ups: counter-signed DPA between KSA controller and NTS LLC processor, monitored `abuse@`/`security@` aliases, cookie-consent banner.
 
 ## Pre-flight checklist (binding before any commit) — added 2026-05-07
 

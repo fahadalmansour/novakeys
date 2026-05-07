@@ -68,3 +68,22 @@ if ( ! function_exists( 'ng_icon_use' ) ) {
 		return function_exists( 'nk_icon_use' ) ? nk_icon_use( $name, $size, $extra_class ) : '';
 	}
 }
+
+/* -- product-meta module --------------------------------------------- */
+
+if ( ! function_exists( 'ng_product_ar_title_meta_box' ) ) {
+	/**
+	 * @deprecated 0.1.0 The Arabic-title metabox is now class-based; nothing
+	 *             outside the plugin should call this. Shim returns void so
+	 *             a stale `add_meta_box()` callback registration in legacy
+	 *             code resolves harmlessly.
+	 *
+	 * @param \WP_Post $post Post.
+	 * @return void
+	 */
+	function ng_product_ar_title_meta_box( \WP_Post $post ): void {
+		if ( class_exists( '\\NovaKeys\\Commerce\\Product_Meta\\Arabic_Title' ) ) {
+			\NovaKeys\Commerce\Product_Meta\Arabic_Title::instance()->render( $post );
+		}
+	}
+}

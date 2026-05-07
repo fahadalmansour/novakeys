@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: NeoGen Gift Cards Bootstrap
+ * Plugin Name: NovaKeys Gift Cards Bootstrap
  * Description: Admin tool that auto-creates one WooCommerce product per brand for every gift-card webp shipped under mu-plugins/neogen-theme-assets/img/gift-cards/. Idempotent (skips by SKU). Creates drafts; the operator publishes after pricing.
  * Version: 1.0.0
  * Author: Fahad Almansour
@@ -9,7 +9,7 @@
  * ---------------------
  * - Admin page Tools → NeoGen Gift Cards · Bootstrap.
  * - On submit, scans `ng_gift_card_asset_map()` (defined in
- *   neogen-gift-cards.php) for every slot whose webp exists on disk
+ *   novakeys-gift-cards.php) for every slot whose webp exists on disk
  *   and creates a draft WC product per slot:
  *     - Title:   "<Arabic title> · <English title>"
  *     - Slug:    `<slot>-gift-card`
@@ -18,7 +18,7 @@
  *     - Image:   webp sideloaded to wp-content/uploads/ + set as
  *                featured image. Original file in mu-plugins is
  *                left untouched (the runtime matcher in
- *                neogen-gift-cards.php still serves the in-repo
+ *                novakeys-gift-cards.php still serves the in-repo
  *                webp; this attachment is for the admin Set Image
  *                picker and any code that reads attachment_id).
  *     - Category: 'Gift Cards' product_cat term; created if missing.
@@ -47,7 +47,7 @@ defined('ABSPATH') || exit;
 
 /**
  * Display titles per slot. Slot keys must match
- * ng_gift_card_asset_map() in neogen-gift-cards.php.
+ * ng_gift_card_asset_map() in novakeys-gift-cards.php.
  */
 function ng_gift_card_bootstrap_titles() {
     return [
@@ -261,7 +261,7 @@ function ng_gift_card_bootstrap_render() {
     ?>
     <div class="wrap">
       <h1>NeoGen Gift Cards · Bootstrap</h1>
-      <p>One-click tool that auto-creates a draft WooCommerce product for every brand whose webp ships under <code>mu-plugins/neogen-theme-assets/img/gift-cards/</code>. Each product is virtual, manage_stock = false, status = <strong>draft</strong>, with the matching webp sideloaded to <code>wp-content/uploads/</code> and set as featured image. The runtime matcher in <code>neogen-gift-cards.php</code> still serves the in-repo art on the storefront; this attachment is for the admin <em>Set Image</em> picker and any code that reads <code>attachment_id</code>.</p>
+      <p>One-click tool that auto-creates a draft WooCommerce product for every brand whose webp ships under <code>mu-plugins/neogen-theme-assets/img/gift-cards/</code>. Each product is virtual, manage_stock = false, status = <strong>draft</strong>, with the matching webp sideloaded to <code>wp-content/uploads/</code> and set as featured image. The runtime matcher in <code>novakeys-gift-cards.php</code> still serves the in-repo art on the storefront; this attachment is for the admin <em>Set Image</em> picker and any code that reads <code>attachment_id</code>.</p>
       <p><strong>Idempotency:</strong> products are keyed by SKU <code>gc-&lt;slot&gt;</code>. Re-running the tool is safe — existing products are skipped, not modified.</p>
 
       <?php if ( is_array($report) && isset($report['error']) ) : ?>
@@ -359,7 +359,7 @@ function ng_gift_card_bootstrap_render() {
       <ol style="max-width:760px;">
         <li>Open each draft product, set the <strong>regular price</strong> (and any variations / denominations).</li>
         <li>(Optional) Set <strong>tax class</strong> if the digital VAT rule differs from the storefront default.</li>
-        <li>Verify the featured image renders. The runtime matcher in <code>neogen-gift-cards.php</code> will continue to serve the in-repo art on the storefront thanks to the <code>_ng_gift_card_brand</code> override meta this tool sets.</li>
+        <li>Verify the featured image renders. The runtime matcher in <code>novakeys-gift-cards.php</code> will continue to serve the in-repo art on the storefront thanks to the <code>_ng_gift_card_brand</code> override meta this tool sets.</li>
         <li>Click <strong>Publish</strong> when ready.</li>
       </ol>
 

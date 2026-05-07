@@ -9,7 +9,7 @@
  * 1. Page-header gift-card picker
  *    - Renders a responsive grid of every published WC product in the
  *      `gift-cards` product_cat. Each tile = brand image (resolved via
- *      ng_gift_card_image_url() in mu-plugins/neogen-gift-cards.php) +
+ *      ng_gift_card_image_url() in mu-plugins/novakeys-gift-cards.php) +
  *      brand name, linking to the product permalink.
  *    - Auto-injected on the Gift Cards category archive via
  *      `woocommerce_before_main_content`.

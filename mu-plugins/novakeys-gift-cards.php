@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: NeoGen Gift Card Assets
+ * Plugin Name: NovaKeys Gift Card Assets
  * Description: Local LikeCard-derived clean gift-card artwork and promo-copy cleanup.
  * Version: 1.0.0
  * Author: Fahad Almansour

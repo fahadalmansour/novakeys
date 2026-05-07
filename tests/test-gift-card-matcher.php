@@ -132,7 +132,7 @@ if (!class_exists('WC_Product')) {
  * Load the matcher source
  * ------------------------------------------------------------- */
 
-require __DIR__ . '/../mu-plugins/neogen-gift-cards.php';
+require __DIR__ . '/../mu-plugins/novakeys-gift-cards.php';
 
 /* ---------------------------------------------------------------
  * Test harness

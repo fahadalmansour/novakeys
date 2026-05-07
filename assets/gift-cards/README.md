@@ -1,12 +1,12 @@
 # Gift-Card Brand Artwork
 
 Drop clean brand-authentic webp files here. The matcher in
-`mu-plugins/neogen-gift-cards.php` swaps WooCommerce product thumbnails on
+`mu-plugins/novakeys-gift-cards.php` swaps WooCommerce product thumbnails on
 shop, single-product, and cart pages whenever a product's name / SKU /
 category contains a registered keyword.
 
 Missing files fall back to the WC default thumbnail silently
-(`ng_gift_card_existing_file()` in `neogen-gift-cards.php` walks the file
+(`ng_gift_card_existing_file()` in `novakeys-gift-cards.php` walks the file
 list per slot and only emits an `<img>` when at least one webp exists on
 disk). So registering a new slot ahead of art is safe.
 
@@ -62,7 +62,7 @@ google-play slot, `psn.webp` → playstation slot).
 
 ## Adding a new brand
 
-Edit `ng_gift_card_asset_map()` in `mu-plugins/neogen-gift-cards.php`,
+Edit `ng_gift_card_asset_map()` in `mu-plugins/novakeys-gift-cards.php`,
 or register from a snippet via the new filter:
 
 ```php

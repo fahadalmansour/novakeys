@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: NeoGen Gift Card Keys
+ * Plugin Name: NovaKeys Gift Card Keys
  * Description: Per-order-item gift-card code storage with at-rest encryption (AES-256-CTR over a key derived from wp_salt('logged_in')). Operators populate codes via the order-edit screen metabox; customers retrieve them via the My Account → Gift Card Keys endpoint registered below.
  * Version: 1.38.0
  * Author: Fahad Almansour

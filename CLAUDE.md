@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 NovaKeys is a Saudi gift-card / software-key WooCommerce store. The repo holds **only the custom code that drops into a WordPress install** — mu-plugins, a near-empty stub theme, one-off WP-CLI scripts, a smoke test, and a migration audit folder. It is not a self-contained WordPress install: there is no `wp-config.php`, no core, no `wp-content/` tree.
 
-The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/migrated-from-neogen-20260507-072457/MIGRATION-NOTES.md`). Many files still use the legacy `ng_*` / `neogen-*` prefix — keep that prefix when extending those modules; use `nk_*` / `novakeys-*` only where it already exists.
+The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/migrated-from-neogen-20260507-072457/MIGRATION-NOTES.md`). Filenames have been renamed to the `novakeys-*` prefix (matching the live install at `wp-content/mu-plugins/novakeys-custom/mu-plugins/`), but **internal symbols still use `ng_*` / `_ng_*`** (function names, postmeta keys, options, action hooks). Keep that prefix when extending those modules — the postmeta namespace especially must stay `_ng_*` for cross-plugin compatibility. Use `nk_*` only where it already exists (`nk_cr`, `[nk_vouchers]`, `nk_*` shortcodes).
 
 ## Layout
 
@@ -23,12 +23,12 @@ The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/
 
 Three layers, with the rest as independent feature plugins:
 
-1. **Core matcher** — `mu-plugins/neogen-gift-cards.php`
+1. **Core matcher** — `mu-plugins/novakeys-gift-cards.php`
    Defines `ng_gift_card_asset_map()` (brand → webp/svg paths for ~18 brands incl. Apple, PlayStation, Steam, STC, Mobily, Etisalat) and the matching helpers (`ng_gift_card_asset_for_product`, `ng_gift_card_image_url`, `ng_gift_card_clean_product_name`, `ng_gift_card_normalize_match_text`). Constants: `NG_THEME_ASSET_DIR`, `NG_THEME_ASSET_URL`.
-2. **Product seeder** — `mu-plugins/neogen-gift-cards-bootstrap.php`
-   Admin page at **Tools → NeoGen Gift Cards · Bootstrap**. Idempotent: scans the asset map, creates one **draft** WC product per brand slot keyed by SKU `gc-<slot>`, sets postmeta `_ng_gift_card_brand`. Does NOT set prices or publish — operator does that manually.
-3. **Order fulfillment / key vault** — `mu-plugins/neogen-gift-card-keys.php`
-   Per-order-item gift-card code storage. AES-256-CTR at-rest encryption keyed off `wp_salt('logged_in')` via `ng_gck_encrypt()` / `ng_gck_decrypt()`. Item meta: `_ng_gift_card_code`, `_ng_gift_card_status` (pending/active/consumed), `_ng_gift_card_expires_at`, `_ng_gift_card_brand`, `_ng_gift_card_region`. Adds a metabox on the WC order edit screen.
+2. **Product seeder** — `mu-plugins/novakeys-gift-cards-bootstrap.php`
+   Admin page at **Tools → NovaKeys Gift Cards · Bootstrap**. Idempotent: scans the asset map, creates one **draft** WC product per brand slot keyed by SKU `gc-<slot>`, sets postmeta `_ng_gift_card_brand`. Does NOT set prices or publish — operator does that manually.
+3. **Order fulfillment / key vault** — `mu-plugins/novakeys-gift-card-keys.php`
+   Per-order-item gift-card code storage. AES-256-CTR at-rest encryption keyed off `wp_salt('logged_in')` via `ng_gck_encrypt()` / `ng_gck_decrypt()`. Item meta: `_ng_gift_card_code`, `_ng_gift_card_status` (pending/active/consumed/revoked), `_ng_gift_card_expires_at`, `_ng_gift_card_brand`, `_ng_gift_card_region`. Operators paste codes via a metabox on the WC order edit screen; customers retrieve them via the `/my-account/gift-card-keys/` endpoint registered by the same plugin. A `woocommerce_order_status_changed` hook flips status to `revoked` on `refunded`/`cancelled`/`failed`.
 
 Independent feature plugins (no cross-deps):
 
@@ -49,12 +49,12 @@ Independent feature plugins (no cross-deps):
   - `neogen-amazon-sa-reprice-gc.php` — KSA-specific Amazon repricing.
   - `neogen-delete-netflix.php` — one-time Netflix product purge.
   - `neogen-gift-cards-brand-cats.php` — generates brand sub-terms under the gift-cards `product_cat`.
-- **Bootstrap products from assets:** WP Admin → Tools → NeoGen Gift Cards · Bootstrap.
+- **Bootstrap products from assets:** WP Admin → Tools → NovaKeys Gift Cards · Bootstrap.
 - **Build / lint:** none. No Composer, no npm, no Makefile.
 
 ## Project-specific gotchas
 
-- Some functions use the `nk_*` prefix (`nk_cr`, `[nk_vouchers]`) and others use `ng_*` (`ng_gift_card_*`, `ng_gck_*`, `ng_ar_label`, `ng_recent`, `_ng_*` meta). Match the existing prefix in the file you're editing rather than renaming — the postmeta namespace especially must stay `_ng_*` for cross-plugin compatibility.
+- Filenames are `novakeys-*` but most internal symbols are `ng_*` / `_ng_*` (`ng_gift_card_*`, `ng_gck_*`, `ng_ar_label`, `ng_recent`, `_ng_*` meta). A few features use `nk_*` (`nk_cr`, `[nk_vouchers]`). Match the existing symbol prefix in the file you're editing rather than renaming.
 - The bootstrap plugin **never publishes products and never sets prices**. Don't "fix" that — it's intentional so the operator reviews each SKU.
 - Order-item gift-card codes are encrypted at rest. Don't log raw codes; always go through `ng_get_gift_card_keys()` / `ng_gck_decrypt()`.
 - Timezone is force-locked to Asia/Riyadh by `novakeys-site-custom.php`. The WP admin Settings → General timezone field is effectively read-only.

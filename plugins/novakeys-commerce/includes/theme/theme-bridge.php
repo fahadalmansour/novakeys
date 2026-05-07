@@ -1378,21 +1378,30 @@ add_filter( 'the_posts', function ( $posts, $query ) {
         return $posts;
     }
     $key = get_query_var( 'novakeys_page' );
-    if ( ! $key || 'legal' === $key ) {
-        return $posts;
-    }
-    if ( ! function_exists( 'nk_info_pages' ) ) {
-        return $posts;
-    }
-    $info = nk_info_pages();
-    if ( ! isset( $info[ $key ] ) ) {
+    if ( ! $key ) {
         return $posts;
     }
     if ( ! empty( $posts ) ) {
         return $posts;
     }
-    $page  = $info[ $key ];
-    $title = ! empty( $page['h1_en'] ) ? ucwords( strtolower( $page['h1_en'] ) ) : ucfirst( $key );
+    if ( 'legal' === $key ) {
+        // page-legal.html template renders novakeys/legal-disclosure
+        // pattern directly — leave post_content empty so the FSE
+        // template fully owns the body.
+        $title   = 'Legal Disclosure';
+        $content = '';
+    } else {
+        if ( ! function_exists( 'nk_info_pages' ) ) {
+            return $posts;
+        }
+        $info = nk_info_pages();
+        if ( ! isset( $info[ $key ] ) ) {
+            return $posts;
+        }
+        $page    = $info[ $key ];
+        $title   = ! empty( $page['h1_en'] ) ? ucwords( strtolower( $page['h1_en'] ) ) : ucfirst( $key );
+        $content = nk_render_info_page_content( $key );
+    }
     $now   = current_time( 'mysql' );
     $now_g = current_time( 'mysql', 1 );
     $stub  = (object) array(
@@ -1400,7 +1409,7 @@ add_filter( 'the_posts', function ( $posts, $query ) {
         'post_author'           => 1,
         'post_date'             => $now,
         'post_date_gmt'         => $now_g,
-        'post_content'          => nk_render_info_page_content( $key ),
+        'post_content'          => $content,
         'post_title'            => $title,
         'post_excerpt'          => '',
         'post_status'           => 'publish',
@@ -1761,11 +1770,20 @@ add_filter('query_vars', function ($vars) {
 // CollectionPage schema, gives the body 'blog' class, and uses the
 // homepage <title>.
 add_action('wp', function () {
-    if (!get_query_var('novakeys_page')) { return; }
+    $key = get_query_var('novakeys_page');
+    if (!$key) { return; }
     global $wp_query;
     $wp_query->is_home    = false;
     $wp_query->is_archive = false;
     $wp_query->is_404     = false;
+    // Set `pagename` so get_page_template() picks page-{slug}.html.
+    // Without this, the virtual post (ID=0) hits the `! $pagename && $id`
+    // gate in core and the slug hierarchy is skipped — page-legal.html
+    // would never be considered. The query var is also what FSE uses to
+    // resolve the block template by slug.
+    set_query_var('pagename', $key);
+    $wp_query->query_vars['pagename'] = $key;
+    $wp_query->query['pagename']      = $key;
 });
 
 // Without a real WP post backing /terms/ etc., the document title falls back

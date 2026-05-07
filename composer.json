@@ -1,0 +1,9 @@
+{
+    "name": "fahadalmansour/novakeys",
+    "description": "NovaKeys WordPress mu-plugins, scripts, and theme assets for the gift-card / software-key store.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0"
+    }
+}

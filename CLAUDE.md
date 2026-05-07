@@ -17,7 +17,7 @@ The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/
 - `tests/test-gift-card-matcher.php` — single plain-PHP smoke test (no PHPUnit).
 - `data/migrated-from-neogen-*/` — migration audit log + CSVs. Documentation only; no code reads from it.
 - `assets/` — brand SVGs/webps consumed by the asset mapper.
-- `.github/workflows/php.yml` — expects a `composer.json` that does not exist yet (workflow currently fails). Don't add Composer just to satisfy CI — confirm the user actually wants Composer first.
+- `.github/workflows/php.yml` + `composer.json` — minimal manifest (`php >=8.0`, no deps) added solely so CI's `composer validate --strict` passes. There are no actual PHP package dependencies; don't add runtime deps without a real reason.
 
 ## Mu-plugin architecture
 
@@ -58,5 +58,4 @@ Independent feature plugins (no cross-deps):
 - The bootstrap plugin **never publishes products and never sets prices**. Don't "fix" that — it's intentional so the operator reviews each SKU.
 - Order-item gift-card codes are encrypted at rest. Don't log raw codes; always go through `ng_get_gift_card_keys()` / `ng_gck_decrypt()`.
 - Timezone is force-locked to Asia/Riyadh by `novakeys-site-custom.php`. The WP admin Settings → General timezone field is effectively read-only.
-- The CI workflow at `.github/workflows/php.yml` runs `composer validate --strict` against a `composer.json` that does not exist. It will fail on every push until either the file is added or the workflow is updated.
 - `themes/novakeys/` is a stub — adding theme features there is almost always wrong; extend `mu-plugins/novakeys-theme.php` instead.

@@ -4,14 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-NovaKeys is a Saudi gift-card / software-key WooCommerce store. The repo holds **only the custom code that drops into a WordPress install** — mu-plugins, a near-empty stub theme, one-off WP-CLI scripts, a smoke test, and a migration audit folder. It is not a self-contained WordPress install: there is no `wp-config.php`, no core, no `wp-content/` tree.
+NovaKeys is a Saudi gift-card / software-key WooCommerce store. The repo holds **only the custom code that drops into a WordPress install** — a block theme, a companion plugin, mu-plugins (transitional), one-off WP-CLI scripts, a smoke test, and a migration audit folder. It is not a self-contained WordPress install: there is no `wp-config.php`, no core, no `wp-content/` tree.
+
+**Mid-refactor (2026-05-07).** The codebase is being restructured from "11 mu-plugins + stub theme" into a proper **FSE block theme + companion WordPress plugin** layout. See the plan at `.claude/plans/gentle-kindling-biscuit.md` for the phased migration. While in transition both layouts coexist; modules move from `mu-plugins/novakeys-<module>.php` to `plugins/novakeys-commerce/includes/<module>/` one at a time, with the source mu-plugin renamed to `*.php.disabled` in the same commit.
+
+**Engineering standards:** every PHP commit follows `.claude/skills/wordpress.md` — WPCS, Yoda conditions, sanitize-on-input + late-escape, nonces on every state mutation, capability checks, WC CRUD over postmeta, HPOS-compatible. Trigger an audit anytime with *"Audit the current file using the standards in .claude/skills/wordpress.md."*
 
 The codebase was split out of the NeoGen Store project on 2026-05-07 (see `data/migrated-from-neogen-20260507-072457/MIGRATION-NOTES.md`). Filenames have been renamed to the `novakeys-*` prefix (matching the live install at `wp-content/mu-plugins/novakeys-custom/mu-plugins/`), but **internal symbols still use `ng_*` / `_ng_*`** (function names, postmeta keys, options, action hooks). Keep that prefix when extending those modules — the postmeta namespace especially must stay `_ng_*` for cross-plugin compatibility. Use `nk_*` only where it already exists (`nk_cr`, `[nk_vouchers]`, `nk_*` shortcodes).
 
 ## Layout
 
-- `mu-plugins/` — the real application. Drop-in to `wp-content/mu-plugins/`.
-- `themes/novakeys/` — a near-empty stub (`header.php` only). Visual/legal "theme" logic lives in `mu-plugins/novakeys-theme.php`, not here.
+- `plugins/novakeys-commerce/` — companion plugin (target home for all commerce + chrome modules). Drop-in to `wp-content/plugins/`. Phase-1 scaffold present; modules land in phase 2.
+- `themes/novakeys/` — currently a stub (`header.php`, `footer.php`, `app-shell.php`, `functions.php`). Phase 3 replaces with an FSE block theme (theme.json + templates/ + parts/ + patterns/).
+- `mu-plugins/` — transitional. Drop-in to `wp-content/mu-plugins/`. Modules migrate out into the companion plugin during phase 2; folder is deleted at end of phase 4.
 - `scripts/` — one-off WP-CLI utilities (run via `wp eval-file`, not web-accessible).
 - `snippets/gift-cards-header.php` — gift-card picker + region selector. Not auto-loaded; intended to be wired into a future snippet loader or activated manually.
 - `tests/test-gift-card-matcher.php` — single plain-PHP smoke test (no PHPUnit).

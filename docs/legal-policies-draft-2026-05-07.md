@@ -25,35 +25,34 @@ NovaKeys is operated under a **two-entity** structure. The legal copy below name
 
 | Role | Entity | Jurisdiction | Identifier | Address |
 | --- | --- | --- | --- | --- |
-| **Brand owner / parent** (IP, software, infrastructure) | NEOTECHNOLOGY SOLUTIONS LLC | Wyoming, USA | EIN `{NTS_EIN}` · WY filing `{NTS_WY_FILING}` | 1021 E Lincolnway #8983, Cheyenne, WY 82001, USA |
+| **Brand owner / parent** (IP, software, infrastructure) | NEOTECHNOLOGY SOLUTIONS LLC | Wyoming, USA | EIN **36-5148912** · WY Articles of Organization filing **2025-001744917** (filed 14 Aug 2025) | Principal office: 1021 E Lincolnway Suite 8983, Cheyenne, WY 82001 · Registered agent: **FBRA LLC**, 1023 E Lincolnway, Cheyenne, WY 82001 |
 | **KSA merchant of record** (the entity on the ZATCA tax invoice; the entity you contract with for the sale itself) | NovaKeys Store — sole proprietorship of FAHAD SAAD FAHAD ALMANSOUR | Kingdom of Saudi Arabia | CR 7053130576 · ZATCA 3145127947 · Chamber 1238532 | (KSA — see /legal page) |
 
 **Plain-English summary:** NeoTechnology Solutions LLC (US, Wyoming) owns the NovaKeys brand and runs the technology platform. The actual sale of the gift-card product to a KSA customer is made by the KSA-registered NovaKeys Store sole proprietorship, because KSA e-commerce / VAT law requires a locally-registered merchant for ZATCA invoicing.
 
 **For the customer** — when you buy on novakeys.store you contract with the **KSA NovaKeys Store** (CR 7053130576). The Wyoming parent is disclosed for transparency about brand ownership and underlying technology operations; it is **not** the merchant on your invoice and is **not** the party you make a return / warranty / refund claim against.
 
-**Confirmed values (from the IRS taxpayer record):**
+**Confirmed values (sourced from the filing record + IRS taxpayer record):**
 
 ```
-Entity name (taxpayer)  NEOTECHNOLOGY SOLUTIONS LLC
-Mailing address         1021 E Lincolnway #8983, Cheyenne, WY 82001, USA
+Entity name (legal)     NeoTechnology Solutions LLC
+Entity name (IRS)       NEOTECHNOLOGY SOLUTIONS LLC (taxpayer-record casing)
+Member                  FAHAD ALMANSOUR (sole member)
+EIN                     36-5148912            (IRS CP 575 G, dated 2025-09-03)
+WY Articles filing #    2025-001744917        (Wyoming Sec. of State, 2025-08-14 10:41)
+Registered agent        FBRA LLC
+Registered office       1023 E Lincolnway, Cheyenne, WY 82001
+Principal office        1021 E Lincolnway Suite 8983, Cheyenne, WY 82001
+Mailing address         1021 E Lincolnway Suite 8983, Cheyenne, WY 82001
+Organizer               Firstbase (1023 E Lincolnway, Cheyenne, WY 82001)
+Phone (canonical)       +966 57 013 1122      (the KSA mobile — same number serves
+                                                both the KSA merchant and the NTS LLC
+                                                public contact; no separate US line)
+Email (canonical)       support@novakeys.store (single contact channel for both
+                                                entities, per operator decision)
 ```
 
-**Still to fill in before publication:**
-
-```
-{NTS_EIN}               US Employer Identification Number (on the IRS CP575 letter)
-{NTS_WY_FILING}         Wyoming Secretary of State filing/registration number
-                        (https://wyobiz.wyo.gov/Business/FilingSearch.aspx)
-{NTS_REGISTERED_AGENT}  Name of the registered agent in Wyoming
-                        (the 1021 E Lincolnway #8983 address is the agent's; the
-                        agent's company name still needs to be on the disclosure)
-{NTS_EMAIL}             Corporate email at the NTS LLC level (separate from
-                        support@novakeys.store) — optional, if disclosed
-{NTS_PHONE}             US phone number — optional, if disclosed
-```
-
-These slot into the marked `{...}` spots in the policy bodies and into the `NK_CR['parent']` block in `theme-bridge.php`. Counsel should also confirm whether the registered-agent address is the address that goes on consumer-facing disclosures, or whether a separate principal place of business is preferred.
+These slot into the `NK_CR['parent']` block in `theme-bridge.php` and into any policy body that names the parent. The registered-agent address (1023 E Lincolnway) is the legal-service address; consumer-facing disclosures should generally show the **principal office** (1021 E Lincolnway Suite 8983) as the contact address — counsel can confirm.
 
 ## How to port into the codebase
 
@@ -201,9 +200,9 @@ No change.
 
 ### Section 04 — Intellectual property (REPLACE draft chip)
 
-> **EN:** The "NovaKeys" / "نيوجين ستور" name, the NovaKeys logo, the brand-token / design system used on novakeys.store, and the underlying software platform are the property of **NeoTechnology Solutions LLC** (Wyoming, USA — filing number `{NTS_REG_NUMBER}`), and are licensed to NovaKeys Store (CR 7053130576) for use in connection with the KSA storefront. Brand marks of third parties displayed on our gift-card products (Apple, PlayStation, Steam, Microsoft, etc.) are the property of their respective owners and appear on this site solely to identify the redemption platform — no endorsement is implied. You may not copy, modify, or redistribute site content for commercial use without prior written permission from NeoTechnology Solutions LLC.
+> **EN:** The "NovaKeys" / "نيوجين ستور" name, the NovaKeys logo, the brand-token / design system used on novakeys.store, and the underlying software platform are the property of **NeoTechnology Solutions LLC** (Wyoming, USA — Articles of Organization filing 2025-001744917, EIN 36-5148912), and are licensed to NovaKeys Store (CR 7053130576) for use in connection with the KSA storefront. Brand marks of third parties displayed on our gift-card products (Apple, PlayStation, Steam, Microsoft, etc.) are the property of their respective owners and appear on this site solely to identify the redemption platform — no endorsement is implied. You may not copy, modify, or redistribute site content for commercial use without prior written permission from NeoTechnology Solutions LLC.
 >
-> **AR:** اسم «NovaKeys» / «نيوجين ستور»، وشعار نيوجين، ومنظومة الهوية والتصميم على novakeys.store، والمنصّة البرمجية الأساسية، جميعها ملك لشركة **NeoTechnology Solutions LLC** (وايومنغ، الولايات المتحدة — رقم القيد `{NTS_REG_NUMBER}`)، ومُرخَّصة لنيوجين ستور (سجل تجاري 7053130576) لاستخدامها في تشغيل المتجر السعودي. وعلامات الأطراف الأخرى الظاهرة على منتجات بطاقات الهدايا (آبل، بلاي ستيشن، ستيم، مايكروسوفت وغيرها) ملك لأصحابها، وتُعرَض على الموقع لتعريف منصّة الاستخدام فقط ولا تعني أي رعاية أو تأييد. لا يجوز نسخ محتوى الموقع أو تعديله أو إعادة توزيعه لأغراض تجارية دون إذن كتابي مسبق من NeoTechnology Solutions LLC.
+> **AR:** اسم «NovaKeys» / «نيوجين ستور»، وشعار نيوجين، ومنظومة الهوية والتصميم على novakeys.store، والمنصّة البرمجية الأساسية، جميعها ملك لشركة **NeoTechnology Solutions LLC** (وايومنغ، الولايات المتحدة — رقم قيد التأسيس 2025-001744917، الرقم الضريبي الفيدرالي EIN 36-5148912)، ومُرخَّصة لنيوجين ستور (سجل تجاري 7053130576) لاستخدامها في تشغيل المتجر السعودي. وعلامات الأطراف الأخرى الظاهرة على منتجات بطاقات الهدايا (آبل، بلاي ستيشن، ستيم، مايكروسوفت وغيرها) ملك لأصحابها، وتُعرَض على الموقع لتعريف منصّة الاستخدام فقط ولا تعني أي رعاية أو تأييد. لا يجوز نسخ محتوى الموقع أو تعديله أو إعادة توزيعه لأغراض تجارية دون إذن كتابي مسبق من NeoTechnology Solutions LLC.
 
 ### Section 05 — Limitation of liability (REPLACE draft chip)
 
@@ -496,7 +495,7 @@ In the same file, the `NK_CR` const (around line 22):
 
 Sweeps:
 
-- [ ] Replace every `{NTS_REG_NUMBER}`, `{NTS_EIN}`, `{NTS_REGISTERED_AGENT}`, `{NTS_REGISTERED_ADDR}`, `{NTS_PRINCIPAL_ADDR}`, `{NTS_EMAIL}`, `{NTS_PHONE}` placeholder in the policy bodies with the canonical value.
+- [ ] All NTS LLC placeholders are now resolved (EIN 36-5148912 · WY filing 2025-001744917 · agent FBRA LLC · principal 1021 E Lincolnway Suite 8983 · phone +966 57 013 1122 · email support@novakeys.store). No further substitution needed before counsel review.
 - [ ] Run `php tests/test-gift-card-matcher.php` (sanity — the legal pages aren't tested but the file lints).
 - [ ] `scp` the updated `theme-bridge.php` to live (`/wp-content/plugins/novakeys-commerce/includes/theme/`).
 - [ ] Visit `/terms/`, `/privacy/`, `/returns/`, `/warranty/`, `/usage/`, `/legal/` — confirm zero `ng-pending` chips remain and the NTS LLC parent row renders on `/legal/`.

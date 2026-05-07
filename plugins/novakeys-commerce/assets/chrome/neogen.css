@@ -215,6 +215,15 @@
     .ng-nav-cats { order: 3; flex-basis: 100%; justify-content: flex-start; padding-top: .25rem; }
 }
 
+/* RTL-aware arrow mirror ------------------------------------------ */
+/* Disclosure-link + newsletter submit arrows point right by default.
+   When the surrounding text is Arabic (immediate dir="rtl" or html flips),
+   mirror the SVG so the arrow points into the Arabic label. */
+[dir="rtl"] .ng-foot-newsletter-form .btn svg,
+[dir="rtl"] .ng-disclosure-link svg,
+.ng-foot-newsletter-form[dir="rtl"] .btn svg,
+.ng-disclosure-link[dir="rtl"] svg { transform: scaleX(-1); }
+
 /* Focus rings — single rule applied to every interactive element. */
 .ng-lockup:focus-visible,
 .ng-nav-cats a:focus-visible,
@@ -268,6 +277,81 @@
 .btn-primary:hover {
     background: var(--nk-color-cyan);
     transform: translateY(-1px);
+}
+
+.btn:disabled,
+.btn.is-submitting {
+    opacity: .6;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+}
+
+/* Newsletter feedback pill --------------------------------------- */
+
+.ng-news-notice {
+    position: fixed;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .65rem .9rem;
+    border-radius: var(--nk-radius);
+    background: var(--nk-color-emerald);
+    color: var(--nk-color-white);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: var(--nk-shadow);
+    max-width: calc(100vw - 2rem);
+    animation: nk-news-in .2s ease-out;
+}
+
+.ng-news-notice--err { background: var(--nk-color-amber); }
+
+.ng-news-notice .ng-news-notice-text:nth-of-type(1) { white-space: nowrap; }
+.ng-news-notice .ng-news-notice-text + .ng-news-notice-text {
+    border-inline-start: 1px solid rgba(255,255,255,.4);
+    padding-inline-start: .65rem;
+}
+
+.ng-news-notice-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin-inline-start: .15rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: .8;
+    transition: opacity .12s, background .12s;
+}
+.ng-news-notice-close:hover { opacity: 1; background: rgba(255,255,255,.16); }
+
+.ng-news-notice.is-leaving { animation: nk-news-out .25s ease-in forwards; }
+
+@keyframes nk-news-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes nk-news-out {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-6px); }
+}
+
+@media (max-width: 520px) {
+    .ng-news-notice {
+        inset-inline: 1rem;
+        flex-wrap: wrap;
+        max-width: none;
+    }
 }
 
 /* Hero / section primitives ---------------------------------------- */

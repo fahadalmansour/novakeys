@@ -1619,6 +1619,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }, 1);
 
 /**
+ * Newsletter form feedback notice. Reads the `?nk_news=ok|err` query
+ * the admin-post handler appends after subscribe attempts and renders
+ * a dismissable status pill near the top-right of the viewport.
+ *
+ * @since 0.2.2
+ * @return void
+ */
+add_action( 'wp_body_open', function () {
+    if ( is_admin() || is_customize_preview() ) {
+        return;
+    }
+    $state = isset( $_GET['nk_news'] ) ? sanitize_key( wp_unslash( (string) $_GET['nk_news'] ) ) : '';
+    if ( 'ok' !== $state && 'err' !== $state ) {
+        return;
+    }
+    $msg_en = ( 'ok' === $state )
+        ? 'Thanks — you\'re subscribed.'
+        : 'Subscription failed. Please check the email and try again.';
+    $msg_ar = ( 'ok' === $state )
+        ? 'شكراً — تم الاشتراك.'
+        : 'تعذّر الاشتراك. تحقّق من البريد وحاول مجددًا.';
+    ?>
+<div class="ng-news-notice ng-news-notice--<?php echo esc_attr( $state ); ?>" role="status" aria-live="polite" data-nk-news>
+    <span class="ng-news-notice-text"><?php echo esc_html( $msg_en ); ?></span>
+    <span class="ng-news-notice-text" dir="rtl" lang="ar"><?php echo esc_html( $msg_ar ); ?></span>
+    <button type="button" class="ng-news-notice-close" aria-label="<?php echo esc_attr__( 'Dismiss', 'novakeys-commerce' ); ?>">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="14" height="14"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+</div>
+    <?php
+}, 1 );
+
+/**
  * Google Tag Manager — noscript iframe at the very top of <body>.
  */
 add_action('wp_body_open', function () {
@@ -2058,9 +2091,6 @@ add_shortcode('novakeys_home_sections', function () {
  */
 add_action('wp_body_open', function () {
     if (is_admin()) { return; }
-    // Phase 2b: respect the Blocksy handoff toggle. When ON, this
-    // injector no-ops and Blocksy's header builder takes over.
-    if ( function_exists('ng_blocksy_chrome_handoff') && ng_blocksy_chrome_handoff() ) { return; }
 
     $home = home_url('/');
     // Defensive resolution — if WC page options are unset/misconfigured
@@ -2131,7 +2161,7 @@ add_action('wp_body_open', function () {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>
       <span class="tool-label">الحساب</span>
     </a>
-    <a class="ng-nav-tool" href="<?php echo esc_url( $cart ); ?>" aria-label="السلة">
+    <a class="ng-nav-tool" href="<?php echo esc_url( $cart ); ?>" aria-label="السلة" data-cart-link="1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h3l2 12h10l2-8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg>
       <span class="tool-label">السلة</span>
       <span class="count<?php echo $cart_count > 0 ? '' : ' is-empty'; ?>"><?php echo esc_html( $cart_count ); ?></span>
@@ -2213,7 +2243,10 @@ add_action( 'admin_post_nopriv_ng_newsletter_subscribe', 'nk_newsletter_subscrib
 add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
     if (!function_exists('WC') || !WC() || !WC()->cart) { return $fragments; }
     $count = (int) WC()->cart->get_cart_contents_count();
-    $fragments['.ng-nav-tools a[aria-label="السلة"] .count'] =
+    // Locale-stable selector — keying on aria-label="السلة" broke under
+    // TranslatePress when the AR label was rewritten. data-cart-link is
+    // emitted by the chrome topnav and survives translation.
+    $fragments['.ng-nav-tools a[data-cart-link] .count'] =
         '<span class="count' . ($count > 0 ? '' : ' is-empty') . '">' . esc_html($count) . '</span>';
     return $fragments;
 });
@@ -2223,9 +2256,6 @@ add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
  */
 add_action('wp_footer', function () {
     if (is_admin()) { return; }
-    // Phase 2b: respect the Blocksy handoff toggle. When ON, this
-    // footer no-ops and Blocksy's footer builder takes over.
-    if ( function_exists('ng_blocksy_chrome_handoff') && ng_blocksy_chrome_handoff() ) { return; }
 
     $home = home_url('/');
     $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : $home;
@@ -2278,14 +2308,14 @@ add_action('wp_footer', function () {
         <h3>عروض المشغّلين · مباشرة لبريدك</h3>
         <p>منتجات جديدة، تخفيضات حصرية، ونصائح تقنية مختصرة. لا سبام — يمكنك إلغاء الاشتراك في أي وقت.</p>
       </div>
-      <form class="ng-foot-newsletter-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" novalidate>
+      <form class="ng-foot-newsletter-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
         <input type="hidden" name="action" value="ng_newsletter_subscribe">
         <?php wp_nonce_field( 'ng_newsletter', 'ng_newsletter_nonce' ); ?>
         <label class="ng-foot-newsletter-field">
           <span class="screen-reader-text">بريدك الإلكتروني</span>
           <input type="email" name="email" placeholder="بريدك الإلكتروني" autocomplete="email" required>
         </label>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" dir="rtl">
           اشترك
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </button>
@@ -2379,7 +2409,7 @@ add_action('wp_footer', function () {
       <span class="sep"></span>
       <span><?php echo esc_html($cr['phone_mobile']); ?></span>
     </div>
-    <a class="ng-disclosure-link" href="<?php echo esc_url( home_url('/legal/') ); ?>">
+    <a class="ng-disclosure-link" href="<?php echo esc_url( home_url('/legal/') ); ?>" dir="rtl">
       هوية المنشأة
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
     </a>

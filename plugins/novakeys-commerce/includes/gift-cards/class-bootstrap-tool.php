@@ -206,9 +206,7 @@ final class Bootstrap_Tool {
 		);
 
 		$titles = self::titles();
-		$map    = function_exists( 'nk_gift_card_asset_map' )
-			? nk_gift_card_asset_map()
-			: ( function_exists( 'ng_gift_card_asset_map' ) ? ng_gift_card_asset_map() : array() );
+		$map    = function_exists( 'nk_gift_card_asset_map' ) ? nk_gift_card_asset_map() : array();
 
 		foreach ( $titles as $slot => $names ) {
 			$sku         = 'gc-' . $slot;
@@ -233,9 +231,7 @@ final class Bootstrap_Tool {
 				continue;
 			}
 
-			$file = function_exists( 'nk_gift_card_existing_file' )
-				? nk_gift_card_existing_file( $map[ $slot ] )
-				: ( function_exists( 'ng_gift_card_existing_file' ) ? ng_gift_card_existing_file( $map[ $slot ] ) : '' );
+			$file = function_exists( 'nk_gift_card_existing_file' ) ? nk_gift_card_existing_file( $map[ $slot ] ) : '';
 
 			if ( '' === $file ) {
 				$report['errors'][] = array(
@@ -246,9 +242,7 @@ final class Bootstrap_Tool {
 				continue;
 			}
 
-			$asset_dir = function_exists( 'nk_gift_card_asset_dir' )
-				? nk_gift_card_asset_dir()
-				: ( function_exists( 'ng_gift_card_asset_dir' ) ? ng_gift_card_asset_dir() : '' );
+			$asset_dir = function_exists( 'nk_gift_card_asset_dir' ) ? nk_gift_card_asset_dir() : '';
 			$src_path  = $asset_dir . '/' . $file;
 			$attach_id = self::sideload( $slot, $src_path, $names['en'] );
 			if ( is_wp_error( $attach_id ) ) {
@@ -339,9 +333,7 @@ final class Bootstrap_Tool {
 		}
 
 		$titles = self::titles();
-		$map    = function_exists( 'nk_gift_card_asset_map' )
-			? nk_gift_card_asset_map()
-			: ( function_exists( 'ng_gift_card_asset_map' ) ? ng_gift_card_asset_map() : array() );
+		$map    = function_exists( 'nk_gift_card_asset_map' ) ? nk_gift_card_asset_map() : array();
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'NovaKeys Gift Cards · Bootstrap', 'novakeys-commerce' ); ?></h1>
@@ -470,8 +462,6 @@ final class Bootstrap_Tool {
 						if ( ! empty( $map[ $slot ] ) ) {
 							if ( function_exists( 'nk_gift_card_existing_file' ) ) {
 								$file = nk_gift_card_existing_file( $map[ $slot ] );
-							} elseif ( function_exists( 'ng_gift_card_existing_file' ) ) {
-								$file = ng_gift_card_existing_file( $map[ $slot ] );
 							}
 						}
 						$sku = 'gc-' . $slot;

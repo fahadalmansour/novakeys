@@ -420,7 +420,7 @@ function nk_shop_category_tiles() {
  * tabs filter the loop via `_ng_gift_card_region` post meta when set.
  *
  * Hooks `woocommerce_before_shop_loop` at priority 8 — after
- * ng_shop_category_tiles (prio 5) which renders the cross-nav, before
+ * nk_shop_category_tiles (prio 5) which renders the cross-nav, before
  * the WC sort row (prio 10).
  */
 

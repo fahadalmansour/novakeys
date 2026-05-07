@@ -278,19 +278,6 @@ function nk_gift_card_asset_map(): array {
 	 */
 	$map = (array) apply_filters( 'nk_gift_card_asset_map', $map );
 
-	// Legacy filter name. Honoured during transition; deprecation notice
-	// emitted via apply_filters_deprecated() when WP provides it.
-	if ( function_exists( 'apply_filters_deprecated' ) ) {
-		$map = (array) apply_filters_deprecated(
-			'ng_gift_card_asset_map',
-			array( $map ),
-			'0.1.0',
-			'nk_gift_card_asset_map'
-		);
-	} elseif ( function_exists( 'apply_filters' ) ) {
-		$map = (array) apply_filters( 'ng_gift_card_asset_map', $map );
-	}
-
 	return $map;
 }
 

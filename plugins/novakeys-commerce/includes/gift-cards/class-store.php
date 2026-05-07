@@ -119,8 +119,6 @@ final class Store {
 				if ( $product instanceof \WC_Product ) {
 					if ( function_exists( 'nk_gift_card_is_candidate_product' ) ) {
 						$is_gc = (bool) nk_gift_card_is_candidate_product( $product );
-					} elseif ( function_exists( 'ng_gift_card_is_candidate_product' ) ) {
-						$is_gc = (bool) ng_gift_card_is_candidate_product( $product );
 					} else {
 						$cats  = wp_get_post_terms( $product->get_id(), 'product_cat', array( 'fields' => 'slugs' ) );
 						$is_gc = ! is_wp_error( $cats ) && in_array( 'gift-cards', $cats, true );

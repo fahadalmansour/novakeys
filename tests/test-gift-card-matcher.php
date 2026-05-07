@@ -1,6 +1,6 @@
 <?php
 /**
- * Smoke test for ng_gift_card_asset_for_product().
+ * Smoke test for nk_gift_card_asset_for_product().
  *
  * Run: php tests/test-gift-card-matcher.php
  *
@@ -14,7 +14,7 @@
  *   - 'pubg' matches both EN ("PUBG 60UC") and AR ("ببجي 60 يوسي")
  *   - 'apple' matches "iTunes" and "Apple Music" via shared keywords
  *   - cleanup of "chance to win" promotional suffixes happens before
- *     matching (ng_gift_card_clean_product_name)
+ *     matching (nk_gift_card_clean_product_name)
  *   - schema swap from 'file' (singular) → 'files' (array fallback)
  *     stays compatible
  *   - non-gift-card products return null (candidate-gate works)
@@ -132,12 +132,12 @@ if (!class_exists('WC_Product')) {
  * Load the matcher source
  * ------------------------------------------------------------- */
 
-// New module location after the phase-2 refactor; the canonical
-// functions are nk_gift_card_*, with ng_gift_card_* shims defined in
-// plugins/novakeys-commerce/includes/compat/class-ng-shims.php for
-// back-compat (which the existing test cases call).
+// Module location after the phase-2 refactor. The canonical functions
+// are nk_gift_card_*. The fixtures below call the canonical names too
+// — the legacy ng_gift_card_* compat shims were retired in phase-4
+// followup once `grep -r 'ng_' wp-content/{themes,plugins}/` on live
+// returned zero unshimmed callers.
 require __DIR__ . '/../plugins/novakeys-commerce/includes/gift-cards/gift-cards-matcher.php';
-require __DIR__ . '/../plugins/novakeys-commerce/includes/compat/class-ng-shims.php';
 
 /* ---------------------------------------------------------------
  * Test harness
@@ -175,13 +175,13 @@ foreach ($cases as $i => $case) {
     ];
 
     $product = new WC_Product($id, $name);
-    $asset = ng_gift_card_asset_for_product($product);
+    $asset = nk_gift_card_asset_for_product($product);
     $got_key = $asset['key'] ?? null;
 
     /*
      * Most cases will return null even when they SHOULD match a slot,
      * because the registered webp file might not exist on disk for that
-     * brand yet (ng_gift_card_existing_file walks 'files' and bails if
+     * brand yet (nk_gift_card_existing_file walks 'files' and bails if
      * none of them exist). For the smoke test we want to exercise the
      * keyword-resolution path regardless of file presence — so when
      * $asset is null and we expected a slot, dive into the map and
@@ -207,7 +207,7 @@ foreach ($cases as $i => $case) {
 }
 
 // Schema-shape sanity check — ensure 'files' is the canonical schema
-$map = ng_gift_card_asset_map();
+$map = nk_gift_card_asset_map();
 $schema_ok = true;
 foreach ($map as $key => $entry) {
     if (!isset($entry['files']) || !is_array($entry['files']) || empty($entry['files'])) {
@@ -244,22 +244,22 @@ function sanitize_slug_for_test($s) {
 /**
  * For tests where the registered webp doesn't exist on disk, walk the
  * map by hand and return the first slot whose keyword hits the name.
- * Mirrors the inner loop of ng_gift_card_asset_for_product but skips
+ * Mirrors the inner loop of nk_gift_card_asset_for_product but skips
  * the file_exists guard. Lets the test exercise keyword ordering even
  * when the user hasn't dropped in real artwork yet.
  */
 function simulate_keyword_only_match($name) {
-    if (!function_exists('ng_gift_card_asset_map')
-        || !function_exists('ng_gift_card_normalize_match_text')
-        || !function_exists('ng_gift_card_clean_product_name')) {
+    if (!function_exists('nk_gift_card_asset_map')
+        || !function_exists('nk_gift_card_normalize_match_text')
+        || !function_exists('nk_gift_card_clean_product_name')) {
         return null;
     }
-    $haystack = ng_gift_card_normalize_match_text(
-        ng_gift_card_clean_product_name($name)
+    $haystack = nk_gift_card_normalize_match_text(
+        nk_gift_card_clean_product_name($name)
     );
-    foreach (ng_gift_card_asset_map() as $key => $asset) {
+    foreach (nk_gift_card_asset_map() as $key => $asset) {
         foreach ((array) ($asset['keywords'] ?? []) as $kw) {
-            if (strpos($haystack, ng_gift_card_normalize_match_text($kw)) !== false) {
+            if (strpos($haystack, nk_gift_card_normalize_match_text($kw)) !== false) {
                 return $key;
             }
         }

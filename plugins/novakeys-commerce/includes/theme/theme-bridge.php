@@ -492,15 +492,18 @@ function nk_gift_cards_archive_extras() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
 
     // Region tabs — wired to ?region= via the pre_get_posts hook above.
-    // Each region: [label, flag-glyph]. v1.34.0 adds country-flag emoji
-    // and a "Global" tab (Steam/Razer/Spotify/etc. live under that).
+    // Each region: [label, svg-icon]. Flag glyphs replaced with line-art
+    // SVGs so the chrome doesn't depend on emoji-font availability and
+    // sidesteps the trademark/cultural questions of country-flag art.
+    $svg_globe = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
+    $svg_pin   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
     $regions = array(
-        ''       => array( 'الكل',                '🌐' ),
-        'ksa'    => array( 'السعودية',            '🇸🇦' ),
-        'gcc'    => array( 'دول الخليج',          ''   ),
-        'us'     => array( 'الولايات المتحدة',     '🇺🇸' ),
-        'uk'     => array( 'المملكة المتحدة',      '🇬🇧' ),
-        'global' => array( 'عالمي',               '🌍' ),
+        ''       => array( 'الكل',                $svg_globe ),
+        'ksa'    => array( 'السعودية',            $svg_pin   ),
+        'gcc'    => array( 'دول الخليج',          ''         ),
+        'us'     => array( 'الولايات المتحدة',     $svg_pin   ),
+        'uk'     => array( 'المملكة المتحدة',      $svg_pin   ),
+        'global' => array( 'عالمي',               $svg_globe ),
     );
     $current = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
 

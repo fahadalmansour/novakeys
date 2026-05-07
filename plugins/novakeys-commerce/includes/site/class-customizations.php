@@ -122,7 +122,7 @@ final class Customizations {
 		$wp_admin_bar->add_node(
 			array(
 				'id'    => 'novakeys-deployed-version',
-				'title' => '🚀 NK ' . NK_COMMERCE_VERSION,
+				'title' => 'NK ' . NK_COMMERCE_VERSION,
 				'href'  => admin_url( 'tools.php?page=neogen-deploy' ),
 				'meta'  => array( 'title' => 'NovaKeys Commerce deployed version' ),
 			)

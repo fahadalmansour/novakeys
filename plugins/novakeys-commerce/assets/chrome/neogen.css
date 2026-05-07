@@ -665,4 +665,5 @@
     color: var(--nk-color-ink);
 }
 
-.ng-gc-region-flag { font-size: 14px; line-height: 1; }
+.ng-gc-region-flag { display: inline-flex; align-items: center; justify-content: center; }
+.ng-gc-region-flag svg { width: 14px; height: 14px; display: block; }

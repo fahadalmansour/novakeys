@@ -182,9 +182,9 @@ final class Customer_Endpoint {
 					try { document.execCommand('copy'); } catch(e){}
 					document.body.removeChild(ta);
 				}
-				var orig = btn.textContent;
-				btn.textContent = '✓';
-				setTimeout(function(){ btn.textContent = orig; }, 1200);
+				var orig = btn.innerHTML;
+				btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="width:14px;height:14px;display:inline-block;vertical-align:middle"><path d="m5 12 5 5L20 7"/></svg>';
+				setTimeout(function(){ btn.innerHTML = orig; }, 1200);
 			});
 		});
 		</script>

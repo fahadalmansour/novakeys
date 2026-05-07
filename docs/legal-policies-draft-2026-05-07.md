@@ -188,7 +188,7 @@ No change.
 > 2. **Order acceptance.** Placing an order is an offer. The contract is concluded when we send the order-confirmation email **and** the gift-card code is delivered to your *My Account → Gift Card Keys* page. We reserve the right to decline an order — for example where stock from the upstream supplier is unavailable, where the order trips fraud-check rules, or where the price was clearly mis-stated.
 > 3. **Pricing.** We make reasonable efforts to ensure listed prices are accurate. If a clear pricing error is detected before delivery, we will contact you with the corrected price; you may proceed at the corrected price or cancel for a full refund.
 > 4. **Payment methods.** Mada, Apple Pay, STC Pay, Tabby, and major credit/debit cards. All payment processing is performed by the relevant gateway; we do not store full card numbers.
-> 5. **Tax invoices.** A tax invoice (`فاتورة ضريبية`) compliant with ZATCA Phase-2 e-invoicing requirements is issued for every paid order.
+> 5. **Tax invoices.** A tax invoice (`فاتورة ضريبية`) showing the VAT breakdown is issued for every paid order, in line with KSA tax-authority (ZATCA) requirements.
 >
 > **AR:**
 >
@@ -304,7 +304,7 @@ No change.
 > 2. **Payment gateways** — Mada / SAMA-licensed acquirers, Apple Pay, STC Pay, Tabby, and your card issuer. They receive only the data each needs to authorise the transaction.
 > 3. **Hosting and infrastructure** — our website hosting provider and CDN. Data is processed inside their infrastructure to deliver the page you requested.
 > 4. **Customer-support tooling** — the email service that handles support@novakeys.store correspondence.
-> 5. **Tax authority** — ZATCA receives the e-invoice for every paid order in compliance with Phase-2 e-invoicing.
+> 5. **Tax authority** — ZATCA receives the tax invoice for every paid order in line with KSA e-invoicing requirements.
 > 6. **Regulators and courts** — when required by law (Ministry of Commerce, the Saudi Data & AI Authority, competent courts).
 >
 > We **do not sell** personal data and we **do not share** it with marketing partners outside your consented marketing communications.
@@ -315,7 +315,7 @@ No change.
 > 2. **بوابات الدفع** — مدى ومُستحوذي SAMA المرخَّصين، وApple Pay، وSTC Pay، وتابي، ومُصدِر بطاقتك. تتلقى كلّ جهة فقط ما يلزمها لاعتماد المعاملة.
 > 3. **الاستضافة والبنية التحتية** — مزوّد الاستضافة وشبكة توصيل المحتوى. تُعالَج البيانات داخل بنيتهم لتسليم الصفحة المطلوبة.
 > 4. **أدوات دعم العملاء** — خدمة البريد التي تُدير مراسلات support@novakeys.store.
-> 5. **الجهة الضريبية** — تستلم ZATCA الفاتورة الإلكترونية لكل طلب مدفوع التزامًا بالمرحلة الثانية للفوترة.
+> 5. **الجهة الضريبية** — تستلم ZATCA الفاتورة الضريبية لكل طلب مدفوع وفق متطلبات الفوترة الإلكترونية في المملكة.
 > 6. **الجهات التنظيمية والقضائية** — عند الاشتراط النظامي (وزارة التجارة، الهيئة السعودية للبيانات والذكاء الاصطناعي، المحاكم المختصّة).
 >
 > **لا نبيع** البيانات الشخصية، **ولا نُشاركها** مع شركاء تسويق خارج نطاق رسائل التسويق التي وافقت عليها.

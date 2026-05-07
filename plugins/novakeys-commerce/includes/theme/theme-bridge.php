@@ -63,6 +63,26 @@ if (!defined('NK_CR')) {
         'authority_ar'   => 'وزارة التجارة - المملكة العربية السعودية',
         'authority_url'  => 'https://mc.gov.sa/',
         'verify_url'     => 'https://eservices.mc.gov.sa/',
+        // Parent entity — NTS LLC (Wyoming, USA). Brand owner & data processor.
+        'parent'         => [
+            'name'             => 'NeoTechnology Solutions LLC',
+            'name_ar'          => 'شركة نيوتكنولوجي سوليوشنز ذ.م.م.',
+            'jurisdiction'     => 'Wyoming, USA',
+            'jurisdiction_ar'  => 'ولاية وايومنغ، الولايات المتحدة',
+            'reg_number'       => '2025-001744917',
+            'reg_label_en'     => 'WY Articles of Organization',
+            'reg_label_ar'     => 'مستند تأسيس وايومنغ',
+            'ein'              => '36-5148912',
+            'ein_label_en'     => 'EIN (US Federal Tax ID)',
+            'ein_label_ar'     => 'الرقم الضريبي الفيدرالي الأمريكي',
+            'registered_agent' => 'FBRA LLC',
+            'registered_addr'  => '1023 E Lincolnway, Cheyenne, WY 82001',
+            'principal_addr'   => '1021 E Lincolnway Suite 8983, Cheyenne, WY 82001',
+            'phone'            => '+966 57 013 1122',
+            'email'            => 'support@novakeys.store',
+            'role_en'          => 'Brand owner & data processor (PDPL Art. 29)',
+            'role_ar'          => 'مالك العلامة وجهة معالجة البيانات (المادة 29 من نظام حماية البيانات)',
+        ],
         // Additional regulatory body registrations (factual, supplied by user).
         'regulatory'     => [
             [
@@ -814,9 +834,9 @@ function nk_info_pages() {
             'kicker'   => '04 · RETURNS',
             'h1_en'    => 'RETURNS & REFUNDS',
             'h1_ar'    => 'سياسة الاسترجاع والاسترداد',
-            'lede_en'  => 'Statutory baseline summarized below. Store-specific extensions (extended return windows, free-return shipping, restocking fees) are pending legal review.',
-            'lede_ar'  => 'الحد الأدنى النظامي ملخص أدناه. التفاصيل الخاصة بالمتجر (تمديد المدة، رسوم إعادة الترتيب، شحن الإرجاع) قيد المراجعة القانونية.',
-            'draft'    => true,
+            'lede_en'  => 'This policy sets out the conditions under which orders placed on novakeys.store may be returned and refunded. It tracks the statutory baseline under the KSA E-Commerce Law and the Consumer Protection regime, with extensions specific to NovaKeys\'s digital-goods catalogue.',
+            'lede_ar'  => 'توضح هذه السياسة شروط استرجاع الطلبات على novakeys.store واسترداد قيمتها. وتنطلق من الحد الأدنى الذي يقرّره نظام التجارة الإلكترونية ونظام حماية المستهلك في المملكة العربية السعودية، مع إضافات مخصّصة لكتالوج المنتجات الرقمية في نيوجين ستور.',
+            'draft'    => false,
             'sections' => [
                 [
                     'kicker_en' => '01 · STATUTORY BASELINE',
@@ -829,12 +849,19 @@ function nk_info_pages() {
                 ],
                 [
                     'kicker_en' => '02 · STORE-SPECIFIC TERMS',
-                    'h_en' => 'NovaKeys Store extensions.',
-                    'h_ar' => 'تمديدات متجر نيوجين.',
+                    'h_en' => 'NovaKeys Store extensions for digital goods.',
+                    'h_ar' => 'تمديدات نيوجين ستور للمنتجات الرقمية.',
                     'body' => [
-                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
-                        'The store currently advertises a 14-day return window in its footer chips. Specific eligibility conditions, restocking fees, and refund timelines are being finalized by legal counsel and will be published here.',
-                        'In the interim, please contact us before returning any item so we can confirm eligibility and arrange the return.',
+                        '<strong>14-day extended window for unredeemed digital codes.</strong> Where a digital code (gift-card, software-key, voucher) has not yet been revealed or activated by you, you may request a refund within fourteen (14) days of delivery. Send the request to ' . esc_html( $cr['email'] ) . ' with your order number; we will verify on the issuing platform that the code remains unused before authorising the refund.',
+                        '<strong>No refund once the code is revealed, copied, or redeemed.</strong> Per the digital-goods exception in KSA E-Commerce Law and the platform terms of the underlying issuer (Apple, PlayStation, Steam, Microsoft, etc.), a code\'s value is consumed at the moment of revelation. Once the code has been displayed in your <em>My Account → Gift Card Keys</em> page, copied, or used, it is non-refundable.',
+                        '<strong>Wrong-region purchases.</strong> Region-locked codes (for example a US Apple Gift Card vs a Saudi Apple Gift Card) are non-refundable once revealed. Please confirm the region selector on the product page before placing the order. If you reveal a wrong-region code, contact us — we may, at our discretion and where the issuing platform allows, swap to the correct region against a small administrative fee, but we are not obliged to.',
+                        '<strong>Refund channel and timing.</strong> Approved refunds are returned via the original payment method (Mada, Apple Pay, STC Pay, Tabby, or card). The refund is processed within three (3) business days of approval; your bank or card issuer may take up to ten (10) further business days to credit the amount.',
+                        '<strong>Order cancellation before delivery.</strong> Orders may be cancelled at no charge any time before the code is delivered to your account. Once the code lands in your account, the rules above apply.',
+                        '<div dir="rtl" lang="ar"><strong>مدة 14 يومًا للأكواد الرقمية غير المُستخدَمة.</strong> إذا لم تكشف عن الكود الرقمي (بطاقة هدية، مفتاح برمجي، قسيمة) أو تُفعّله، يحق لك طلب استرداد قيمته خلال أربعة عشر (14) يومًا من تاريخ تسليمه. أرسل الطلب إلى ' . esc_html( $cr['email'] ) . ' مع رقم الطلب، وسنتحقق من المنصة المُصدِرة من أن الكود لا يزال غير مُستخدَم قبل اعتماد الاسترداد.</div>',
+                        '<div dir="rtl" lang="ar"><strong>لا استرداد بعد كشف الكود أو نسخه أو استخدامه.</strong> وفقًا لاستثناء المنتجات الرقمية في نظام التجارة الإلكترونية، ولشروط منصات الإصدار (آبل، بلاي ستيشن، ستيم، مايكروسوفت، وغيرها)، تُستهلك قيمة الكود عند لحظة كشفه. بمجرد ظهور الكود في صفحة <em>حسابي ← بطاقاتي</em>، أو نسخه، أو استخدامه، يصبح غير قابل للاسترداد.</div>',
+                        '<div dir="rtl" lang="ar"><strong>شراء بمنطقة خاطئة.</strong> الأكواد المرتبطة بمنطقة محددة (كبطاقة آبل أمريكية مقابل بطاقة آبل سعودية) غير قابلة للاسترداد بعد كشفها. يُرجى التأكد من اختيار المنطقة الصحيحة على صفحة المنتج قبل الطلب. في حال كشف كود بمنطقة خاطئة تواصل معنا، وقد نتمكّن من استبداله بمنطقة صحيحة بحسب سياسة المنصة المُصدِرة وبرسوم إدارية، دون أن يكون ذلك إلزامًا علينا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>قناة وزمن الاسترداد.</strong> يُعاد المبلغ عبر وسيلة الدفع الأصلية (مدى، Apple Pay، STC Pay، تابي، أو البطاقة الائتمانية). تتم معالجة الاسترداد خلال (3) أيام عمل من اعتماده، وقد يحتاج البنك أو مُصدِر البطاقة إلى (10) أيام عمل إضافية لإيداع المبلغ.</div>',
+                        '<div dir="rtl" lang="ar"><strong>إلغاء الطلب قبل التسليم.</strong> يمكن إلغاء الطلب دون رسوم في أي وقت قبل تسليم الكود إلى حسابك. بعد وصول الكود إلى حسابك تسري الأحكام أعلاه.</div>',
                     ],
                 ],
             ],
@@ -844,9 +871,9 @@ function nk_info_pages() {
             'kicker'   => '05 · WARRANTY',
             'h1_en'    => 'WARRANTY POLICY',
             'h1_ar'    => 'سياسة الضمان',
-            'lede_en'  => 'Statutory minimums under KSA Consumer Protection law plus pass-through manufacturer warranties. Specific claim procedures are pending legal review.',
-            'lede_ar'  => 'الحد الأدنى النظامي بموجب نظام حماية المستهلك السعودي بالإضافة إلى ضمانات المصنّع. إجراءات المطالبة قيد المراجعة القانونية.',
-            'draft'    => true,
+            'lede_en'  => 'This policy describes the warranty NovaKeys Store provides on the digital codes it sells, the statutory protection that applies in addition, and the procedure for raising a warranty claim.',
+            'lede_ar'  => 'توضّح هذه السياسة الضمان الذي يقدّمه نيوجين ستور على الأكواد الرقمية التي يبيعها، والحماية النظامية المطبَّقة إضافةً إليه، وإجراءات تقديم طلب ضمان.',
+            'draft'    => false,
             'sections' => [
                 [
                     'kicker_en' => '01 · STATUTORY MINIMUM',
@@ -870,9 +897,16 @@ function nk_info_pages() {
                     'h_en' => 'How to open a warranty claim.',
                     'h_ar' => 'كيفية فتح طلب ضمان.',
                     'body' => [
-                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
-                        'Detailed claim procedures, RMA timelines, and replacement-vs-refund rules are being finalized.',
-                        sprintf('In the meantime, contact: %s · %s.', $cr['phone_mobile'], $cr['email']),
+                        '<strong>Where the code does not work as advertised</strong> — i.e. the issuing platform reports it as invalid, already redeemed, or expired before the printed expiry — open a claim within seven (7) days of the failure by emailing ' . esc_html( $cr['email'] ) . ' with your order number, the code as it appears in <em>My Account → Gift Card Keys</em>, and a screenshot of the platform error.',
+                        '<strong>Verification.</strong> We verify the code\'s status against the issuing platform within two (2) business days. If we confirm the failure was on our side or the supplier\'s, we proceed to remedy.',
+                        '<strong>Remedy.</strong> Our default remedy is replacement with an equivalent unused code. Where replacement is not feasible (for example the platform has discontinued the denomination), we issue a full refund to the original payment method.',
+                        '<strong>Out-of-scope claims.</strong> A code lost by you, redeemed against the wrong account, or shared with a third party is outside warranty cover. The encryption-at-rest of codes in our system is described in the privacy policy.',
+                        sprintf( '<strong>Contact.</strong> Email %s · Phone %s · Operating hours Sun–Thu 09:00–17:00 Asia/Riyadh.', esc_html( $cr['email'] ), esc_html( $cr['phone_mobile'] ) ),
+                        '<div dir="rtl" lang="ar"><strong>إذا لم يعمل الكود كما هو موصوف</strong> — أي رفضت المنصة المُصدِرة الكودَ بصفته غير صالح، أو مُستخدَمًا، أو منتهي الصلاحية قبل التاريخ المعلن — افتح طلب ضمان خلال سبعة (7) أيام من تاريخ الفشل بإرسال بريد إلى ' . esc_html( $cr['email'] ) . ' مع رقم الطلب، والكود كما يظهر في <em>حسابي ← بطاقاتي</em>، ولقطة شاشة لرسالة الخطأ من المنصة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>التحقق.</strong> نتحقق من حالة الكود لدى المنصة المُصدِرة خلال يومَي عمل (2)، فإن ثبت أن المشكلة من جانبنا أو من المورد بدأنا بالمعالجة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>المعالجة.</strong> المعالجة الافتراضية هي استبدال الكود بآخر مكافئ غير مُستخدَم. إن تعذّر الاستبدال (مثلًا أوقفت المنصة هذه الفئة) يُعاد المبلغ كاملًا إلى وسيلة الدفع الأصلية.</div>',
+                        '<div dir="rtl" lang="ar"><strong>خارج نطاق الضمان.</strong> الكود الذي تفقده أو تستخدمه على حساب خاطئ أو تشاركه مع طرف ثالث خارج نطاق الضمان. يُشار إلى تشفير الأكواد لدينا في سياسة الخصوصية.</div>',
+                        sprintf( '<div dir="rtl" lang="ar"><strong>التواصل.</strong> البريد %s · الجوال %s · ساعات العمل الأحد–الخميس 09:00–17:00 بتوقيت آسيا/الرياض.</div>', esc_html( $cr['email'] ), esc_html( $cr['phone_mobile'] ) ),
                     ],
                 ],
             ],
@@ -882,51 +916,86 @@ function nk_info_pages() {
             'kicker'   => '06 · TERMS',
             'h1_en'    => 'TERMS & CONDITIONS',
             'h1_ar'    => 'الشروط والأحكام',
-            'lede_en'  => 'Section headings reflect the standard structure required for a Saudi e-commerce store. The body text in each section is pending legal counsel review and is not authoritative.',
-            'lede_ar'  => 'عناوين الأقسام تعكس البنية المعتادة لمتجر إلكتروني سعودي. النصوص داخل كل قسم قيد المراجعة القانونية وليست نهائية.',
-            'draft'    => true,
+            'lede_en'  => 'These Terms & Conditions govern the commercial relationship between you (the customer) and NovaKeys Store, the KSA-registered sole proprietorship (CR 7053130576) operating on behalf of NeoTechnology Solutions LLC (Wyoming, USA), when you use novakeys.store. They are written to comply with the KSA E-Commerce Law and the Consumer Protection regime.',
+            'lede_ar'  => 'تحكم هذه الشروط والأحكام العلاقة التجارية بينك (العميل) وبين نيوجين ستور — المؤسسة الفردية المُسجَّلة في المملكة العربية السعودية (سجل تجاري 7053130576)، التي تعمل بالنيابة عن شركة NeoTechnology Solutions LLC المُسجَّلة في ولاية وايومنغ بالولايات المتحدة، وذلك عند استخدامك novakeys.store. وقد صيغت بما يتوافق مع نظام التجارة الإلكترونية ونظام حماية المستهلك في المملكة العربية السعودية.',
+            'draft'    => false,
             'sections' => [
                 [
                     'kicker_en' => '01 · ACCEPTANCE',
                     'h_en'      => 'Acceptance of terms.',
                     'h_ar'      => 'قبول الشروط.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'By accessing or using novakeys.store, you agree to be bound by these terms. Specific binding language is being drafted by legal counsel.'],
+                    'body'      => [
+                        'By creating an account, placing an order, or browsing novakeys.store after the publication date of these Terms, you accept them in full and acknowledge that they form a binding agreement. If you do not accept any clause, do not use the site.',
+                        '<div dir="rtl" lang="ar">بإنشائك حسابًا أو تقديمك طلبًا أو تصفّحك novakeys.store بعد تاريخ نشر هذه الشروط، فإنك توافق عليها بالكامل وتُقرّ بأنها تشكّل اتفاقية ملزمة. وإن لم تقبل أيًّا من بنودها فلا تستخدم الموقع.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '02 · ACCOUNTS',
                     'h_en'      => 'Customer accounts.',
                     'h_ar'      => 'حسابات العملاء.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Account creation requirements, security obligations, and termination conditions will appear here.'],
+                    'body'      => [
+                        '<strong>Eligibility.</strong> You must be at least eighteen (18) years old, or a younger person acting with the consent of a guardian, to create an account.',
+                        '<strong>Account integrity.</strong> You are responsible for keeping your login credentials confidential and for every order placed under your account. Notify us immediately at ' . esc_html( $cr['email'] ) . ' if you suspect unauthorised access.',
+                        '<strong>Accuracy.</strong> Information you provide (name, contact, address, payment) must be accurate and current. Inaccurate information may result in order cancellation without refund of any expended payment-processor fees.',
+                        '<strong>Termination.</strong> You may close your account at any time by contacting support. We may suspend or close accounts that violate these Terms or the Acceptable Use Policy. Outstanding gift-card codes are honoured for the statutory minimum period after closure.',
+                        '<div dir="rtl" lang="ar"><strong>الأهلية.</strong> يجب أن تكون قد بلغت ثمانية عشر (18) سنة، أو أن تتصرّف بإذن وليّ أمر، لإنشاء الحساب.</div>',
+                        '<div dir="rtl" lang="ar"><strong>سلامة الحساب.</strong> أنت المسؤول عن سرية بيانات الدخول وعن كل طلب يُقدَّم من حسابك. أبلغنا فورًا على ' . esc_html( $cr['email'] ) . ' إذا اشتبهت بوصول غير مُصرَّح به.</div>',
+                        '<div dir="rtl" lang="ar"><strong>دقة البيانات.</strong> يجب أن تكون البيانات التي تُدخلها (الاسم، التواصل، العنوان، الدفع) دقيقة ومحدَّثة. قد يترتّب على عدم الدقة إلغاء الطلب دون استرداد رسوم بوابة الدفع المُستحقَّة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>إنهاء الحساب.</strong> يمكنك إغلاق حسابك بالتواصل مع الدعم. ولنا أن نُعلّق أو نُغلق الحسابات التي تخالف هذه الشروط أو سياسة الاستخدام. تظل الأكواد المُسلَّمة سارية للحدّ الأدنى النظامي بعد الإغلاق.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '03 · ORDERS · PRICING',
                     'h_en'      => 'Orders, pricing, and payment.',
                     'h_ar'      => 'الطلبات والأسعار والدفع.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Order acceptance, price changes, currency, payment processors, and tax handling will be specified here. Note: VAT 15% is included in displayed prices.'],
+                    'body'      => [
+                        '<strong>Currency.</strong> All prices are listed in Saudi Riyals (SAR) and <strong>include 15% VAT</strong> as required by KSA tax law. Foreign-currency conversions are made by your card issuer.',
+                        '<strong>Order acceptance.</strong> Placing an order is an offer. The contract is concluded when we send the order-confirmation email <strong>and</strong> the gift-card code is delivered to your <em>My Account → Gift Card Keys</em> page. We reserve the right to decline an order — for example where stock from the upstream supplier is unavailable, where the order trips fraud-check rules, or where the price was clearly mis-stated.',
+                        '<strong>Pricing.</strong> We make reasonable efforts to ensure listed prices are accurate. If a clear pricing error is detected before delivery, we will contact you with the corrected price; you may proceed at the corrected price or cancel for a full refund.',
+                        '<strong>Payment methods.</strong> Mada, Apple Pay, STC Pay, Tabby, and major credit/debit cards. All payment processing is performed by the relevant gateway; we do not store full card numbers.',
+                        '<strong>Tax invoices.</strong> A tax invoice (فاتورة ضريبية) compliant with ZATCA Phase-2 e-invoicing requirements is issued for every paid order.',
+                        '<div dir="rtl" lang="ar"><strong>العملة.</strong> جميع الأسعار بالريال السعودي (SAR) <strong>وتشمل ضريبة القيمة المضافة 15%</strong> بموجب نظام الضرائب السعودي. تُجري بنوك العملاء أي تحويل عُملة لازم.</div>',
+                        '<div dir="rtl" lang="ar"><strong>قبول الطلب.</strong> تقديم الطلب يُعدّ إيجابًا. ويُبرَم العقد عند إرسالنا بريد تأكيد الطلب <strong>و</strong> تسليم كود البطاقة إلى صفحتك في <em>حسابي ← بطاقاتي</em>. ولنا الحق في رفض الطلب — مثلًا عند نفاد المخزون لدى المورد، أو إثارته لقواعد التحقق من الاحتيال، أو وجود خطأ سعري واضح.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الأسعار.</strong> نبذل جهودًا معقولة لضمان دقة الأسعار. وإذا اكتُشف خطأ سعري واضح قبل التسليم سنتواصل معك بالسعر المُصحَّح، ولك الخيار بين المتابعة بالسعر الجديد أو إلغاء الطلب واسترداد قيمته كاملًا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>وسائل الدفع.</strong> مدى، Apple Pay، STC Pay، تابي، وبطاقات الائتمان والخصم الرئيسية. تُعالَج المدفوعات عبر بوابة الدفع المعنية ولا نُخزّن أرقام البطاقات الكاملة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الفاتورة الضريبية.</strong> تصدر فاتورة ضريبية متوافقة مع متطلبات الفوترة الإلكترونية للمرحلة الثانية لدى هيئة الزكاة والضريبة والجمارك (ZATCA) عن كل طلب مدفوع.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '04 · IP',
                     'h_en'      => 'Intellectual property.',
                     'h_ar'      => 'الملكية الفكرية.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Trademarks, brand assets, and content ownership clauses will appear here.'],
+                    'body'      => [
+                        'The "NovaKeys" / "نيوجين ستور" name, the NovaKeys logo, the brand-token / design system used on novakeys.store, and the underlying software platform are the property of <strong>NeoTechnology Solutions LLC</strong> (Wyoming, USA — Articles of Organization filing 2025-001744917, EIN 36-5148912), and are licensed to NovaKeys Store (CR 7053130576) for use in connection with the KSA storefront. Brand marks of third parties displayed on our gift-card products (Apple, PlayStation, Steam, Microsoft, etc.) are the property of their respective owners and appear on this site solely to identify the redemption platform — no endorsement is implied. You may not copy, modify, or redistribute site content for commercial use without prior written permission from NeoTechnology Solutions LLC.',
+                        '<div dir="rtl" lang="ar">اسم «NovaKeys» / «نيوجين ستور»، وشعار نيوجين، ومنظومة الهوية والتصميم على novakeys.store، والمنصّة البرمجية الأساسية، جميعها ملك لشركة <strong>NeoTechnology Solutions LLC</strong> (وايومنغ، الولايات المتحدة — رقم قيد التأسيس 2025-001744917، الرقم الضريبي الفيدرالي EIN 36-5148912)، ومُرخَّصة لنيوجين ستور (سجل تجاري 7053130576) لاستخدامها في تشغيل المتجر السعودي. وعلامات الأطراف الأخرى الظاهرة على منتجات بطاقات الهدايا (آبل، بلاي ستيشن، ستيم، مايكروسوفت وغيرها) ملك لأصحابها، وتُعرَض على الموقع لتعريف منصّة الاستخدام فقط ولا تعني أي رعاية أو تأييد. لا يجوز نسخ محتوى الموقع أو تعديله أو إعادة توزيعه لأغراض تجارية دون إذن كتابي مسبق من NeoTechnology Solutions LLC.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '05 · LIABILITY',
                     'h_en'      => 'Limitation of liability.',
                     'h_ar'      => 'تحديد المسؤولية.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Liability caps and exclusions, subject to mandatory consumer-protection rules, will appear here.'],
+                    'body'      => [
+                        'Subject to mandatory consumer-protection rules that cannot be excluded under KSA law, our maximum aggregate liability for any single order is limited to the price you actually paid for that order, including VAT. We are not liable for indirect or consequential losses (loss of profit, lost data, lost opportunity) arising from use of the site or any product purchased through it. Nothing in this clause excludes liability for fraud, gross negligence, or anything else that cannot be excluded under KSA law.',
+                        '<div dir="rtl" lang="ar">مع مراعاة قواعد حماية المستهلك الإلزامية التي لا يجوز استبعادها بموجب الأنظمة السعودية، تكون مسؤوليتنا التراكمية القصوى عن أي طلب محصورةً في السعر الفعلي الذي دفعته عن ذلك الطلب شاملًا الضريبة. ولا نُسأل عن الأضرار غير المباشرة أو التبعية (فقد الأرباح، ضياع البيانات، ضياع الفرصة) الناشئة عن استخدام الموقع أو أيٍّ من منتجاته. ولا يستثني هذا البند المسؤوليةَ عن الغش أو الإهمال الجسيم أو ما لا يجوز استبعاده نظامًا.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '06 · GOVERNING LAW',
                     'h_en'      => 'Governing law and disputes.',
                     'h_ar'      => 'القانون الواجب التطبيق وفض النزاعات.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'These terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes are subject to the competent commercial courts in KSA and the e-commerce dispute mechanism, as applicable.'],
+                    'body'      => [
+                        'These Terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes that cannot be resolved through our customer-support channel are referred to the competent commercial court of the Kingdom of Saudi Arabia, and to the e-commerce dispute mechanism operated by the Ministry of Commerce where applicable.',
+                        '<div dir="rtl" lang="ar">تخضع هذه الشروط لأنظمة المملكة العربية السعودية. وتُحال النزاعات التي يتعذّر حلّها عبر قناة دعم العملاء إلى المحكمة التجارية المختصّة بالمملكة العربية السعودية، وإلى آلية تسوية نزاعات التجارة الإلكترونية لدى وزارة التجارة عند الاقتضاء.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '07 · CHANGES',
                     'h_en'      => 'Changes to these terms.',
                     'h_ar'      => 'تعديل الشروط.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Modification rights, notice mechanisms, and effective-date rules will appear here.'],
+                    'body'      => [
+                        'We may update these Terms from time to time to reflect changes in the law, our offering, or our processes. The effective date appears at the top of the document. Material changes are announced via an in-account notice and an email to your registered address at least seven (7) days before they take effect. Continued use of the site after the effective date constitutes acceptance of the updated Terms.',
+                        '<div dir="rtl" lang="ar">قد نُحدّث هذه الشروط من حينٍ لآخر لتعكس تغيّرات الأنظمة أو خدماتنا أو إجراءاتنا. ويظهر تاريخ السريان في رأس الوثيقة. ويُعلَن عن التغييرات الجوهرية عبر إشعار داخل الحساب وبريد إلى عنوانك المسجَّل قبل سريانها بسبعة (7) أيام على الأقل. ويُعدّ استمرارك في استخدام الموقع بعد تاريخ السريان قبولًا للشروط المُحدَّثة.</div>',
+                    ],
                 ],
             ],
         ],
@@ -935,66 +1004,158 @@ function nk_info_pages() {
             'kicker'   => '07 · PRIVACY',
             'h1_en'    => 'PRIVACY POLICY',
             'h1_ar'    => 'سياسة الخصوصية',
-            'lede_en'  => 'This policy is structured against the Saudi Personal Data Protection Law (PDPL, Royal Decree M/19, in full effect from September 2024). Specific clauses are pending legal review and are not authoritative.',
-            'lede_ar'  => 'هذه السياسة مبنية على نظام حماية البيانات الشخصية السعودي (PDPL، المرسوم الملكي م/19، نافذ بالكامل من سبتمبر 2024). البنود الخاصة قيد المراجعة القانونية.',
-            'draft'    => true,
+            'lede_en'  => 'This policy explains what personal data NovaKeys Store (the data controller — KSA sole proprietorship, CR 7053130576) collects, why, on what legal basis, with whom we share it (including with our parent NeoTechnology Solutions LLC of Wyoming, USA, acting as a data processor for engineering and infrastructure), and the rights you have under the KSA Personal Data Protection Law (PDPL, Royal Decree M/19, in full effect from September 2024).',
+            'lede_ar'  => 'تشرح هذه السياسة البيانات الشخصية التي يجمعها نيوجين ستور (جهة التحكّم في البيانات — مؤسسة فردية سعودية، سجل تجاري 7053130576)، وأغراض الجمع، وأسسه النظامية، والجهات التي نشاركها معها (بما في ذلك الشركة الأم NeoTechnology Solutions LLC في ولاية وايومنغ بالولايات المتحدة، بصفتها جهة معالجة للبيانات لأغراض الهندسة والبنية التحتية)، وحقوقك بموجب نظام حماية البيانات الشخصية السعودي (PDPL، المرسوم الملكي م/19، النافذ بالكامل من سبتمبر 2024).',
+            'draft'    => false,
             'sections' => [
                 [
                     'kicker_en' => '01 · CONTROLLER',
                     'h_en'      => 'Who controls your data.',
                     'h_ar'      => 'الجهة المتحكمة في بياناتك.',
                     'body'      => [
-                        sprintf('Data controller: %s (CR %s).', $cr['legal_name_en'], $cr['cr']),
-                        sprintf('Contact: %s · %s.', $cr['email'], $cr['phone_mobile']),
+                        sprintf( 'Data controller: %s (CR %s).', esc_html( $cr['legal_name_en'] ), esc_html( $cr['cr'] ) ),
+                        sprintf( 'Contact: %s · %s.', esc_html( $cr['email'] ), esc_html( $cr['phone_mobile'] ) ),
                     ],
                 ],
                 [
                     'kicker_en' => '02 · DATA WE COLLECT',
                     'h_en'      => 'Categories of personal data.',
                     'h_ar'      => 'فئات البيانات الشخصية.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Identity (name), contact (email, phone, shipping address), order history, payment metadata (handled by the payment gateway, not stored by us in raw form), device and usage data (IP, browser, cookies). The full enumeration will be confirmed by counsel.'],
+                    'body'      => [
+                        '<strong>Identity</strong> — name, billing/shipping address, phone, date of birth (only when legally required for purchase verification).',
+                        '<strong>Contact</strong> — email address, phone number, optional WhatsApp handle.',
+                        '<strong>Order data</strong> — products purchased, prices, payment method (we never store full card numbers; the gateway tokenises), redemption-region selection.',
+                        '<strong>Encrypted gift-card codes</strong> — codes you have purchased, stored at-rest with AES-256-GCM encryption; only readable by you when logged in.',
+                        '<strong>Device &amp; usage</strong> — IP address, browser user-agent, device type, referring page, pages viewed (cookies, see Section 08).',
+                        '<strong>Customer-support correspondence</strong> — messages you send to ' . esc_html( $cr['email'] ) . ' and our replies.',
+                        '<div dir="rtl" lang="ar"><strong>بيانات الهوية</strong> — الاسم، عنوان الفوترة/الشحن، رقم الهاتف، تاريخ الميلاد (عند طلب نظامي للتحقق من الشراء فقط).</div>',
+                        '<div dir="rtl" lang="ar"><strong>بيانات التواصل</strong> — البريد الإلكتروني، رقم الهاتف، حساب واتساب اختياريًّا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>بيانات الطلب</strong> — المنتجات المشتراة، الأسعار، وسيلة الدفع (لا نُخزّن أرقام البطاقات الكاملة؛ تُرمَّز عبر بوابة الدفع)، اختيار منطقة الاستخدام.</div>',
+                        '<div dir="rtl" lang="ar"><strong>أكواد البطاقات المُشفَّرة</strong> — الأكواد التي اشتريتها، مُخزَّنة باستخدام تشفير AES-256-GCM؛ ولا يقرأها سواك بعد دخولك إلى حسابك.</div>',
+                        '<div dir="rtl" lang="ar"><strong>بيانات الجهاز والاستخدام</strong> — عنوان IP، وكيل المتصفح، نوع الجهاز، الصفحة المُحيلة، الصفحات التي زرتها (ملفات الارتباط، انظر القسم 08).</div>',
+                        '<div dir="rtl" lang="ar"><strong>مراسلات الدعم</strong> — الرسائل التي ترسلها إلى ' . esc_html( $cr['email'] ) . ' وردودنا عليها.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '03 · PURPOSES',
                     'h_en'      => 'Why we process it.',
                     'h_ar'      => 'أغراض المعالجة.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Order fulfillment, customer support, fraud prevention, regulatory compliance (CR / ZATCA), and (with consent) marketing communications.'],
+                    'body'      => [
+                        'We process your personal data to:',
+                        '<strong>Fulfil your order</strong> — supply the gift-card code to your account and issue the tax invoice.',
+                        '<strong>Provide customer support</strong> — answer questions, resolve warranty claims, troubleshoot redemption errors.',
+                        '<strong>Comply with our regulatory obligations</strong> — Commercial Registration record-keeping, ZATCA tax invoicing, Anti-Money-Laundering checks where applicable.',
+                        '<strong>Detect and prevent fraud</strong> — flag suspicious purchase patterns, throttle abusive endpoint calls, block known fraud actors.',
+                        '<strong>Improve the storefront</strong> — anonymous analytics on what products are viewed, what searches return no results, where customers drop out of checkout.',
+                        '<strong>Communicate marketing</strong> — only when you have explicitly opted in, and only until you withdraw consent.',
+                        '<div dir="rtl" lang="ar">نُعالج بياناتك الشخصية للأغراض التالية:</div>',
+                        '<div dir="rtl" lang="ar"><strong>تنفيذ طلبك</strong> — تسليم كود البطاقة إلى حسابك وإصدار الفاتورة الضريبية.</div>',
+                        '<div dir="rtl" lang="ar"><strong>تقديم الدعم</strong> — الرد على الاستفسارات ومعالجة طلبات الضمان وحل مشاكل الاستخدام.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الالتزام بالأنظمة</strong> — حفظ سجلات السجل التجاري، الفوترة الإلكترونية لدى ZATCA، إجراءات مكافحة غسل الأموال عند الاقتضاء.</div>',
+                        '<div dir="rtl" lang="ar"><strong>كشف الاحتيال ومنعه</strong> — رصد أنماط الشراء المشبوهة، تقييد الاستدعاءات المُسيئة لنقاط النهاية، حجب الأطراف المعروفة بالاحتيال.</div>',
+                        '<div dir="rtl" lang="ar"><strong>تحسين المتجر</strong> — تحليلات مجهولة الهوية لما يُشاهد من منتجات وما تُرجِعه عمليات البحث الفارغة وأماكن خروج العملاء من الدفع.</div>',
+                        '<div dir="rtl" lang="ar"><strong>التواصل التسويقي</strong> — فقط عند موافقتك الصريحة وحتى تسحبها.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '04 · LEGAL BASES',
                     'h_en'      => 'Lawful grounds under PDPL.',
                     'h_ar'      => 'الأسس النظامية بموجب PDPL.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Contract performance (orders), legal obligation (tax/CR), legitimate interest (fraud prevention), and explicit consent (marketing).'],
+                    'body'      => [
+                        'We rely on one or more of the following lawful grounds, per Article 6 of the PDPL:',
+                        '<table class="nk-legal-table"><thead><tr><th>Purpose group</th><th>Lawful ground</th></tr></thead><tbody><tr><td>Order fulfilment, account management</td><td>Performance of a contract</td></tr><tr><td>Tax invoicing, CR record-keeping, AML</td><td>Compliance with a legal obligation</td></tr><tr><td>Fraud detection, abuse rate-limiting</td><td>Legitimate interest</td></tr><tr><td>Marketing communications</td><td>Explicit consent</td></tr></tbody></table>',
+                        '<div dir="rtl" lang="ar">نستند إلى واحد أو أكثر من الأسس النظامية التالية وفق المادة 6 من PDPL:</div>',
+                        '<div dir="rtl" lang="ar"><table class="nk-legal-table"><thead><tr><th>غرض المعالجة</th><th>الأساس النظامي</th></tr></thead><tbody><tr><td>تنفيذ الطلب وإدارة الحساب</td><td>تنفيذ عقد</td></tr><tr><td>الفوترة الضريبية وسجلات السجل التجاري ومكافحة غسل الأموال</td><td>الالتزام بنظام</td></tr><tr><td>كشف الاحتيال وتقييد الاستخدام المُسيء</td><td>المصلحة المشروعة</td></tr><tr><td>الرسائل التسويقية</td><td>الموافقة الصريحة</td></tr></tbody></table></div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '05 · SHARING',
                     'h_en'      => 'Who we share with.',
                     'h_ar'      => 'الجهات التي نشارك معها.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Payment processors (Mada / Apple Pay / STC / Tabby / card gateway), shipping couriers, Saudi tax/regulatory authorities when legally required.'],
+                    'body'      => [
+                        'We share your personal data only with the parties strictly necessary to operate the service:',
+                        '<strong>NeoTechnology Solutions LLC (US parent — data processor).</strong> Engineers, hosts, and maintains the novakeys.store platform on behalf of the KSA controller. NTS LLC accesses personal data only as necessary for platform operation, governed by an internal data-processing agreement that follows PDPL processor obligations.',
+                        '<strong>Payment gateways</strong> — Mada / SAMA-licensed acquirers, Apple Pay, STC Pay, Tabby, and your card issuer. They receive only the data each needs to authorise the transaction.',
+                        '<strong>Hosting and infrastructure</strong> — our website hosting provider and CDN. Data is processed inside their infrastructure to deliver the page you requested.',
+                        '<strong>Customer-support tooling</strong> — the email service that handles ' . esc_html( $cr['email'] ) . ' correspondence.',
+                        '<strong>Tax authority</strong> — ZATCA receives the e-invoice for every paid order in compliance with Phase-2 e-invoicing.',
+                        '<strong>Regulators and courts</strong> — when required by law (Ministry of Commerce, the Saudi Data &amp; AI Authority, competent courts).',
+                        'We <strong>do not sell</strong> personal data and we <strong>do not share</strong> it with marketing partners outside your consented marketing communications.',
+                        '<div dir="rtl" lang="ar">لا نُشارك بياناتك الشخصية إلا مع الجهات اللازمة لتشغيل الخدمة:</div>',
+                        '<div dir="rtl" lang="ar"><strong>NeoTechnology Solutions LLC (الشركة الأم في الولايات المتحدة — جهة معالجة).</strong> تتولّى الهندسة والاستضافة والصيانة لمنصّة novakeys.store بالنيابة عن جهة التحكّم السعودية. لا يصل NTS LLC إلى البيانات الشخصية إلا بالقدر اللازم لتشغيل المنصّة، بموجب اتفاقية معالجة بيانات داخلية تتوافق مع التزامات جهة المعالجة في PDPL.</div>',
+                        '<div dir="rtl" lang="ar"><strong>بوابات الدفع</strong> — مدى ومُستحوذي SAMA المرخَّصين، وApple Pay، وSTC Pay، وتابي، ومُصدِر بطاقتك. تتلقى كلّ جهة فقط ما يلزمها لاعتماد المعاملة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الاستضافة والبنية التحتية</strong> — مزوّد الاستضافة وشبكة توصيل المحتوى. تُعالَج البيانات داخل بنيتهم لتسليم الصفحة المطلوبة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>أدوات دعم العملاء</strong> — خدمة البريد التي تُدير مراسلات ' . esc_html( $cr['email'] ) . '.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الجهة الضريبية</strong> — تستلم ZATCA الفاتورة الإلكترونية لكل طلب مدفوع التزامًا بالمرحلة الثانية للفوترة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الجهات التنظيمية والقضائية</strong> — عند الاشتراط النظامي (وزارة التجارة، الهيئة السعودية للبيانات والذكاء الاصطناعي، المحاكم المختصّة).</div>',
+                        '<div dir="rtl" lang="ar"><strong>لا نبيع</strong> البيانات الشخصية، <strong>ولا نُشاركها</strong> مع شركاء تسويق خارج نطاق رسائل التسويق التي وافقت عليها.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '06 · RETENTION',
                     'h_en'      => 'How long we keep data.',
                     'h_ar'      => 'مدة الاحتفاظ.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Retention periods will be specified by category (e.g., order records for tax-law-mandated minimum, marketing data until consent withdrawal).'],
+                    'body'      => [
+                        'We retain personal data only for as long as we need it for the purpose it was collected for, or as required by law:',
+                        '<table class="nk-legal-table"><thead><tr><th>Category</th><th>Retention period</th></tr></thead><tbody><tr><td>Order records, tax invoices</td><td>Ten (10) years from the order date — minimum required by KSA tax/commercial-records law</td></tr><tr><td>Encrypted gift-card codes</td><td>Ten (10) years from the order date, alongside the order record</td></tr><tr><td>Customer-support correspondence</td><td>Five (5) years from the last reply</td></tr><tr><td>Marketing-consent record</td><td>Until consent is withdrawn, plus two (2) years for proof-of-consent</td></tr><tr><td>Server access logs</td><td>Ninety (90) days</td></tr></tbody></table>',
+                        '<div dir="rtl" lang="ar">نحتفظ بالبيانات الشخصية للمدة اللازمة للغرض الذي جُمعت لأجله، أو حسب ما تتطلّبه الأنظمة:</div>',
+                        '<div dir="rtl" lang="ar"><table class="nk-legal-table"><thead><tr><th>الفئة</th><th>مدة الاحتفاظ</th></tr></thead><tbody><tr><td>سجلات الطلب والفواتير الضريبية</td><td>عشر (10) سنوات من تاريخ الطلب — الحدّ الأدنى الذي تشترطه الأنظمة الضريبية والتجارية</td></tr><tr><td>الأكواد المُشفَّرة</td><td>عشر (10) سنوات من تاريخ الطلب مع سجل الطلب</td></tr><tr><td>مراسلات الدعم</td><td>خمس (5) سنوات من آخر ردّ</td></tr><tr><td>سجل الموافقة على التسويق</td><td>حتى سحب الموافقة، إضافةً إلى سنتين (2) لإثبات الموافقة</td></tr><tr><td>سجلات وصول الخادم</td><td>تسعون (90) يومًا</td></tr></tbody></table></div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '07 · YOUR RIGHTS',
                     'h_en'      => 'Data subject rights under PDPL.',
                     'h_ar'      => 'حقوقك بموجب PDPL.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Right to be informed, right of access, right of correction, right of deletion, right to data portability, right to object to processing, right to withdraw consent. Exercise via the controller contact above.'],
+                    'body'      => [
+                        'Under the PDPL you have the right to:',
+                        '<strong>Be informed</strong> of what we collect and why (this policy).',
+                        '<strong>Access</strong> a copy of the personal data we hold about you.',
+                        '<strong>Correct</strong> inaccurate personal data.',
+                        '<strong>Delete</strong> your personal data subject to our retention obligations.',
+                        '<strong>Restrict or object</strong> to processing for marketing or legitimate-interest grounds.',
+                        '<strong>Withdraw consent</strong> at any time, where consent is the legal basis.',
+                        '<strong>Data portability</strong> — receive your data in a machine-readable format.',
+                        'Exercise any right by emailing the data-controller contact above. We respond within thirty (30) days. Where we cannot fulfil a request — for example because of an overriding legal-retention obligation — we explain why.',
+                        'If you believe we have not handled your request properly, you may complain to the Saudi Data &amp; AI Authority (SDAIA) — the PDPL supervisory authority.',
+                        '<div dir="rtl" lang="ar">تكفل لك PDPL الحقوق التالية:</div>',
+                        '<div dir="rtl" lang="ar"><strong>الإحاطة العلمية</strong> بما نجمع وبأغراض الجمع (هذه السياسة).</div>',
+                        '<div dir="rtl" lang="ar"><strong>الاطلاع</strong> على نسخة من بياناتك الشخصية لدينا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>التصحيح</strong> للبيانات غير الدقيقة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الحذف</strong> لبياناتك مع مراعاة التزاماتنا في الاحتفاظ.</div>',
+                        '<div dir="rtl" lang="ar"><strong>تقييد المعالجة</strong> أو الاعتراض عليها لأغراض التسويق أو المصلحة المشروعة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>سحب الموافقة</strong> في أي وقت متى كانت الأساس النظامي.</div>',
+                        '<div dir="rtl" lang="ar"><strong>نقل البيانات</strong> — استلام بياناتك بصيغة قابلة للمعالجة الآلية.</div>',
+                        '<div dir="rtl" lang="ar">تُمارَس الحقوق بالتواصل مع جهة المراقبة عبر بيانات التواصل أعلاه. ونردّ خلال (30) يومًا. وإذا تعذّر الاستجابة — مثلًا بسبب التزام نظامي بالاحتفاظ — نُبيّن السبب.</div>',
+                        '<div dir="rtl" lang="ar">وإن رأيت أننا لم نُحسن التعامل مع طلبك، يمكنك التقدّم بشكوى إلى الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA) — الجهة الإشرافية على PDPL.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '08 · COOKIES',
                     'h_en'      => 'Cookies and tracking.',
                     'h_ar'      => 'ملفات الارتباط والتتبع.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Strictly-necessary cookies (cart, session, security) plus optional analytics. A consent banner will be wired in a follow-up commit when the cookie inventory is finalized.'],
+                    'body'      => [
+                        'We use the following cookie categories:',
+                        '<table class="nk-legal-table"><thead><tr><th>Category</th><th>Examples</th><th>Consent?</th></tr></thead><tbody><tr><td>Strictly necessary</td><td>session, cart, security tokens</td><td>No — required for the site to work</td></tr><tr><td>Functional</td><td>recently-viewed list (<code>ng_recent</code>), referral attribution (<code>nk_ref</code>)</td><td>No (legitimate interest)</td></tr><tr><td>Analytics</td><td>aggregated, anonymised page-view counters</td><td>Yes</td></tr><tr><td>Marketing</td><td>retargeting pixels, conversion tags</td><td>Yes</td></tr></tbody></table>',
+                        'A consent banner is displayed on first visit to capture analytics and marketing consent. You can change your preferences at any time from the <em>Cookies</em> link in the footer.',
+                        '<div dir="rtl" lang="ar">نستخدم الفئات التالية من ملفات الارتباط:</div>',
+                        '<div dir="rtl" lang="ar"><table class="nk-legal-table"><thead><tr><th>الفئة</th><th>أمثلة</th><th>موافقة مطلوبة؟</th></tr></thead><tbody><tr><td>ضرورية</td><td>الجلسة، السلة، رموز الأمان</td><td>لا — لازمة لعمل الموقع</td></tr><tr><td>وظيفية</td><td>قائمة المشاهَد مؤخرًا (<code>ng_recent</code>)، إحالة الدعوة (<code>nk_ref</code>)</td><td>لا (مصلحة مشروعة)</td></tr><tr><td>تحليلية</td><td>عدّادات صفحات مجهولة الهوية</td><td>نعم</td></tr><tr><td>تسويقية</td><td>بكسلات إعادة الاستهداف، علامات التحويل</td><td>نعم</td></tr></tbody></table></div>',
+                        '<div dir="rtl" lang="ar">يُعرض شريط موافقة عند أول زيارة لاتخاذ موافقتك على فئتي التحليل والتسويق. ويمكنك تعديل تفضيلاتك في أي وقت من رابط <em>ملفات الارتباط</em> في تذييل الموقع.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '09 · CROSS-BORDER',
                     'h_en'      => 'International data transfers.',
                     'h_ar'      => 'نقل البيانات خارج المملكة.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Cross-border transfer disclosures (e.g., to payment gateway processors hosted outside KSA) and the safeguards relied upon will be specified.'],
+                    'body'      => [
+                        'Personal data flows from the KSA controller to <strong>NeoTechnology Solutions LLC in Wyoming, USA</strong> for platform engineering, hosting, and security operations. Some additional service providers (payment-gateway tokenisation, email service, CDN edge nodes) also host data in jurisdictions outside the Kingdom of Saudi Arabia. Under PDPL Article 29, cross-border transfers are restricted; we rely on:',
+                        '<strong>Adequacy.</strong> Transfers to jurisdictions recognised by SDAIA as offering adequate protection, where applicable.',
+                        '<strong>Binding contractual safeguards</strong> with the recipient (data-processing agreement) where adequacy is not established — this is the basis for the KSA → NTS LLC (Wyoming) flow until SDAIA publishes a US adequacy decision.',
+                        '<strong>Explicit consent</strong> where neither (1) nor (2) is available.',
+                        '<div dir="rtl" lang="ar">تنتقل البيانات الشخصية من جهة التحكّم السعودية إلى <strong>NeoTechnology Solutions LLC في ولاية وايومنغ بالولايات المتحدة</strong> لأغراض هندسة المنصّة واستضافتها وعمليات الأمن. كذلك يستضيف بعض موردي الخدمة الإضافيين (ترميز بوابات الدفع، خدمة البريد، عُقد شبكة توصيل المحتوى) البيانات خارج المملكة العربية السعودية. وبموجب المادة 29 من PDPL يُقيَّد النقل خارج الحدود؛ ونعتمد على:</div>',
+                        '<div dir="rtl" lang="ar"><strong>الكفاية.</strong> النقل إلى دول تعترف لها SDAIA بحماية كافية حيثما ينطبق.</div>',
+                        '<div dir="rtl" lang="ar"><strong>ضمانات تعاقدية ملزِمة</strong> مع المتلقّي (اتفاقية معالجة بيانات) حال عدم اعتماد الكفاية — وهذا هو الأساس لنقل البيانات من المملكة إلى NTS LLC (وايومنغ) ريثما تصدر SDAIA قرار كفاية بشأن الولايات المتحدة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>الموافقة الصريحة</strong> عند عدم توفّر الخيارَين (1) و(2).</div>',
+                    ],
                 ],
             ],
         ],
@@ -1003,50 +1164,80 @@ function nk_info_pages() {
             'kicker'   => '09 · USAGE',
             'h1_en'    => 'ACCEPTABLE USE POLICY',
             'h1_ar'    => 'سياسة الاستخدام',
-            'lede_en'  => 'How you may and may not use novakeys.store, your account, and any related services. Distinct from the Terms & Conditions, which govern the commercial transaction. Section bodies are pending legal review and not authoritative.',
-            'lede_ar'  => 'القواعد التي تحكم استخدامك للموقع والحساب والخدمات ذات الصلة. مستقلة عن "الشروط والأحكام" التي تحكم المعاملة التجارية. النصوص داخل الأقسام قيد المراجعة القانونية.',
-            'draft'    => true,
+            'lede_en'  => 'This policy sets the rules for using novakeys.store, your customer account, and the digital codes you purchase. It is binding alongside the Terms & Conditions and is enforceable under the KSA Anti-Cybercrime Law where conduct crosses the criminal threshold.',
+            'lede_ar'  => 'تُحدّد هذه السياسة قواعد استخدام novakeys.store وحسابك العميل والأكواد الرقمية التي تشتريها. وهي مُلزِمة إلى جانب الشروط والأحكام، وتُنفَّذ بموجب نظام مكافحة جرائم المعلوماتية السعودي عند تجاوز السلوك حدّ التجريم.',
+            'draft'    => false,
             'sections' => [
                 [
                     'kicker_en' => '01 · ACCEPTANCE',
                     'h_en'      => 'Using the site means accepting this policy.',
                     'h_ar'      => 'استخدام الموقع يعني قبول هذه السياسة.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'By accessing, browsing, registering, or transacting on novakeys.store you agree to this Acceptable Use Policy in addition to the Terms &amp; Conditions. Specific binding language is being drafted by counsel.'],
+                    'body'      => [
+                        'By accessing or using novakeys.store you agree to this Acceptable Use Policy. If you do not agree, do not use the site.',
+                        '<div dir="rtl" lang="ar">بدخولك إلى novakeys.store أو استخدامه فإنك توافق على سياسة الاستخدام هذه. وإن لم توافق فلا تستخدم الموقع.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '02 · PROHIBITED USES',
                     'h_en'      => 'What you must not do.',
                     'h_ar'      => 'ممنوعات الاستخدام.',
                     'body'      => [
-                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
-                        'Indicative non-exhaustive list, subject to final wording: automated scraping or harvesting; placing fraudulent or fictitious orders; impersonating another person or entity; circumventing security or rate-limiting; uploading or transmitting malware; infringing intellectual-property rights; using the site to violate any KSA law including the Anti-Cybercrime Law (نظام مكافحة جرائم المعلوماتية).',
+                        'You may not, and you may not allow anyone acting on your behalf to:',
+                        '<strong>Automate, scrape, or harvest</strong> content, prices, or stock data — including via crawlers, headless browsers, or AI agents — beyond what <code>robots.txt</code> explicitly allows.',
+                        '<strong>Place fraudulent or fictitious orders</strong>, or use payment instruments you are not authorised to use.',
+                        '<strong>Impersonate</strong> another person, business, or entity, or misrepresent your affiliation with one.',
+                        '<strong>Circumvent</strong> access controls, rate limits, region locks, or fraud-detection systems.',
+                        '<strong>Probe, scan, or test</strong> the security of the site without prior written permission, or disclose vulnerabilities outside our coordinated-disclosure channel (security@novakeys.store).',
+                        '<strong>Upload or transmit</strong> malware, viruses, or any other malicious code.',
+                        '<strong>Resell</strong> purchased gift-card codes outside the redemption channel intended by the issuer (most issuer terms prohibit secondary resale; you remain bound by their rules).',
+                        '<strong>Infringe</strong> intellectual-property rights, including those of NeoTechnology Solutions LLC (which owns the NovaKeys brand and platform) and the gift-card issuers whose marks appear on our products.',
+                        '<strong>Use the site to violate any KSA law</strong>, including the Anti-Cybercrime Law (نظام مكافحة جرائم المعلوماتية), the Anti-Money-Laundering Law, or sanctions law.',
+                        '<div dir="rtl" lang="ar">يُحظَر عليك ويُحظَر على من يتصرّف نيابةً عنك:</div>',
+                        '<div dir="rtl" lang="ar"><strong>الأتمتة والكشط والجمع</strong> للمحتوى أو الأسعار أو بيانات المخزون — بما في ذلك عبر زواحف الشبكة أو المتصفّحات بلا واجهة أو وكلاء الذكاء الاصطناعي — بما يتجاوز ما يسمح به <code>robots.txt</code> صراحةً.</div>',
+                        '<div dir="rtl" lang="ar"><strong>تقديم طلبات احتيالية أو وهمية</strong>، أو استخدام أدوات دفع لا تملك صلاحيتها.</div>',
+                        '<div dir="rtl" lang="ar"><strong>انتحال</strong> شخصية شخص أو منشأة أو جهة، أو الإيحاء بانتمائك إليها زورًا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>التحايل</strong> على ضوابط الوصول أو حدود الاستخدام أو قيود المناطق أو أنظمة كشف الاحتيال.</div>',
+                        '<div dir="rtl" lang="ar"><strong>اختبار أمن الموقع</strong> أو فحصه دون إذن كتابي مسبق، أو الإفصاح عن ثغرات خارج قناة الإفصاح المنسَّق (security@novakeys.store).</div>',
+                        '<div dir="rtl" lang="ar"><strong>رفع أو نقل</strong> برمجيات خبيثة أو فيروسات أو أيٍّ من الأكواد الضارّة.</div>',
+                        '<div dir="rtl" lang="ar"><strong>إعادة بيع</strong> أكواد البطاقات خارج قناة الاستخدام التي يقصدها المُصدِر (معظم شروط المُصدِرين تمنع إعادة البيع، وتبقى ملتزمًا بقواعدهم).</div>',
+                        '<div dir="rtl" lang="ar"><strong>انتهاك حقوق الملكية الفكرية</strong>، بما فيها حقوق شركة NeoTechnology Solutions LLC (مالكة علامة NovaKeys والمنصّة) وحقوق مُصدِري بطاقات الهدايا التي تظهر علاماتهم على منتجاتنا.</div>',
+                        '<div dir="rtl" lang="ar"><strong>استخدام الموقع لمخالفة أي نظام سعودي</strong>، ومنه نظام مكافحة جرائم المعلوماتية ونظام مكافحة غسل الأموال وأنظمة العقوبات.</div>',
                     ],
                 ],
                 [
                     'kicker_en' => '03 · ACCOUNT CONDUCT',
                     'h_en'      => 'Your account, your responsibility.',
                     'h_ar'      => 'الحساب على مسؤوليتك.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'You are responsible for keeping your credentials confidential, for the accuracy of the information you supply (delivery address, contact details, payment data), and for any activity that occurs under your account.'],
+                    'body'      => [
+                        'You are responsible for keeping your login credentials confidential, for the accuracy of the information you supply (delivery address, contact details, payment data), and for every activity that occurs under your account. Notify us at ' . esc_html( $cr['email'] ) . ' the moment you suspect your account has been accessed without your authorisation.',
+                        '<div dir="rtl" lang="ar">أنت المسؤول عن سريّة بيانات الدخول، وعن دقة ما تُقدّمه من معلومات (عنوان التسليم، بيانات التواصل، معلومات الدفع)، وعن كل نشاط يحدث على حسابك. أبلغنا فورًا على ' . esc_html( $cr['email'] ) . ' عند اشتباهك بدخول غير مُصرَّح به.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '04 · USER CONTENT',
                     'h_en'      => 'Reviews, comments, and other submissions.',
                     'h_ar'      => 'التقييمات والتعليقات.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Where the site allows you to submit content (e.g., product reviews), you grant us a non-exclusive licence to display it and undertake that the content is lawful, accurate, and non-infringing. We may moderate, edit, or remove submissions at our discretion. Final terms pending counsel.'],
+                    'body'      => [
+                        'Where the site allows you to submit content (product reviews, support questions, public comments), you grant us a non-exclusive, worldwide, royalty-free licence to display, store, and moderate that content for the operation of the site. You undertake that the content is lawful, accurate, your own (or licensed for your use), and not defamatory, threatening, or in breach of third-party rights. We may moderate, edit, or remove submissions at our discretion.',
+                        '<div dir="rtl" lang="ar">عندما يتيح الموقع لك تقديم محتوى (تقييمات المنتج، أسئلة الدعم، التعليقات العامة)، فإنك تمنحنا ترخيصًا غير حصري وعالمي ومجاني لعرض ذلك المحتوى وتخزينه وإدارته لأغراض تشغيل الموقع. وتُقرّ بأن المحتوى مشروع ودقيق وعائد إليك (أو مرخَّص لاستخدامك)، وأنه لا ينطوي على تشهير أو تهديد أو إخلال بحقوق الغير. ولنا الحق في تعديل المحتوى أو إزالته متى رأينا ذلك.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '05 · ENFORCEMENT',
                     'h_en'      => 'Suspension and termination.',
                     'h_ar'      => 'الإيقاف وإنهاء الحساب.',
-                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'We may suspend or terminate access for violations of this policy, with or without prior notice depending on severity, and we may seek to recover any losses caused. Specific enforcement procedures are being finalized.'],
+                    'body'      => [
+                        'Where we reasonably believe you have breached this policy or any applicable law, we may, at our discretion and proportionate to the breach: (i) issue a warning; (ii) suspend access to your account; (iii) cancel pending orders; (iv) close your account; (v) refuse future business; (vi) report the conduct to the competent authorities; and (vii) seek to recover any losses we have suffered. Severe breaches — for example fraud, malware distribution, or coordinated abuse — may result in immediate closure without prior notice.',
+                        '<div dir="rtl" lang="ar">متى توفّر لدينا اعتقاد معقول بأنك أخلَلت بهذه السياسة أو بأي نظام مُطبَّق، يحق لنا، وفق تقديرنا وبما يتناسب مع المخالفة، أن: (1) نُوجّه إنذارًا؛ (2) نُعلّق الوصول إلى حسابك؛ (3) نُلغي الطلبات قيد التنفيذ؛ (4) نُغلق حسابك؛ (5) نمتنع عن مستقبل التعامل؛ (6) نُبلّغ الجهات المختصّة؛ (7) نسعى إلى استرداد أي خسائر لحقت بنا. وقد تؤدّي المخالفات الجسيمة — مثل الاحتيال، أو نشر البرمجيات الخبيثة، أو الإساءة المُنسَّقة — إلى الإغلاق الفوري دون إنذار.</div>',
+                    ],
                 ],
                 [
                     'kicker_en' => '06 · REPORTING ABUSE',
                     'h_en'      => 'How to report violations.',
                     'h_ar'      => 'كيفية الإبلاغ عن المخالفات.',
                     'body'      => [
-                        sprintf('Email: %s — please include URLs, timestamps, and any supporting evidence.', $cr['email']),
-                        sprintf('Mobile: %s', $cr['phone_mobile']),
+                        'Report content or activity you believe violates this policy by emailing <strong>abuse@novakeys.store</strong>. Coordinated security-vulnerability disclosures: <strong>security@novakeys.store</strong>. Both addresses are monitored during business hours (Sun–Thu 09:00–17:00 Asia/Riyadh).',
+                        '<div dir="rtl" lang="ar">أبلغ عن المحتوى أو النشاط الذي تعتقد أنه يخالف هذه السياسة عبر <strong>abuse@novakeys.store</strong>. وللإفصاح المنسَّق عن الثغرات الأمنية: <strong>security@novakeys.store</strong>. يُتابَع البريدان خلال ساعات العمل (الأحد–الخميس 09:00–17:00 بتوقيت آسيا/الرياض).</div>',
                     ],
                 ],
             ],
@@ -1095,6 +1286,191 @@ function nk_info_pages() {
 
     return $cached;
 }
+
+/**
+ * Wrap a body string in a paragraph if it isn't already a block-level
+ * element. The `body` arrays in nk_info_pages() mix plain sentences,
+ * `<strong>...`-led paragraphs, RTL `<div>` wrappers, `<table>`s, and
+ * `<ul>`s — emit each one in a way that produces valid HTML.
+ *
+ * @since 0.2.0
+ * @param string $s One body element from a section.
+ * @return string Sanitised, wrapped HTML.
+ */
+function nk_info_para_html( $s ) {
+    $s = (string) $s;
+    if ( '' === ltrim( $s ) ) {
+        return '';
+    }
+    $is_block = (bool) preg_match( '/^\s*<(p|div|table|ul|ol|h[1-6]|figure|blockquote|pre|section)\b/i', $s );
+    return $is_block ? wp_kses_post( $s ) : '<p>' . wp_kses_post( $s ) . '</p>';
+}
+
+/**
+ * Render the HTML for a single info page (returns / warranty / terms /
+ * privacy / usage / about / shipping / contact). Used by the virtual
+ * post-injection filter below so the FSE page template can render the
+ * canonical legal copy without needing a real wp_posts row per slug.
+ *
+ * @since 0.2.0
+ * @param string $key Slug from nk_info_pages().
+ * @return string Rendered HTML, or empty string if the slug is unknown.
+ */
+function nk_render_info_page_content( $key ) {
+    $info = nk_info_pages();
+    if ( ! isset( $info[ $key ] ) ) {
+        return '';
+    }
+    $page = $info[ $key ];
+
+    ob_start();
+    ?>
+<div class="nk-info-page" data-page="<?php echo esc_attr( $key ); ?>">
+    <?php if ( ! empty( $page['kicker'] ) ) : ?>
+        <p class="nk-info-kicker"><?php echo esc_html( $page['kicker'] ); ?></p>
+    <?php endif; ?>
+    <?php if ( ! empty( $page['h1_ar'] ) ) : ?>
+        <p class="nk-info-h1-ar" dir="rtl" lang="ar"><?php echo esc_html( $page['h1_ar'] ); ?></p>
+    <?php endif; ?>
+    <?php if ( ! empty( $page['lede_en'] ) ) : ?>
+        <p class="nk-info-lede"><?php echo wp_kses_post( $page['lede_en'] ); ?></p>
+    <?php endif; ?>
+    <?php if ( ! empty( $page['lede_ar'] ) ) : ?>
+        <p class="nk-info-lede" dir="rtl" lang="ar"><?php echo wp_kses_post( $page['lede_ar'] ); ?></p>
+    <?php endif; ?>
+    <?php if ( ! empty( $page['sections'] ) && is_array( $page['sections'] ) ) : ?>
+        <?php foreach ( $page['sections'] as $section ) : ?>
+            <section class="nk-info-section">
+                <?php if ( ! empty( $section['kicker_en'] ) ) : ?>
+                    <p class="nk-info-section-kicker"><?php echo esc_html( $section['kicker_en'] ); ?></p>
+                <?php endif; ?>
+                <?php if ( ! empty( $section['h_en'] ) ) : ?>
+                    <h2 class="nk-info-section-h"><?php echo esc_html( $section['h_en'] ); ?></h2>
+                <?php endif; ?>
+                <?php if ( ! empty( $section['h_ar'] ) ) : ?>
+                    <p class="nk-info-section-h-ar" dir="rtl" lang="ar"><?php echo esc_html( $section['h_ar'] ); ?></p>
+                <?php endif; ?>
+                <?php if ( ! empty( $section['body'] ) && is_array( $section['body'] ) ) : ?>
+                    <?php foreach ( $section['body'] as $para ) : ?>
+                        <?php echo nk_info_para_html( $para ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — sanitised inside helper. ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </section>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+    <?php
+    return (string) ob_get_clean();
+}
+
+/**
+ * Inject a virtual WP_Post when /returns/, /warranty/, /terms/,
+ * /privacy/, /usage/, /about/, /shipping/, /contact/ is requested.
+ *
+ * The rewrite at `add_rewrite_rule('^slug/?$', '...novakeys_page=slug')`
+ * gives WP_Query nothing to match, so without this filter the route
+ * 404s (or with `is_404` flipped off in the `wp` action above, lands
+ * on an empty page.html). Synthesising a post here lets the FSE
+ * page template render the canonical legal copy via wp:post-content.
+ */
+add_filter( 'the_posts', function ( $posts, $query ) {
+    if ( ! $query instanceof WP_Query || ! $query->is_main_query() ) {
+        return $posts;
+    }
+    $key = get_query_var( 'novakeys_page' );
+    if ( ! $key || 'legal' === $key ) {
+        return $posts;
+    }
+    if ( ! function_exists( 'nk_info_pages' ) ) {
+        return $posts;
+    }
+    $info = nk_info_pages();
+    if ( ! isset( $info[ $key ] ) ) {
+        return $posts;
+    }
+    if ( ! empty( $posts ) ) {
+        return $posts;
+    }
+    $page  = $info[ $key ];
+    $title = ! empty( $page['h1_en'] ) ? ucwords( strtolower( $page['h1_en'] ) ) : ucfirst( $key );
+    $now   = current_time( 'mysql' );
+    $now_g = current_time( 'mysql', 1 );
+    $stub  = (object) array(
+        'ID'                    => 0,
+        'post_author'           => 1,
+        'post_date'             => $now,
+        'post_date_gmt'         => $now_g,
+        'post_content'          => nk_render_info_page_content( $key ),
+        'post_title'            => $title,
+        'post_excerpt'          => '',
+        'post_status'           => 'publish',
+        'comment_status'        => 'closed',
+        'ping_status'           => 'closed',
+        'post_password'         => '',
+        'post_name'             => $key,
+        'to_ping'               => '',
+        'pinged'                => '',
+        'post_modified'         => $now,
+        'post_modified_gmt'     => $now_g,
+        'post_content_filtered' => '',
+        'post_parent'           => 0,
+        'guid'                  => home_url( '/' . $key . '/' ),
+        'menu_order'            => 0,
+        'post_type'             => 'page',
+        'post_mime_type'        => '',
+        'comment_count'         => 0,
+        'filter'                => 'raw',
+    );
+    $post = new WP_Post( $stub );
+
+    $query->is_404      = false;
+    $query->is_singular = true;
+    $query->is_single   = false;
+    $query->is_page     = true;
+    $query->is_archive  = false;
+    $query->is_home     = false;
+    $query->is_search   = false;
+    $query->found_posts = 1;
+    $query->post_count  = 1;
+    $query->posts       = array( $post );
+    $query->post        = $post;
+    $query->queried_object    = $post;
+    $query->queried_object_id = 0;
+
+    return array( $post );
+}, 1, 2 );
+
+/**
+ * Inline stylesheet for the info-page renderer. Scoped to .nk-info-page
+ * so it cannot leak into other templates. Print only on the routes that
+ * use it so /shop/ and /single-product/ stay byte-for-byte unchanged.
+ */
+add_action( 'wp_head', function () {
+    if ( ! get_query_var( 'novakeys_page' ) || 'legal' === get_query_var( 'novakeys_page' ) ) {
+        return;
+    }
+    ?>
+<style id="nk-info-page-css">
+.nk-info-page{max-width:760px;margin-inline:auto;font-size:1rem;line-height:1.65;color:var(--wp--preset--color--brand-ink,#1a1a1a)}
+.nk-info-page .nk-info-kicker{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
+.nk-info-page .nk-info-h1-ar{font-size:1.4rem;font-weight:600;margin:.25em 0 1.2em;color:var(--wp--preset--color--brand-slate,#666)}
+.nk-info-page .nk-info-lede{font-size:1.05rem;line-height:1.7;margin:0 0 1.4em;color:var(--wp--preset--color--brand-slate,#444)}
+.nk-info-page .nk-info-section{margin:2.2em 0;padding-block:1.4em 0;border-top:1px solid var(--wp--preset--color--brand-mist,#e6e6e6)}
+.nk-info-page .nk-info-section:first-of-type{border-top:0;padding-top:0}
+.nk-info-page .nk-info-section-kicker{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
+.nk-info-page .nk-info-section-h{font-size:1.18rem;font-weight:600;margin:0 0 .5em;line-height:1.35}
+.nk-info-page .nk-info-section-h-ar{font-size:1.05rem;font-weight:500;margin:0 0 1em;color:var(--wp--preset--color--brand-slate,#666)}
+.nk-info-page p{margin:0 0 1em}
+.nk-info-page strong{font-weight:600}
+.nk-info-page code{background:var(--wp--preset--color--brand-mist,#f1f3f5);padding:.05em .35em;border-radius:.25em;font-size:.92em}
+.nk-info-page [dir="rtl"]{font-family:"IBM Plex Sans Arabic","Tajawal",system-ui,sans-serif}
+.nk-legal-table{width:100%;border-collapse:collapse;margin:1em 0;font-size:.95em}
+.nk-legal-table th,.nk-legal-table td{padding:.55em .75em;border:1px solid var(--wp--preset--color--brand-mist,#e6e6e6);text-align:start;vertical-align:top}
+.nk-legal-table th{background:var(--wp--preset--color--brand-mist,#f5f5f5);font-weight:600}
+[dir="rtl"] .nk-legal-table th,[dir="rtl"] .nk-legal-table td{text-align:start}
+</style>
+    <?php
+}, 99 );
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
 $ng_theme_asset_dir = __DIR__ . '/neogen-theme-assets';

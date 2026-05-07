@@ -31,6 +31,7 @@ $reg_ad     = $cr['registered_ad'] ?? '';
 $authority  = $cr['authority']     ?? '';
 $verify_url = $cr['verify_url']    ?? '';
 $regulatory = is_array( $cr['regulatory'] ?? null ) ? $cr['regulatory'] : array();
+$parent     = is_array( $cr['parent'] ?? null ) ? $cr['parent'] : array();
 ?>
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained","contentSize":"800px"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
@@ -97,6 +98,63 @@ $regulatory = is_array( $cr['regulatory'] ?? null ) ? $cr['regulatory'] : array(
 		<?php endif; ?>
 	</div>
 	<!-- /wp:group -->
+
+	<?php if ( ! empty( $parent ) ) : ?>
+		<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"var(--wp--preset--font-size--xl)"},"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->
+		<h2 class="wp-block-heading" style="font-size:var(--wp--preset--font-size--xl);margin-top:var(--wp--preset--spacing--50)"><?php echo esc_html__( 'Parent Entity', 'novakeys' ); ?></h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"},"margin":{"top":"var:preset|spacing|30"}},"border":{"radius":"12px","color":"var:preset|color|brand-mist","width":"1px"}}} -->
+		<div class="wp-block-group" style="border-color:var(--wp--preset--color--brand-mist);border-width:1px;border-radius:12px;margin-top:var(--wp--preset--spacing--30);padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)">
+
+			<!-- wp:paragraph -->
+			<p><strong><?php echo esc_html__( 'Brand owner:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) ( $parent['name'] ?? '' ) ); ?><?php echo ! empty( $parent['name_ar'] ) ? ' · ' . esc_html( (string) $parent['name_ar'] ) : ''; ?></p>
+			<!-- /wp:paragraph -->
+
+			<?php if ( ! empty( $parent['jurisdiction'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html__( 'Jurisdiction:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) $parent['jurisdiction'] ); ?><?php echo ! empty( $parent['jurisdiction_ar'] ) ? ' · ' . esc_html( (string) $parent['jurisdiction_ar'] ) : ''; ?></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['reg_number'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html( (string) ( $parent['reg_label_en'] ?? __( 'Filing number:', 'novakeys' ) ) ); ?>:</strong> <code><?php echo esc_html( (string) $parent['reg_number'] ); ?></code></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['ein'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html( (string) ( $parent['ein_label_en'] ?? 'EIN' ) ); ?>:</strong> <code><?php echo esc_html( (string) $parent['ein'] ); ?></code></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['registered_agent'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html__( 'Registered agent:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) $parent['registered_agent'] ); ?></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['registered_addr'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html__( 'Registered address:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) $parent['registered_addr'] ); ?></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['principal_addr'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html__( 'Principal address:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) $parent['principal_addr'] ); ?></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+
+			<?php if ( ! empty( $parent['role_en'] ) ) : ?>
+				<!-- wp:paragraph -->
+				<p><strong><?php echo esc_html__( 'Role:', 'novakeys' ); ?></strong> <?php echo esc_html( (string) $parent['role_en'] ); ?><?php echo ! empty( $parent['role_ar'] ) ? ' · ' . esc_html( (string) $parent['role_ar'] ) : ''; ?></p>
+				<!-- /wp:paragraph -->
+			<?php endif; ?>
+		</div>
+		<!-- /wp:group -->
+	<?php endif; ?>
 
 	<?php if ( ! empty( $regulatory ) ) : ?>
 		<!-- wp:heading {"level":2,"style":{"typography":{"fontSize":"var(--wp--preset--font-size--xl)"},"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->

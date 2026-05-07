@@ -59,6 +59,7 @@ final class Plugin {
 		// shims fall back to them.
 		require_once NK_COMMERCE_DIR . 'includes/icons/class-icon-registry.php';
 		require_once NK_COMMERCE_DIR . 'includes/product-meta/class-arabic-title.php';
+		require_once NK_COMMERCE_DIR . 'includes/recommendations/class-recommender.php';
 
 		// Backwards-compat shims: define `ng_*` aliases for any `nk_*` we
 		// ship. Always loaded so external callers (snippets/, scripts/,

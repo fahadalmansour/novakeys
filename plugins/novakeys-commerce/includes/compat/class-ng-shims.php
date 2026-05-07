@@ -69,6 +69,69 @@ if ( ! function_exists( 'ng_icon_use' ) ) {
 	}
 }
 
+/* -- recommendations module ----------------------------------------- */
+
+if ( ! function_exists( 'ng_rec_read_cookie' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_rec_read_cookie()}.
+	 *
+	 * @return int[]
+	 */
+	function ng_rec_read_cookie(): array {
+		return function_exists( 'nk_rec_read_cookie' ) ? nk_rec_read_cookie() : array();
+	}
+}
+
+if ( ! function_exists( 'ng_recent_product_ids' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_recent_product_ids()}.
+	 *
+	 * @param int $exclude Product ID to exclude.
+	 * @return int[]
+	 */
+	function ng_recent_product_ids( int $exclude = 0 ): array {
+		return function_exists( 'nk_recent_product_ids' ) ? nk_recent_product_ids( $exclude ) : array();
+	}
+}
+
+if ( ! function_exists( 'ng_recommended_products' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_recommended_products()}.
+	 *
+	 * @param int $exclude Product ID to exclude.
+	 * @param int $limit   Max items.
+	 * @return array
+	 */
+	function ng_recommended_products( int $exclude = 0, int $limit = 4 ): array {
+		return function_exists( 'nk_recommended_products' ) ? nk_recommended_products( $exclude, $limit ) : array();
+	}
+}
+
+if ( ! function_exists( 'ng_compatibility_note' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_compatibility_note()}.
+	 *
+	 * @param \WC_Product|null $source Source product.
+	 * @param \WC_Product|null $compat Recommended companion.
+	 * @return string
+	 */
+	function ng_compatibility_note( $source = null, $compat = null ): string {
+		return function_exists( 'nk_compatibility_note' ) ? nk_compatibility_note( $source, $compat ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_render_recommendations' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_render_recommendations()}.
+	 *
+	 * @param array<string, mixed> $args Render args.
+	 * @return string
+	 */
+	function ng_render_recommendations( array $args = array() ): string {
+		return function_exists( 'nk_render_recommendations' ) ? nk_render_recommendations( $args ) : '';
+	}
+}
+
 /* -- product-meta module --------------------------------------------- */
 
 if ( ! function_exists( 'ng_product_ar_title_meta_box' ) ) {

@@ -132,7 +132,12 @@ if (!class_exists('WC_Product')) {
  * Load the matcher source
  * ------------------------------------------------------------- */
 
-require __DIR__ . '/../mu-plugins/novakeys-gift-cards.php';
+// New module location after the phase-2 refactor; the canonical
+// functions are nk_gift_card_*, with ng_gift_card_* shims defined in
+// plugins/novakeys-commerce/includes/compat/class-ng-shims.php for
+// back-compat (which the existing test cases call).
+require __DIR__ . '/../plugins/novakeys-commerce/includes/gift-cards/gift-cards-matcher.php';
+require __DIR__ . '/../plugins/novakeys-commerce/includes/compat/class-ng-shims.php';
 
 /* ---------------------------------------------------------------
  * Test harness

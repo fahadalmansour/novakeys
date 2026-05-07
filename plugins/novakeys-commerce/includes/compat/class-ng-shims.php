@@ -203,6 +203,157 @@ if ( ! function_exists( 'ng_twitter_image_url' ) ) {
 	}
 }
 
+/* -- gift-cards matcher --------------------------------------------- */
+
+if ( ! function_exists( 'ng_gift_card_asset_map' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_asset_map()}.
+	 *
+	 * @return array<string, array{files: string[], keywords: string[]}>
+	 */
+	function ng_gift_card_asset_map(): array {
+		return function_exists( 'nk_gift_card_asset_map' ) ? nk_gift_card_asset_map() : array();
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_asset_dir' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_asset_dir()}.
+	 *
+	 * @return string
+	 */
+	function ng_gift_card_asset_dir(): string {
+		return function_exists( 'nk_gift_card_asset_dir' ) ? nk_gift_card_asset_dir() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_asset_url_base' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_asset_url_base()}.
+	 *
+	 * @return string
+	 */
+	function ng_gift_card_asset_url_base(): string {
+		return function_exists( 'nk_gift_card_asset_url_base' ) ? nk_gift_card_asset_url_base() : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_existing_file' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_existing_file()}.
+	 *
+	 * @param array<string, mixed> $asset Asset entry.
+	 * @return string
+	 */
+	function ng_gift_card_existing_file( array $asset ): string {
+		return function_exists( 'nk_gift_card_existing_file' ) ? nk_gift_card_existing_file( $asset ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_parent_product' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_parent_product()}.
+	 *
+	 * @param mixed $product Product.
+	 * @return mixed
+	 */
+	function ng_gift_card_parent_product( $product ) {
+		return function_exists( 'nk_gift_card_parent_product' ) ? nk_gift_card_parent_product( $product ) : null;
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_normalize_match_text' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_normalize_match_text()}.
+	 *
+	 * @param string $text Raw text.
+	 * @return string
+	 */
+	function ng_gift_card_normalize_match_text( $text ): string {
+		return function_exists( 'nk_gift_card_normalize_match_text' ) ? nk_gift_card_normalize_match_text( $text ) : (string) $text;
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_match_text' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_match_text()}.
+	 *
+	 * @param mixed $product Product.
+	 * @param mixed $parent  Parent product.
+	 * @return string
+	 */
+	function ng_gift_card_match_text( $product, $parent = null ): string {
+		return function_exists( 'nk_gift_card_match_text' ) ? nk_gift_card_match_text( $product, $parent ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_is_candidate_product' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_is_candidate_product()}.
+	 *
+	 * @param mixed $product Product.
+	 * @param mixed $parent  Parent product.
+	 * @return bool
+	 */
+	function ng_gift_card_is_candidate_product( $product, $parent = null ): bool {
+		return function_exists( 'nk_gift_card_is_candidate_product' ) ? nk_gift_card_is_candidate_product( $product, $parent ) : false;
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_asset_for_product' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_asset_for_product()}.
+	 *
+	 * @param mixed $product Product.
+	 * @param mixed $parent  Parent product.
+	 * @return array<string, mixed>|null
+	 */
+	function ng_gift_card_asset_for_product( $product, $parent = null ): ?array {
+		return function_exists( 'nk_gift_card_asset_for_product' ) ? nk_gift_card_asset_for_product( $product, $parent ) : null;
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_image_url' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_image_url()}.
+	 *
+	 * @param mixed $product Product.
+	 * @param mixed $parent  Parent product.
+	 * @return string
+	 */
+	function ng_gift_card_image_url( $product, $parent = null ): string {
+		return function_exists( 'nk_gift_card_image_url' ) ? nk_gift_card_image_url( $product, $parent ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_image_html' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_image_html()}.
+	 *
+	 * @param mixed                $product Product.
+	 * @param string               $size    Image size keyword.
+	 * @param string               $alt     Alt text.
+	 * @param mixed                $parent  Parent product.
+	 * @param array<string, mixed> $attr    HTML attrs.
+	 * @return string
+	 */
+	function ng_gift_card_image_html( $product, $size = 'woocommerce_thumbnail', $alt = '', $parent = null, $attr = array() ): string {
+		return function_exists( 'nk_gift_card_image_html' ) ? nk_gift_card_image_html( $product, $size, $alt, $parent, $attr ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_gift_card_clean_product_name' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_card_clean_product_name()}.
+	 *
+	 * @param string $text Raw text.
+	 * @return string
+	 */
+	function ng_gift_card_clean_product_name( $text ): string {
+		return function_exists( 'nk_gift_card_clean_product_name' ) ? nk_gift_card_clean_product_name( $text ) : (string) $text;
+	}
+}
+
 /* -- product-meta module --------------------------------------------- */
 
 if ( ! function_exists( 'ng_product_ar_title_meta_box' ) ) {

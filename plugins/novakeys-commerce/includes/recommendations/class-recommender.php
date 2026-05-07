@@ -369,13 +369,19 @@ final class Recommender {
 		$note = (string) apply_filters( 'nk_compatibility_note', $note, $source, $compat );
 
 		// Back-compat: legacy filter still honoured so existing operator
-		// overrides keep working until phase 4.
-		$note = (string) apply_filters_deprecated(
-			'ng_compatibility_note',
-			array( $note, $source, $compat ),
-			'0.1.0',
-			'nk_compatibility_note'
-		);
+		// overrides keep working until phase 4. Falls back to plain
+		// apply_filters() when WP doesn't provide the deprecated variant
+		// (e.g. when this file is required from the smoke-test harness).
+		if ( function_exists( 'apply_filters_deprecated' ) ) {
+			$note = (string) apply_filters_deprecated(
+				'ng_compatibility_note',
+				array( $note, $source, $compat ),
+				'0.1.0',
+				'nk_compatibility_note'
+			);
+		} elseif ( function_exists( 'apply_filters' ) ) {
+			$note = (string) apply_filters( 'ng_compatibility_note', $note, $source, $compat );
+		}
 
 		return $note;
 	}

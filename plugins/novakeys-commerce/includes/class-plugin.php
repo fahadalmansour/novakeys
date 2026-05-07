@@ -61,6 +61,7 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/product-meta/class-arabic-title.php';
 		require_once NK_COMMERCE_DIR . 'includes/recommendations/class-recommender.php';
 		require_once NK_COMMERCE_DIR . 'includes/vouchers/class-shortcode.php';
+		require_once NK_COMMERCE_DIR . 'includes/site/class-customizations.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
 

@@ -69,6 +69,19 @@ if ( ! function_exists( 'ng_icon_use' ) ) {
 	}
 }
 
+/* -- site / theme-data ----------------------------------------------- */
+
+if ( ! function_exists( 'ng_cr' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_cr()}.
+	 *
+	 * @return array<string, mixed>
+	 */
+	function ng_cr(): array {
+		return function_exists( 'nk_cr' ) ? nk_cr() : array();
+	}
+}
+
 /* -- recommendations module ----------------------------------------- */
 
 if ( ! function_exists( 'ng_rec_read_cookie' ) ) {

@@ -1465,13 +1465,13 @@ add_action( 'wp_head', function () {
 <style id="nk-info-page-css">
 .nk-info-page{max-width:760px;margin-inline:auto;font-size:1rem;line-height:1.65;color:var(--wp--preset--color--brand-ink,#1a1a1a)}
 .nk-info-page .nk-info-kicker{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
-.nk-info-page .nk-info-h1-ar{font-size:1.4rem;font-weight:600;margin:.25em 0 1.2em;color:var(--wp--preset--color--brand-slate,#666)}
+.nk-info-page .nk-info-h1-ar{font-size:1.4rem;font-weight:600;margin:.25em 0 1.2em;color:var(--wp--preset--color--brand-ink,#1a1a1a)}
 .nk-info-page .nk-info-lede{font-size:1.05rem;line-height:1.7;margin:0 0 1.4em;color:var(--wp--preset--color--brand-slate,#444)}
 .nk-info-page .nk-info-section{margin:2.2em 0;padding-block:1.4em 0;border-top:1px solid var(--wp--preset--color--brand-mist,#e6e6e6)}
 .nk-info-page .nk-info-section:first-of-type{border-top:0;padding-top:0}
 .nk-info-page .nk-info-section-kicker{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
 .nk-info-page .nk-info-section-h{font-size:1.18rem;font-weight:600;margin:0 0 .5em;line-height:1.35}
-.nk-info-page .nk-info-section-h-ar{font-size:1.05rem;font-weight:500;margin:0 0 1em;color:var(--wp--preset--color--brand-slate,#666)}
+.nk-info-page .nk-info-section-h-ar{font-size:1.05rem;font-weight:500;margin:0 0 .5em;color:var(--wp--preset--color--brand-slate,#666)}
 .nk-info-page p{margin:0 0 1em}
 .nk-info-page strong{font-weight:600}
 .nk-info-page code{background:var(--wp--preset--color--brand-mist,#f1f3f5);padding:.05em .35em;border-radius:.25em;font-size:.92em}
@@ -2142,6 +2142,72 @@ add_action('wp_body_open', function () {
 });
 
 /**
+ * Newsletter subscribe handler (footer form). Verifies the
+ * `ng_newsletter` nonce and bot-rate-limits per IP, then sanitises
+ * the email and stores it under the `nk_newsletter_subscribers`
+ * option as an opt-in record. Fires `nk_newsletter_subscribe` so a
+ * real ESP integration can hook in later. Always redirects back to
+ * the referrer with a `?nk_news=ok|err` query so the front-end can
+ * show feedback without exposing internals.
+ *
+ * @since 0.2.1
+ * @return void
+ */
+function nk_newsletter_subscribe_handler() {
+    $back = wp_get_referer();
+    if ( ! $back ) {
+        $back = home_url( '/' );
+    }
+
+    if ( ! isset( $_POST['ng_newsletter_nonce'] )
+        || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['ng_newsletter_nonce'] ) ), 'ng_newsletter' )
+    ) {
+        wp_safe_redirect( add_query_arg( 'nk_news', 'err', $back ) );
+        exit;
+    }
+
+    $email = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+    if ( '' === $email || ! is_email( $email ) ) {
+        wp_safe_redirect( add_query_arg( 'nk_news', 'err', $back ) );
+        exit;
+    }
+
+    $ip      = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+    $rate_k  = 'nk_news_' . md5( $ip );
+    if ( $ip && false !== get_transient( $rate_k ) ) {
+        wp_safe_redirect( add_query_arg( 'nk_news', 'ok', $back ) ); // Pretend success on rate-limit.
+        exit;
+    }
+
+    $subs = get_option( 'nk_newsletter_subscribers', array() );
+    if ( ! is_array( $subs ) ) {
+        $subs = array();
+    }
+    if ( ! in_array( $email, $subs, true ) ) {
+        $subs[] = $email;
+        update_option( 'nk_newsletter_subscribers', $subs, false );
+
+        /**
+         * Fires after a new email is added to the local subscriber list.
+         * ESP integrations should hook here to forward to their provider.
+         *
+         * @since 0.2.1
+         * @param string $email Sanitised subscriber email.
+         */
+        do_action( 'nk_newsletter_subscribe', $email );
+    }
+
+    if ( $ip ) {
+        set_transient( $rate_k, 1, MINUTE_IN_SECONDS );
+    }
+
+    wp_safe_redirect( add_query_arg( 'nk_news', 'ok', $back ) );
+    exit;
+}
+add_action( 'admin_post_ng_newsletter_subscribe',        'nk_newsletter_subscribe_handler' );
+add_action( 'admin_post_nopriv_ng_newsletter_subscribe', 'nk_newsletter_subscribe_handler' );
+
+/**
  * Live cart-count update via Woo AJAX fragments.
  */
 add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
@@ -2275,12 +2341,12 @@ add_action('wp_footer', function () {
         <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">هوية المنشأة</a></li>
       </ul>
     </div>
-    <?php $cr_foot = nk_cr(); ?>
+    <?php $cr = nk_cr(); ?>
     <div class="ng-foot-col">
       <h4>// المتجر</h4>
       <ul>
-        <li>سجل تجاري · <?php echo esc_html( $cr_foot['cr'] ); ?></li>
-        <?php foreach ( $cr_foot['regulatory'] as $r ) : ?>
+        <li>سجل تجاري · <?php echo esc_html( $cr['cr'] ); ?></li>
+        <?php foreach ( $cr['regulatory'] as $r ) : ?>
           <li><?php echo esc_html( $r['authority_ar'] ?? strtoupper( $r['key'] ) ); ?> · <?php echo esc_html( $r['number'] ); ?></li>
         <?php endforeach; ?>
         <li>الضريبة · 15% شاملة</li>
@@ -2301,7 +2367,6 @@ add_action('wp_footer', function () {
       <span class="ng-pay-chip">Aramex</span>
     </div>
   </div>
-  <?php $cr = nk_cr(); ?>
   <div class="ng-disclosure" role="complementary" aria-label="هوية المنشأة">
     <div class="ng-disclosure-en">
       <span><?php echo esc_html( $cr['entity_type_ar'] ?? $cr['entity_type'] ); ?></span>

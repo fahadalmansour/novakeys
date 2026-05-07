@@ -19,8 +19,10 @@
             var now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Riyadh' }));
             el.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
         } catch (e) {
-            var d = new Date();
-            el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+            // Don't show local-machine time as if it were Riyadh time —
+            // the bar is labelled "Riyadh" so a wrong number is worse
+            // than no number.
+            el.textContent = '--:--:--';
         }
     }
 
@@ -28,7 +30,12 @@
         var el = document.getElementById('ng-queue');
         if (!el) { return; }
         var current = parseInt(el.textContent, 10);
-        if (isNaN(current)) { current = 14; }
+        if (isNaN(current)) {
+            if (window.console && console.warn) {
+                console.warn('[NK] #ng-queue contains non-numeric content; resetting to 14.');
+            }
+            current = 14;
+        }
         var floor = 8, ceiling = 22;
         var delta = Math.random() < 0.5 ? -1 : 1;
         var next = current + delta;

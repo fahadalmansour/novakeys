@@ -182,9 +182,25 @@ final class Customer_Endpoint {
 					try { document.execCommand('copy'); } catch(e){}
 					document.body.removeChild(ta);
 				}
-				var orig = btn.innerHTML;
-				btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="width:14px;height:14px;display:inline-block;vertical-align:middle"><path d="m5 12 5 5L20 7"/></svg>';
-				setTimeout(function(){ btn.innerHTML = orig; }, 1200);
+				// Safer DOM round-trip than innerHTML/innerHTML — avoids
+				// re-injecting whatever markup the button currently holds
+				// if a future change adds untrusted content.
+				var origText = btn.textContent;
+				var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+				svg.setAttribute('viewBox', '0 0 24 24');
+				svg.setAttribute('fill', 'none');
+				svg.setAttribute('stroke', 'currentColor');
+				svg.setAttribute('stroke-width', '2.4');
+				svg.setAttribute('aria-hidden', 'true');
+				svg.setAttribute('width', '14');
+				svg.setAttribute('height', '14');
+				svg.style.display = 'inline-block';
+				svg.style.verticalAlign = 'middle';
+				var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+				path.setAttribute('d', 'm5 12 5 5L20 7');
+				svg.appendChild(path);
+				btn.replaceChildren(svg);
+				setTimeout(function(){ btn.replaceChildren(document.createTextNode(origText)); }, 1200);
 			});
 		});
 		</script>

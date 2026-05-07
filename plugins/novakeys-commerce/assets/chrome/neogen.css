@@ -1,0 +1,668 @@
+/*
+ * NovaKeys chrome stylesheet — header (sysbar + topnav), footer (trust,
+ * newsletter, columns, pay row, disclosure, bottom), and shared chrome
+ * primitives (.btn, .ng-container, .ng-hero, .ng-section-*).
+ *
+ * Tokens mirror theme.json so the chrome stays in step with FSE styles.
+ * Where theme.json variables resolve at runtime, CSS custom properties
+ * here provide a hard fallback for environments that don't expose them
+ * (admin previews, external embeds).
+ */
+
+:root {
+    --nk-color-ink: var(--wp--preset--color--brand-ink, #0F172A);
+    --nk-color-slate: var(--wp--preset--color--brand-slate, #475569);
+    --nk-color-mist: var(--wp--preset--color--brand-mist, #E2E8F0);
+    --nk-color-paper: var(--wp--preset--color--brand-paper, #F8FAFC);
+    --nk-color-sky: var(--wp--preset--color--brand-sky, #38BDF8);
+    --nk-color-cyan: var(--wp--preset--color--brand-cyan, #06B6D4);
+    --nk-color-emerald: var(--wp--preset--color--brand-emerald, #10B981);
+    --nk-color-amber: var(--wp--preset--color--brand-amber, #F59E0B);
+    --nk-color-white: #FFFFFF;
+    --nk-color-bg: #0B1220;
+    --nk-color-bg-soft: #111827;
+    --nk-radius-sm: 6px;
+    --nk-radius: 10px;
+    --nk-radius-lg: 16px;
+    --nk-shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+    --nk-shadow: 0 4px 12px rgba(15, 23, 42, .08);
+    --nk-content: 1100px;
+    --nk-wide: 1280px;
+}
+
+/* Container --------------------------------------------------------- */
+
+.ng-container {
+    max-width: var(--nk-wide);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+/* System bar -------------------------------------------------------- */
+
+.ng-sysbar {
+    background: var(--nk-color-bg);
+    color: #CBD5E1;
+    font-size: 12px;
+    line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem .8rem;
+    padding: .5rem clamp(1rem, 3vw, 2rem);
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .01em;
+}
+
+.ng-sysbar b { color: var(--nk-color-white); font-weight: 600; }
+.ng-sysbar b.cyan { color: var(--nk-color-sky); }
+.ng-sysbar .led {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--nk-color-emerald);
+    box-shadow: 0 0 6px var(--nk-color-emerald);
+    flex-shrink: 0;
+}
+.ng-sysbar .sep {
+    width: 1px; height: 12px;
+    background: rgba(255,255,255,.18);
+}
+.ng-sysbar .spacer { flex: 1 1 auto; }
+
+@media (max-width: 720px) {
+    .ng-sysbar .hide-sm { display: none; }
+}
+
+/* Top nav (header) -------------------------------------------------- */
+
+.ng-topnav {
+    background: var(--nk-color-white);
+    border-bottom: 1px solid var(--nk-color-mist);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .9rem clamp(1rem, 3vw, 2rem);
+    flex-wrap: wrap;
+}
+
+.ng-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+}
+
+.ng-lockup-mark {
+    width: 38px; height: 38px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.ng-lockup .sep {
+    width: 1px;
+    height: 22px;
+    background: var(--nk-color-mist);
+}
+
+.ng-lockup .wordmark {
+    font-family: "Chakra Petch", "Reem Kufi", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: .04em;
+    line-height: 1;
+}
+
+.ng-lockup .wordmark .neo { color: var(--nk-color-ink); }
+.ng-lockup .wordmark .gen { color: var(--nk-color-sky); margin-inline-start: 2px; }
+
+.ng-nav-cats {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.ng-nav-cats a {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--nk-color-slate);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: .4rem .65rem;
+    border-radius: var(--nk-radius-sm);
+    transition: color .15s, background .15s;
+}
+
+.ng-nav-cats a:hover {
+    color: var(--nk-color-ink);
+    background: var(--nk-color-paper);
+}
+
+.ng-nav-cats .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--nk-color-sky);
+    flex-shrink: 0;
+}
+
+.ng-nav-tools {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    flex-shrink: 0;
+}
+
+.ng-nav-tool {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--nk-radius-sm);
+    color: var(--nk-color-slate);
+    text-decoration: none;
+    transition: background .15s, color .15s;
+}
+
+.ng-nav-tool:hover {
+    background: var(--nk-color-paper);
+    color: var(--nk-color-ink);
+}
+
+.ng-nav-tool svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+.ng-nav-tool .tool-label {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.ng-nav-tool .count {
+    position: absolute;
+    top: 4px;
+    inset-inline-end: 4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--nk-color-sky);
+    color: var(--nk-color-white);
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+}
+
+.ng-nav-tool .count.is-empty { display: none; }
+
+@media (max-width: 720px) {
+    .ng-nav-cats { order: 3; flex-basis: 100%; justify-content: flex-start; }
+}
+
+/* WC block icons -- override defaults ------------------------------- */
+
+.wc-block-customer-account__account-icon,
+.wc-block-mini-cart__icon {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* Buttons ----------------------------------------------------------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .65rem 1.1rem;
+    border-radius: var(--nk-radius);
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, color .15s, transform .1s;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-primary {
+    background: var(--nk-color-sky);
+    color: var(--nk-color-white);
+}
+
+.btn-primary:hover {
+    background: var(--nk-color-cyan);
+    transform: translateY(-1px);
+}
+
+/* Hero / section primitives ---------------------------------------- */
+
+.ng-hero {
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+    text-align: center;
+}
+
+.ng-section-head {
+    text-align: center;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.ng-section-kicker {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--nk-color-sky);
+    margin-bottom: .35rem;
+}
+
+.ng-section-titles {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    align-items: center;
+}
+
+.ng-section-en {
+    font-family: "Chakra Petch", system-ui, sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--nk-color-ink);
+    line-height: 1.15;
+}
+
+.ng-section-ar {
+    font-family: "Reem Kufi", "Tajawal", system-ui, sans-serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: 500;
+    color: var(--nk-color-slate);
+}
+
+/* Footer ------------------------------------------------------------ */
+
+.ng-footer {
+    background: var(--nk-color-bg);
+    color: #CBD5E1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 3rem;
+}
+
+.ng-foot-trust {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.ng-foot-trust-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: .75rem;
+    align-items: center;
+}
+
+.ng-foot-trust-item svg {
+    grid-row: 1 / 3;
+    width: 28px;
+    height: 28px;
+    color: var(--nk-color-sky);
+    justify-self: center;
+}
+
+.ng-foot-trust-label {
+    grid-column: 2;
+    font-weight: 600;
+    color: var(--nk-color-white);
+    font-size: 14px;
+}
+
+.ng-foot-trust-sub {
+    grid-column: 2;
+    font-size: 12px;
+    color: #94A3B8;
+    line-height: 1.4;
+}
+
+.ng-foot-newsletter {
+    background: var(--nk-color-bg-soft);
+    padding: 2rem clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.ng-foot-newsletter-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-width: var(--nk-wide);
+    margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+    .ng-foot-newsletter-inner {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+.ng-foot-newsletter-text h3 {
+    color: var(--nk-color-white);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 .25rem;
+    line-height: 1.3;
+}
+
+.ng-foot-newsletter-text p {
+    margin: 0;
+    color: #94A3B8;
+    font-size: 13px;
+}
+
+.ng-foot-newsletter-form {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.ng-foot-newsletter-field {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.ng-foot-newsletter-field input {
+    width: 100%;
+    padding: .65rem .9rem;
+    border-radius: var(--nk-radius);
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.04);
+    color: var(--nk-color-white);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.ng-foot-newsletter-field input::placeholder { color: #64748B; }
+.ng-foot-newsletter-field input:focus {
+    outline: 2px solid var(--nk-color-sky);
+    outline-offset: 1px;
+    background: rgba(255,255,255,.08);
+}
+
+.ng-foot-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem clamp(1rem, 3vw, 2rem);
+    max-width: var(--nk-wide);
+    margin-inline: auto;
+}
+
+@media (min-width: 720px) { .ng-foot-inner { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .ng-foot-inner { grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; } }
+
+.ng-foot-col h4 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--nk-color-sky);
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0 0 .75rem;
+    letter-spacing: .03em;
+}
+
+.ng-foot-col ul {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: .35rem;
+}
+
+.ng-foot-col a {
+    color: #CBD5E1;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s;
+}
+
+.ng-foot-col a:hover { color: var(--nk-color-white); }
+
+.ng-foot-brand p {
+    margin: .75rem 0 0;
+    color: #94A3B8;
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 32ch;
+}
+
+.ng-foot-brand .ng-lockup .wordmark .neo { color: var(--nk-color-white); }
+.ng-foot-brand .ng-lockup .wordmark .gen { color: var(--nk-color-sky); }
+.ng-foot-brand .ng-lockup .sep { background: rgba(255,255,255,.18); }
+.ng-foot-brand .ng-lockup-mark { width: 32px; height: 32px; }
+
+.ng-foot-pay {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem 1rem;
+    padding: 1rem clamp(1rem, 3vw, 2rem);
+    border-top: 1px solid rgba(255,255,255,.08);
+    max-width: var(--nk-wide);
+    margin-inline: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ng-foot-pay-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: #64748B;
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.ng-foot-pay-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+}
+
+.ng-foot-pay-row .ng-pay-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 .65rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    color: #E2E8F0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.ng-foot-pay-row .ng-pay-chip svg {
+    width: 14px;
+    height: 14px;
+    margin-inline-end: .35rem;
+    color: var(--nk-color-sky);
+}
+
+.ng-foot-pay-row img {
+    height: 18px;
+    width: auto;
+    display: block;
+}
+
+.ng-foot-pay-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,.16);
+    margin-inline: .25rem;
+}
+
+.ng-disclosure {
+    background: rgba(0,0,0,.25);
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: .85rem clamp(1rem, 3vw, 2rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem 1rem;
+    font-size: 12px;
+}
+
+.ng-disclosure-en {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .35rem .75rem;
+    color: #94A3B8;
+    flex: 1 1 auto;
+}
+
+.ng-disclosure-en b { color: var(--nk-color-white); font-weight: 600; }
+.ng-disclosure-en .ok { color: var(--nk-color-emerald); font-weight: 500; }
+.ng-disclosure-en .sep { width: 1px; height: 10px; background: rgba(255,255,255,.16); }
+
+.ng-disclosure-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    color: var(--nk-color-sky);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.ng-disclosure-link:hover { color: var(--nk-color-white); }
+.ng-disclosure-link svg { width: 14px; height: 14px; }
+
+.ng-foot-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem 1rem;
+    padding: 1rem clamp(1rem, 3vw, 2rem);
+    border-top: 1px solid rgba(255,255,255,.06);
+    color: #64748B;
+    font-size: 12px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: .03em;
+}
+
+.ng-foot-bottom b { color: var(--nk-color-white); }
+
+/* Category header --------------------------------------------------- */
+
+.ng-cat-header {
+    text-align: center;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+}
+
+.ng-cat-kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--nk-color-sky);
+    margin-bottom: .35rem;
+}
+
+.ng-cat-h1 {
+    font-family: "Chakra Petch", system-ui, sans-serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--nk-color-ink);
+    margin: 0 0 .5rem;
+}
+
+.ng-cat-desc {
+    color: var(--nk-color-slate);
+    font-size: 15px;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+/* Rack (small product card chip) ------------------------------------ */
+
+.ng-rack {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem .65rem;
+    border-radius: var(--nk-radius-sm);
+    background: var(--nk-color-paper);
+    border: 1px solid var(--nk-color-mist);
+    font-size: 12px;
+    color: var(--nk-color-slate);
+}
+
+.ng-rack-led {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--nk-color-emerald);
+    box-shadow: 0 0 4px var(--nk-color-emerald);
+}
+
+.ng-rack-id { font-family: "IBM Plex Mono", monospace; color: var(--nk-color-slate); font-size: 11px; }
+
+/* Gift cards page (basic skeleton — full grid styled separately) ---- */
+
+.ng-gc-hero {
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    background: linear-gradient(180deg, var(--nk-color-paper) 0%, transparent 100%);
+}
+
+.ng-gc-regions-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+}
+
+.ng-gc-region-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    border: 1px solid var(--nk-color-mist);
+    background: var(--nk-color-white);
+    color: var(--nk-color-slate);
+    font-size: 13px;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+}
+
+.ng-gc-region-tab:hover {
+    background: var(--nk-color-paper);
+    color: var(--nk-color-ink);
+}
+
+.ng-gc-region-flag { font-size: 14px; line-height: 1; }

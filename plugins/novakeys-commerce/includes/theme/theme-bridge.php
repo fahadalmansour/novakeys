@@ -1454,36 +1454,6 @@ add_filter( 'the_posts', function ( $posts, $query ) {
  * so it cannot leak into other templates. Print only on the routes that
  * use it so /shop/ and /single-product/ stay byte-for-byte unchanged.
  */
-/**
- * Site-wide chrome icon hotfix. The legacy `neogen.css` enqueued by
- * the chrome loader 404s on live (`/wp-content/mu-plugins/novakeys-
- * custom/mu-plugins/neogen-theme-assets/neogen.css`), so the inline
- * SVGs in the header tools and footer trust strip render at browser
- * default sizes (huge). Inject the size constraints inline until the
- * full chrome stylesheet is rebuilt.
- */
-add_action( 'wp_head', function () {
-    ?>
-<style id="nk-chrome-icon-hotfix">
-.ng-nav-tools{display:inline-flex;gap:.5rem;align-items:center}
-.ng-nav-tool{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;color:inherit;text-decoration:none;transition:background .15s ease}
-.ng-nav-tool:hover{background:rgba(0,0,0,.04)}
-.ng-nav-tool svg{width:22px;height:22px;display:block}
-.ng-foot-trust{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;padding:1rem 0}
-.ng-foot-trust-item{display:flex;gap:.6rem;align-items:flex-start}
-.ng-foot-trust-icon{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:inherit}
-.ng-foot-trust-icon svg{width:24px;height:24px;display:block}
-.ng-foot-trust svg:not(.ng-foot-trust-icon svg){width:24px;height:24px}
-.ng-foot-pay{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
-.ng-foot-pay img{height:18px;width:auto;display:block}
-.wc-block-customer-account__account-icon{width:24px!important;height:24px!important}
-.wc-block-mini-cart__icon{width:24px!important;height:24px!important}
-.wp-block-woocommerce-customer-account .wc-block-customer-account__account-icon{width:22px!important;height:22px!important}
-.nk-info-page svg{max-width:24px;max-height:24px}
-</style>
-    <?php
-}, 5 );
-
 add_action( 'wp_head', function () {
     if ( ! get_query_var( 'novakeys_page' ) || 'legal' === get_query_var( 'novakeys_page' ) ) {
         return;
@@ -1526,10 +1496,15 @@ if (!defined('NG_THEME_ASSET_URL')) {
 }
 
 /**
- * Enqueue Google Fonts + theme CSS + theme JS sitewide.
+ * Enqueue Google Fonts + chrome CSS + chrome JS sitewide.
+ *
+ * The chrome stylesheet + JS ship inside this plugin at
+ * `assets/chrome/`. The legacy NG_THEME_ASSET_URL points at a
+ * mu-plugins path that didn't survive the phase-4 cleanup; loading
+ * from NK_COMMERCE_URL keeps the chrome asset bundle deployable
+ * with the rest of the plugin.
  */
 add_action('wp_enqueue_scripts', function () {
-    // Google Fonts (display=swap, matches preview).
     wp_enqueue_style(
         'neogen-google-fonts',
         'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Major+Mono+Display&family=Manrope:wght@300;400;500;600;700&family=Rakkas&family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap',
@@ -1537,22 +1512,22 @@ add_action('wp_enqueue_scripts', function () {
         null
     );
 
-    $css_path = NG_THEME_ASSET_DIR . '/neogen.css';
-    $js_path  = NG_THEME_ASSET_DIR . '/neogen.js';
+    $css_path = NK_COMMERCE_DIR . 'assets/chrome/neogen.css';
+    $js_path  = NK_COMMERCE_DIR . 'assets/chrome/neogen.js';
 
-    $css_ver = file_exists($css_path) ? (string) filemtime($css_path) : NOVAKEYS_THEME_VERSION;
-    $js_ver  = file_exists($js_path)  ? (string) filemtime($js_path)  : NOVAKEYS_THEME_VERSION;
+    $css_ver = file_exists($css_path) ? (string) filemtime($css_path) : NK_COMMERCE_VERSION;
+    $js_ver  = file_exists($js_path)  ? (string) filemtime($js_path)  : NK_COMMERCE_VERSION;
 
     wp_enqueue_style(
-        'neogen-theme',
-        NG_THEME_ASSET_URL . '/neogen.css',
+        'novakeys-chrome',
+        NK_COMMERCE_URL . 'assets/chrome/neogen.css',
         ['neogen-google-fonts'],
         $css_ver
     );
 
     wp_enqueue_script(
-        'neogen-theme',
-        NG_THEME_ASSET_URL . '/neogen.js',
+        'novakeys-chrome',
+        NK_COMMERCE_URL . 'assets/chrome/neogen.js',
         [],
         $js_ver,
         true
@@ -2131,7 +2106,7 @@ add_action('wp_body_open', function () {
 
 <nav class="ng-topnav" aria-label="القائمة الرئيسية">
   <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" aria-label="الصفحة الرئيسية NovaKeys Store">
-    <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/nk-mark.png' ); ?>" alt="NovaKeys" width="50" height="50" decoding="async">
+    <img class="ng-lockup-mark" src="<?php echo esc_url( NK_COMMERCE_URL . 'assets/chrome/nk-mark.svg' ); ?>" alt="NovaKeys" width="38" height="38" decoding="async">
     <span class="sep"></span>
     <span class="wordmark"><span class="neo">NOVA</span><span class="gen">KEYS</span></span>
   </a>
@@ -2252,7 +2227,7 @@ add_action('wp_footer', function () {
   <div class="ng-foot-inner">
     <div class="ng-foot-col ng-foot-brand">
       <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" style="margin-bottom:4px;">
-        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/nk-mark.png' ); ?>" alt="NovaKeys" width="40" height="40" decoding="async">
+        <img class="ng-lockup-mark" src="<?php echo esc_url( NK_COMMERCE_URL . 'assets/chrome/nk-mark.svg' ); ?>" alt="NovaKeys" width="32" height="32" decoding="async">
         <span class="sep" style="height:20px;"></span>
         <span class="wordmark" style="font-size:24px;"><span class="neo">NOVA</span><span class="gen">KEYS</span></span>
       </a>
@@ -2314,13 +2289,13 @@ add_action('wp_footer', function () {
   <div class="ng-foot-pay" aria-label="الدفع والشحن">
     <span class="ng-foot-pay-label">// الدفع · الشحن</span>
     <div class="ng-foot-pay-row">
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/mada.svg' ); ?>"      width="42" height="18" alt="Mada"      loading="lazy">
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/apple-pay.svg' ); ?>" width="42" height="18" alt="Apple Pay" loading="lazy">
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/stcpay.svg' ); ?>"    width="42" height="18" alt="STC Pay"   loading="lazy">
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/tabby.svg' ); ?>"     width="42" height="18" alt="Tabby"     loading="lazy">
+      <span class="ng-pay-chip">Mada</span>
+      <span class="ng-pay-chip">Apple Pay</span>
+      <span class="ng-pay-chip">STC Pay</span>
+      <span class="ng-pay-chip">Tabby</span>
       <span class="ng-foot-pay-sep"></span>
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/ship/smsa.svg' ); ?>"     width="46" height="18" alt="SMSA"      loading="lazy">
-      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/ship/aramex.svg' ); ?>"   width="46" height="18" alt="Aramex"    loading="lazy">
+      <span class="ng-pay-chip">SMSA</span>
+      <span class="ng-pay-chip">Aramex</span>
     </div>
   </div>
   <?php $cr = nk_cr(); ?>

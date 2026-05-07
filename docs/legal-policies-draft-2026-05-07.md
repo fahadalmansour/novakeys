@@ -19,6 +19,42 @@ Drafts are grounded in:
 | VAT | نظام ضريبة القيمة المضافة — 15% inclusive on B2C in KSA |
 | Anti-Cybercrime | نظام مكافحة جرائم المعلوماتية |
 
+## Parties & legal structure
+
+NovaKeys is operated under a **two-entity** structure. The legal copy below names both wherever the difference matters; the rest of the policies reference whichever entity is the contracting party for that purpose.
+
+| Role | Entity | Jurisdiction | Identifier | Address |
+| --- | --- | --- | --- | --- |
+| **Brand owner / parent** (IP, software, infrastructure) | NEOTECHNOLOGY SOLUTIONS LLC | Wyoming, USA | EIN `{NTS_EIN}` · WY filing `{NTS_WY_FILING}` | 1021 E Lincolnway #8983, Cheyenne, WY 82001, USA |
+| **KSA merchant of record** (the entity on the ZATCA tax invoice; the entity you contract with for the sale itself) | NovaKeys Store — sole proprietorship of FAHAD SAAD FAHAD ALMANSOUR | Kingdom of Saudi Arabia | CR 7053130576 · ZATCA 3145127947 · Chamber 1238532 | (KSA — see /legal page) |
+
+**Plain-English summary:** NeoTechnology Solutions LLC (US, Wyoming) owns the NovaKeys brand and runs the technology platform. The actual sale of the gift-card product to a KSA customer is made by the KSA-registered NovaKeys Store sole proprietorship, because KSA e-commerce / VAT law requires a locally-registered merchant for ZATCA invoicing.
+
+**For the customer** — when you buy on novakeys.store you contract with the **KSA NovaKeys Store** (CR 7053130576). The Wyoming parent is disclosed for transparency about brand ownership and underlying technology operations; it is **not** the merchant on your invoice and is **not** the party you make a return / warranty / refund claim against.
+
+**Confirmed values (from the IRS taxpayer record):**
+
+```
+Entity name (taxpayer)  NEOTECHNOLOGY SOLUTIONS LLC
+Mailing address         1021 E Lincolnway #8983, Cheyenne, WY 82001, USA
+```
+
+**Still to fill in before publication:**
+
+```
+{NTS_EIN}               US Employer Identification Number (on the IRS CP575 letter)
+{NTS_WY_FILING}         Wyoming Secretary of State filing/registration number
+                        (https://wyobiz.wyo.gov/Business/FilingSearch.aspx)
+{NTS_REGISTERED_AGENT}  Name of the registered agent in Wyoming
+                        (the 1021 E Lincolnway #8983 address is the agent's; the
+                        agent's company name still needs to be on the disclosure)
+{NTS_EMAIL}             Corporate email at the NTS LLC level (separate from
+                        support@novakeys.store) — optional, if disclosed
+{NTS_PHONE}             US phone number — optional, if disclosed
+```
+
+These slot into the marked `{...}` spots in the policy bodies and into the `NK_CR['parent']` block in `theme-bridge.php`. Counsel should also confirm whether the registered-agent address is the address that goes on consumer-facing disclosures, or whether a separate principal place of business is preferred.
+
 ## How to port into the codebase
 
 The five policies live in `plugins/novakeys-commerce/includes/theme/theme-bridge.php` inside the `nk_info_pages()` data array (around lines 800–1028 of the live file). Each policy has:
@@ -119,9 +155,9 @@ No change.
 
 ### Updated lede
 
-> **EN:** These Terms & Conditions govern the commercial relationship between you (the customer) and NovaKeys Store (CR 7053130576) when you use novakeys.store. They are written to comply with the KSA E-Commerce Law and the Consumer Protection regime.
+> **EN:** These Terms & Conditions govern the commercial relationship between you (the customer) and **NovaKeys Store, the KSA-registered sole proprietorship** (CR 7053130576) operating on behalf of NeoTechnology Solutions LLC (Wyoming, USA) when you use novakeys.store. They are written to comply with the KSA E-Commerce Law and the Consumer Protection regime. See *Parties & legal structure* at the top of this document.
 >
-> **AR:** تحكم هذه الشروط والأحكام العلاقة التجارية بينك (العميل) وبين نيوجين ستور (سجل تجاري 7053130576) عند استخدامك novakeys.store. وقد صيغت بما يتوافق مع نظام التجارة الإلكترونية ونظام حماية المستهلك في المملكة العربية السعودية.
+> **AR:** تحكم هذه الشروط والأحكام العلاقة التجارية بينك (العميل) وبين **نيوجين ستور — المؤسسة الفردية المُسجَّلة في المملكة العربية السعودية** (سجل تجاري 7053130576)، التي تعمل بالنيابة عن شركة NeoTechnology Solutions LLC المُسجَّلة في ولاية وايومنغ بالولايات المتحدة، وذلك عند استخدامك novakeys.store. وقد صيغت بما يتوافق مع نظام التجارة الإلكترونية ونظام حماية المستهلك في المملكة العربية السعودية. انظر *الأطراف وهيكل الكيان القانوني* في أعلى الوثيقة.
 
 ### Section 01 — Acceptance (REPLACE draft chip)
 
@@ -165,9 +201,9 @@ No change.
 
 ### Section 04 — Intellectual property (REPLACE draft chip)
 
-> **EN:** "NovaKeys", "نيوجين ستور", the NovaKeys logo, and the brand-token system used on novakeys.store are the property of NovaKeys Store (CR 7053130576). Brand marks of third parties displayed on our gift-card products (Apple, PlayStation, Steam, Microsoft, etc.) are the property of their respective owners and appear on this site solely to identify the redemption platform — no endorsement is implied. You may not copy, modify, or redistribute site content for commercial use without prior written permission.
+> **EN:** The "NovaKeys" / "نيوجين ستور" name, the NovaKeys logo, the brand-token / design system used on novakeys.store, and the underlying software platform are the property of **NeoTechnology Solutions LLC** (Wyoming, USA — filing number `{NTS_REG_NUMBER}`), and are licensed to NovaKeys Store (CR 7053130576) for use in connection with the KSA storefront. Brand marks of third parties displayed on our gift-card products (Apple, PlayStation, Steam, Microsoft, etc.) are the property of their respective owners and appear on this site solely to identify the redemption platform — no endorsement is implied. You may not copy, modify, or redistribute site content for commercial use without prior written permission from NeoTechnology Solutions LLC.
 >
-> **AR:** علامات «NovaKeys» و«نيوجين ستور» وشعار نيوجين ومنظومة الهوية البصرية على novakeys.store ملك لنيوجين ستور (سجل تجاري 7053130576). وعلامات الأطراف الأخرى الظاهرة على منتجات بطاقات الهدايا (آبل، بلاي ستيشن، ستيم، مايكروسوفت وغيرها) ملك لأصحابها، وتُعرَض على الموقع لتعريف منصّة الاستخدام فقط ولا تعني أي رعاية أو تأييد. لا يجوز نسخ محتوى الموقع أو تعديله أو إعادة توزيعه لأغراض تجارية دون إذن كتابي مسبق.
+> **AR:** اسم «NovaKeys» / «نيوجين ستور»، وشعار نيوجين، ومنظومة الهوية والتصميم على novakeys.store، والمنصّة البرمجية الأساسية، جميعها ملك لشركة **NeoTechnology Solutions LLC** (وايومنغ، الولايات المتحدة — رقم القيد `{NTS_REG_NUMBER}`)، ومُرخَّصة لنيوجين ستور (سجل تجاري 7053130576) لاستخدامها في تشغيل المتجر السعودي. وعلامات الأطراف الأخرى الظاهرة على منتجات بطاقات الهدايا (آبل، بلاي ستيشن، ستيم، مايكروسوفت وغيرها) ملك لأصحابها، وتُعرَض على الموقع لتعريف منصّة الاستخدام فقط ولا تعني أي رعاية أو تأييد. لا يجوز نسخ محتوى الموقع أو تعديله أو إعادة توزيعه لأغراض تجارية دون إذن كتابي مسبق من NeoTechnology Solutions LLC.
 
 ### Section 05 — Limitation of liability (REPLACE draft chip)
 
@@ -193,9 +229,9 @@ No change.
 
 ### Updated lede
 
-> **EN:** This policy explains what personal data NovaKeys Store collects, why, on what legal basis, with whom we share it, and the rights you have under the KSA Personal Data Protection Law (PDPL, Royal Decree M/19, in full effect from September 2024).
+> **EN:** This policy explains what personal data NovaKeys Store (the **data controller** — KSA sole proprietorship, CR 7053130576) collects, why, on what legal basis, with whom we share it (including with our parent NeoTechnology Solutions LLC of Wyoming, USA, acting as a **data processor** for engineering and infrastructure), and the rights you have under the KSA Personal Data Protection Law (PDPL, Royal Decree M/19, in full effect from September 2024).
 >
-> **AR:** تشرح هذه السياسة البيانات الشخصية التي يجمعها نيوجين ستور، وأغراض الجمع، وأسسه النظامية، والجهات التي نشاركها معها، وحقوقك بموجب نظام حماية البيانات الشخصية السعودي (PDPL، المرسوم الملكي م/19، النافذ بالكامل من سبتمبر 2024).
+> **AR:** تشرح هذه السياسة البيانات الشخصية التي يجمعها نيوجين ستور (**جهة التحكّم في البيانات** — مؤسسة فردية سعودية، سجل تجاري 7053130576)، وأغراض الجمع، وأسسه النظامية، والجهات التي نشاركها معها (بما في ذلك الشركة الأم NeoTechnology Solutions LLC في ولاية وايومنغ بالولايات المتحدة، بصفتها **جهة معالجة** للبيانات لأغراض الهندسة والبنية التحتية)، وحقوقك بموجب نظام حماية البيانات الشخصية السعودي (PDPL، المرسوم الملكي م/19، النافذ بالكامل من سبتمبر 2024).
 
 ### Section 01 — Controller ⓘ (KEEP)
 
@@ -265,21 +301,23 @@ No change.
 
 > **EN:** We share your personal data only with the parties strictly necessary to operate the service:
 >
-> 1. **Payment gateways** — Mada / SAMA-licensed acquirers, Apple Pay, STC Pay, Tabby, and your card issuer. They receive only the data each needs to authorise the transaction.
-> 2. **Hosting and infrastructure** — our website hosting provider and CDN. Data is processed inside their infrastructure to deliver the page you requested.
-> 3. **Customer-support tooling** — the email service that handles support@novakeys.store correspondence.
-> 4. **Tax authority** — ZATCA receives the e-invoice for every paid order in compliance with Phase-2 e-invoicing.
-> 5. **Regulators and courts** — when required by law (Ministry of Commerce, the Saudi Data & AI Authority, competent courts).
+> 1. **NeoTechnology Solutions LLC (US parent — data processor).** Engineers, hosts, and maintains the novakeys.store platform on behalf of the KSA controller. NTS LLC accesses personal data only as necessary for platform operation, governed by an internal data-processing agreement that follows PDPL processor obligations.
+> 2. **Payment gateways** — Mada / SAMA-licensed acquirers, Apple Pay, STC Pay, Tabby, and your card issuer. They receive only the data each needs to authorise the transaction.
+> 3. **Hosting and infrastructure** — our website hosting provider and CDN. Data is processed inside their infrastructure to deliver the page you requested.
+> 4. **Customer-support tooling** — the email service that handles support@novakeys.store correspondence.
+> 5. **Tax authority** — ZATCA receives the e-invoice for every paid order in compliance with Phase-2 e-invoicing.
+> 6. **Regulators and courts** — when required by law (Ministry of Commerce, the Saudi Data & AI Authority, competent courts).
 >
 > We **do not sell** personal data and we **do not share** it with marketing partners outside your consented marketing communications.
 >
 > **AR:** لا نُشارك بياناتك الشخصية إلا مع الجهات اللازمة لتشغيل الخدمة:
 >
-> 1. **بوابات الدفع** — مدى ومُستحوذي SAMA المرخَّصين، وApple Pay، وSTC Pay، وتابي، ومُصدِر بطاقتك. تتلقى كلّ جهة فقط ما يلزمها لاعتماد المعاملة.
-> 2. **الاستضافة والبنية التحتية** — مزوّد الاستضافة وشبكة توصيل المحتوى. تُعالَج البيانات داخل بنيتهم لتسليم الصفحة المطلوبة.
-> 3. **أدوات دعم العملاء** — خدمة البريد التي تُدير مراسلات support@novakeys.store.
-> 4. **الجهة الضريبية** — تستلم ZATCA الفاتورة الإلكترونية لكل طلب مدفوع التزامًا بالمرحلة الثانية للفوترة.
-> 5. **الجهات التنظيمية والقضائية** — عند الاشتراط النظامي (وزارة التجارة، الهيئة السعودية للبيانات والذكاء الاصطناعي، المحاكم المختصّة).
+> 1. **NeoTechnology Solutions LLC (الشركة الأم في الولايات المتحدة — جهة معالجة).** تتولّى الهندسة والاستضافة والصيانة لمنصّة novakeys.store بالنيابة عن جهة التحكّم السعودية. لا يصل NTS LLC إلى البيانات الشخصية إلا بالقدر اللازم لتشغيل المنصّة، بموجب اتفاقية معالجة بيانات داخلية تتوافق مع التزامات جهة المعالجة في PDPL.
+> 2. **بوابات الدفع** — مدى ومُستحوذي SAMA المرخَّصين، وApple Pay، وSTC Pay، وتابي، ومُصدِر بطاقتك. تتلقى كلّ جهة فقط ما يلزمها لاعتماد المعاملة.
+> 3. **الاستضافة والبنية التحتية** — مزوّد الاستضافة وشبكة توصيل المحتوى. تُعالَج البيانات داخل بنيتهم لتسليم الصفحة المطلوبة.
+> 4. **أدوات دعم العملاء** — خدمة البريد التي تُدير مراسلات support@novakeys.store.
+> 5. **الجهة الضريبية** — تستلم ZATCA الفاتورة الإلكترونية لكل طلب مدفوع التزامًا بالمرحلة الثانية للفوترة.
+> 6. **الجهات التنظيمية والقضائية** — عند الاشتراط النظامي (وزارة التجارة، الهيئة السعودية للبيانات والذكاء الاصطناعي، المحاكم المختصّة).
 >
 > **لا نبيع** البيانات الشخصية، **ولا نُشاركها** مع شركاء تسويق خارج نطاق رسائل التسويق التي وافقت عليها.
 
@@ -361,16 +399,16 @@ No change.
 
 ### Section 09 — Cross-border transfers (REPLACE draft chip)
 
-> **EN:** Some of our service providers (payment-gateway tokenisation, email service) host data in jurisdictions outside the Kingdom of Saudi Arabia. Under PDPL Article 29, cross-border transfers are restricted; we rely on:
+> **EN:** Personal data flows from the KSA controller to **NeoTechnology Solutions LLC in Wyoming, USA** for platform engineering, hosting, and security operations. Some additional service providers (payment-gateway tokenisation, email service, CDN edge nodes) also host data in jurisdictions outside the Kingdom of Saudi Arabia. Under PDPL Article 29, cross-border transfers are restricted; we rely on:
 >
 > 1. transfers to jurisdictions recognised by SDAIA as offering adequate protection, where applicable;
-> 2. binding contractual safeguards with the recipient (data-processing agreement) where adequacy is not established;
+> 2. binding contractual safeguards with the recipient (data-processing agreement) where adequacy is not established — this is the basis for the KSA → NTS LLC (Wyoming) flow until SDAIA publishes a US adequacy decision;
 > 3. your explicit consent where neither (1) nor (2) is available.
 >
-> **AR:** يستضيف بعض موردي الخدمة (ترميز بوابات الدفع، خدمة البريد) البيانات خارج المملكة العربية السعودية. وبموجب المادة 29 من PDPL يُقيَّد النقل خارج الحدود؛ ونعتمد على:
+> **AR:** تنتقل البيانات الشخصية من جهة التحكّم السعودية إلى **NeoTechnology Solutions LLC في ولاية وايومنغ بالولايات المتحدة** لأغراض هندسة المنصّة واستضافتها وعمليات الأمن. كذلك يستضيف بعض موردي الخدمة الإضافيين (ترميز بوابات الدفع، خدمة البريد، عُقد شبكة توصيل المحتوى) البيانات خارج المملكة العربية السعودية. وبموجب المادة 29 من PDPL يُقيَّد النقل خارج الحدود؛ ونعتمد على:
 >
 > 1. النقل إلى دول تعترف لها SDAIA بحماية كافية حيثما ينطبق؛
-> 2. ضمانات تعاقدية ملزِمة مع المتلقّي (اتفاقية معالجة بيانات) حال عدم اعتماد الكفاية؛
+> 2. ضمانات تعاقدية ملزِمة مع المتلقّي (اتفاقية معالجة بيانات) حال عدم اعتماد الكفاية — وهذا هو الأساس لنقل البيانات من المملكة إلى NTS LLC (وايومنغ) ريثما تصدر SDAIA قرار كفاية بشأن الولايات المتحدة؛
 > 3. موافقتك الصريحة عند عدم توفّر الخيارَين (1) و(2).
 
 ---
@@ -400,7 +438,7 @@ No change.
 > 5. **Probe, scan, or test** the security of the site without prior written permission, or disclose vulnerabilities outside our coordinated-disclosure channel (security@novakeys.store);
 > 6. **Upload or transmit** malware, viruses, or any other malicious code;
 > 7. **Resell** purchased gift-card codes outside the redemption channel intended by the issuer (most issuer terms prohibit secondary resale; you remain bound by their rules);
-> 8. **Infringe** intellectual-property rights, including those of the site's brand owners and the gift-card issuers whose marks appear on our products;
+> 8. **Infringe** intellectual-property rights, including those of NeoTechnology Solutions LLC (which owns the NovaKeys brand and platform) and the gift-card issuers whose marks appear on our products;
 > 9. **Use the site to violate any KSA law**, including the Anti-Cybercrime Law (نظام مكافحة جرائم المعلوماتية), the Anti-Money-Laundering Law, or sanctions law.
 >
 > **AR:** يُحظَر عليك ويُحظَر على من يتصرّف نيابةً عنك:
@@ -412,7 +450,7 @@ No change.
 > 5. **اختبار أمن الموقع** أو فحصه دون إذن كتابي مسبق، أو الإفصاح عن ثغرات خارج قناة الإفصاح المنسَّق (security@novakeys.store)؛
 > 6. **رفع أو نقل** برمجيات خبيثة أو فيروسات أو أيٍّ من الأكواد الضارّة؛
 > 7. **إعادة بيع** أكواد البطاقات خارج قناة الاستخدام التي يقصدها المُصدِر (معظم شروط المُصدِرين تمنع إعادة البيع، وتبقى ملتزمًا بقواعدهم)؛
-> 8. **انتهاك حقوق الملكية الفكرية**، بما فيها حقوق ملّاك العلامات التجارية للموقع ولمُصدِري بطاقات الهدايا التي تظهر علاماتهم على منتجاتنا؛
+> 8. **انتهاك حقوق الملكية الفكرية**، بما فيها حقوق شركة NeoTechnology Solutions LLC (مالكة علامة NovaKeys والمنصّة) وحقوق مُصدِري بطاقات الهدايا التي تظهر علاماتهم على منتجاتنا؛
 > 9. **استخدام الموقع لمخالفة أي نظام سعودي**، ومنه نظام مكافحة جرائم المعلوماتية ونظام مكافحة غسل الأموال وأنظمة العقوبات.
 
 ### Section 03 — Account conduct (REPLACE draft chip)
@@ -450,9 +488,18 @@ In `plugins/novakeys-commerce/includes/theme/theme-bridge.php`, function `nk_inf
 - [ ] **Terms** — replace `lede_en` / `lede_ar`; replace bodies of sections 01–07 (all of them); flip `'draft' => false`.
 - [ ] **Privacy** — replace `lede_en` / `lede_ar`; replace bodies of sections 02–09 (section 01 stays); flip `'draft' => false`.
 - [ ] **Acceptable Use** — replace `lede_en` / `lede_ar`; replace bodies of sections 01–06; flip `'draft' => false`.
+
+In the same file, the `NK_CR` const (around line 22):
+
+- [ ] Add a `parent` entry alongside `legal_name_*`/`brand_*`/`cr` describing NeoTechnology Solutions LLC — name, jurisdiction (Wyoming, USA), filing number, EIN. The `/legal` page pattern (`themes/novakeys/patterns/legal-disclosure.php`) will need a small block to render the parent entity below the regulatory rows.
+- [ ] Add a `parent` row to the `NK_CR['regulatory']` array (or a new top-level `NK_CR['parent']`) so the legal-disclosure pattern surfaces it. Suggested keys: `name`, `jurisdiction`, `reg_number`, `ein`, `registered_agent`, `registered_addr`, `email`.
+
+Sweeps:
+
+- [ ] Replace every `{NTS_REG_NUMBER}`, `{NTS_EIN}`, `{NTS_REGISTERED_AGENT}`, `{NTS_REGISTERED_ADDR}`, `{NTS_PRINCIPAL_ADDR}`, `{NTS_EMAIL}`, `{NTS_PHONE}` placeholder in the policy bodies with the canonical value.
 - [ ] Run `php tests/test-gift-card-matcher.php` (sanity — the legal pages aren't tested but the file lints).
 - [ ] `scp` the updated `theme-bridge.php` to live (`/wp-content/plugins/novakeys-commerce/includes/theme/`).
-- [ ] Visit `/terms/`, `/privacy/`, `/returns/`, `/warranty/`, `/usage/` — confirm zero `ng-pending` chips remain.
+- [ ] Visit `/terms/`, `/privacy/`, `/returns/`, `/warranty/`, `/usage/`, `/legal/` — confirm zero `ng-pending` chips remain and the NTS LLC parent row renders on `/legal/`.
 - [ ] Remove the **B2** entry from the publish-readiness operator-blocked list.
 
 ## Operational follow-ups (separate work)
@@ -461,3 +508,5 @@ In `plugins/novakeys-commerce/includes/theme/theme-bridge.php`, function `nk_inf
 - Stand up `abuse@novakeys.store` and `security@novakeys.store` as monitored aliases (or forwarders to the support inbox). The Acceptable Use Policy promises both.
 - Create a `/cookies/` page with the consent-management UI; link it from the footer.
 - Confirm with the operator that the **10-year** retention on order records actually matches what the cPanel host's data-retention rules permit, and adjust if needed.
+- **Sign and execute the internal DPA between the KSA controller (NovaKeys Store sole prop) and the US processor (NeoTechnology Solutions LLC, Wyoming).** The Privacy Policy promises this is in place; for PDPL Article 29(2)(b) "appropriate safeguards" to apply, the agreement actually has to exist and be signed. Keep a counter-signed copy on file.
+- **Register NeoTechnology Solutions LLC as a transfer recipient** on any SDAIA disclosure portal that becomes operational, once SDAIA publishes the form.

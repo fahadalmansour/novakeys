@@ -81,6 +81,7 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-coupon-rest.php';
 		require_once NK_COMMERCE_DIR . 'includes/loyalty/class-gift-mailer.php';
 		require_once NK_COMMERCE_DIR . 'includes/loyalty/loyalty-functions.php';
+		require_once NK_COMMERCE_DIR . 'includes/theme/theme-bridge.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
 

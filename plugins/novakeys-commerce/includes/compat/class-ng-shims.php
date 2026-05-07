@@ -82,6 +82,104 @@ if ( ! function_exists( 'ng_cr' ) ) {
 	}
 }
 
+if ( ! function_exists( 'ng_ar_label' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_ar_label()}.
+	 *
+	 * @param string $s Bilingual label.
+	 * @return string
+	 */
+	function ng_ar_label( $s ) {
+		return function_exists( 'nk_ar_label' ) ? nk_ar_label( $s ) : (string) $s;
+	}
+}
+
+if ( ! function_exists( 'ng_top_product_cats' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_top_product_cats()}.
+	 *
+	 * @param int $limit Max categories.
+	 * @return array<int, \WP_Term>
+	 */
+	function ng_top_product_cats( $limit = 6 ): array {
+		return function_exists( 'nk_top_product_cats' ) ? nk_top_product_cats( $limit ) : array();
+	}
+}
+
+if ( ! function_exists( 'ng_primary_product_cat_slug' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_primary_product_cat_slug()}.
+	 *
+	 * @param mixed $product WC product.
+	 * @return string
+	 */
+	function ng_primary_product_cat_slug( $product ): string {
+		return function_exists( 'nk_primary_product_cat_slug' ) ? nk_primary_product_cat_slug( $product ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_category_image_fallback' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_category_image_fallback()}.
+	 *
+	 * @param string $slug Category slug.
+	 * @return string
+	 */
+	function ng_category_image_fallback( $slug ): string {
+		return function_exists( 'nk_category_image_fallback' ) ? nk_category_image_fallback( $slug ) : '';
+	}
+}
+
+if ( ! function_exists( 'ng_shop_category_tiles' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_shop_category_tiles()}.
+	 *
+	 * @return void
+	 */
+	function ng_shop_category_tiles(): void {
+		if ( function_exists( 'nk_shop_category_tiles' ) ) {
+			nk_shop_category_tiles();
+		}
+	}
+}
+
+if ( ! function_exists( 'ng_gift_cards_archive_extras' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_cards_archive_extras()}.
+	 *
+	 * @return void
+	 */
+	function ng_gift_cards_archive_extras(): void {
+		if ( function_exists( 'nk_gift_cards_archive_extras' ) ) {
+			nk_gift_cards_archive_extras();
+		}
+	}
+}
+
+if ( ! function_exists( 'ng_gift_cards_brand_grid' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_gift_cards_brand_grid()}.
+	 *
+	 * @return void
+	 */
+	function ng_gift_cards_brand_grid(): void {
+		if ( function_exists( 'nk_gift_cards_brand_grid' ) ) {
+			nk_gift_cards_brand_grid();
+		}
+	}
+}
+
+if ( ! function_exists( 'ng_info_pages' ) ) {
+	/**
+	 * @deprecated 0.1.0 Use {@see nk_info_pages()}.
+	 *
+	 * @return array<string, mixed>
+	 */
+	function ng_info_pages(): array {
+		return function_exists( 'nk_info_pages' ) ? nk_info_pages() : array();
+	}
+}
+
 /* -- recommendations module ----------------------------------------- */
 
 if ( ! function_exists( 'ng_rec_read_cookie' ) ) {

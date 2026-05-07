@@ -1,9 +1,22 @@
 <?php
 /**
- * Plugin Name: NovaKeys Theme
- * Description: Sitewide visual skin for novakeys.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.20.3
- * Author: Fahad Almansour
+ * Theme bridge — sitewide visual chrome for novakeys.store.
+ *
+ * The largest single file in the plugin. Owns: brand identity (NK_CR
+ * + nk_cr()), bilingual label filter (nk_ar_label), taxonomy ordering,
+ * shop category tiles, gift-cards archive helpers, the legal/info-page
+ * registry (nk_info_pages), the /legal + /terms + /privacy + /returns +
+ * /warranty + /usage virtual routes (registered with the routing fix
+ * from session 2026-05-07), Schema.org Store JSON-LD, header / footer
+ * markup, WC template overrides, and the front-page template swap.
+ *
+ * Phase 3 of the refactor will replace much of this with FSE templates,
+ * parts, patterns, and theme.json tokens. For phase 2 we keep the
+ * functional chrome intact and rename `ng_*` symbols to `nk_*` with
+ * compat shims.
+ *
+ * @package NovaKeys\Commerce\Theme
+ * @since   0.1.0
  */
 
 defined('ABSPATH') || exit;
@@ -92,7 +105,7 @@ function nk_cr() {
  * the input unchanged. Used to prefer Arabic labels site-wide
  * without requiring editors to clean up every term/title.
  */
-function ng_ar_label( $s ) {
+function nk_ar_label( $s ) {
     $s = (string) $s;
     if ( strpos( $s, '|' ) === false ) return $s;
     $parts = array_map( 'trim', explode( '|', $s, 2 ) );
@@ -105,24 +118,24 @@ function ng_ar_label( $s ) {
 // Apply Arabic-side preference at the WP filter layer so every render path
 // (Woo grid, breadcrumbs, archive titles, product titles, term names) gets
 // the cleaned label without per-site code changes.
-add_filter( 'term_name',         'ng_ar_label', 5 );
-add_filter( 'single_term_title', 'ng_ar_label', 5 );
-add_filter( 'single_cat_title',  'ng_ar_label', 5 );
-add_filter( 'list_cats',         'ng_ar_label', 5 );
-add_filter( 'woocommerce_product_title', 'ng_ar_label', 5 );
+add_filter( 'term_name',         'nk_ar_label', 5 );
+add_filter( 'single_term_title', 'nk_ar_label', 5 );
+add_filter( 'single_cat_title',  'nk_ar_label', 5 );
+add_filter( 'list_cats',         'nk_ar_label', 5 );
+add_filter( 'woocommerce_product_title', 'nk_ar_label', 5 );
 
 // Scope the_title to products only — protects WC order item titles,
 // blog post titles, and any non-product titles that legitimately
 // contain a "|" character.
 add_filter( 'the_title', function ( $title, $post_id = null ) {
     if ( $post_id && 'product' === get_post_type( $post_id ) ) {
-        return ng_ar_label( $title );
+        return nk_ar_label( $title );
     }
     return $title;
 }, 5, 2 );
 add_filter( 'woocommerce_breadcrumb_main_term', function ( $term ) {
     if ( is_object( $term ) && isset( $term->name ) ) {
-        $term->name = ng_ar_label( $term->name );
+        $term->name = nk_ar_label( $term->name );
     }
     return $term;
 }, 5 );
@@ -136,7 +149,7 @@ add_filter( 'woocommerce_breadcrumb_main_term', function ( $term ) {
  * Cache busts via the edited/created/delete _product_cat hooks
  * registered below.
  */
-function ng_top_product_cats($limit = 6) {
+function nk_top_product_cats($limit = 6) {
     if (!taxonomy_exists('product_cat')) { return []; }
     $limit = max(1, (int) $limit);
     $key   = 'novakeys_top_cats_' . $limit;
@@ -170,7 +183,7 @@ function ng_top_product_cats($limit = 6) {
 }
 
 /**
- * Bust the ng_top_product_cats() transient when categories change.
+ * Bust the nk_top_product_cats() transient when categories change.
  * Covers the three limit values currently called from this codebase
  * (5, 6, plus a safety margin in case future call sites add more).
  */
@@ -190,7 +203,7 @@ add_action('delete_product_cat',  $ng_bust_cats);
  * "diversify across categories" rule respects the editor's intent
  * instead of WP's default term ordering.
  */
-function ng_primary_product_cat_slug($product) {
+function nk_primary_product_cat_slug($product) {
     if ( ! is_object($product) || ! method_exists($product, 'get_id') ) return '';
     $id = (int) $product->get_id();
     if ($id <= 0) return '';
@@ -235,7 +248,7 @@ function ng_primary_product_cat_slug($product) {
  * @param string $slug product_cat term slug
  * @return string|null image URL or null if none available
  */
-function ng_category_image_fallback( $slug ) {
+function nk_category_image_fallback( $slug ) {
     static $resolved = [];
     if ( array_key_exists($slug, $resolved) ) return $resolved[$slug];
 
@@ -297,24 +310,24 @@ function ng_category_image_fallback( $slug ) {
 //   - Inside any /product-category/.../ archive: rack moves to BOTTOM
 //     (priority 15 after the loop) — it's cross-nav, not a primary
 //     action, so the products themselves should lead the page.
-add_action('woocommerce_before_shop_loop', 'ng_shop_category_tiles_top', 5);
-add_action('woocommerce_after_shop_loop',  'ng_shop_category_tiles_bottom', 15);
+add_action('woocommerce_before_shop_loop', 'nk_shop_category_tiles_top', 5);
+add_action('woocommerce_after_shop_loop',  'nk_shop_category_tiles_bottom', 15);
 
-function ng_shop_category_tiles_top() {
+function nk_shop_category_tiles_top() {
     if ( ! function_exists('is_shop') ) return;
     if ( ! is_shop() ) return; // category archives render via _bottom
-    ng_shop_category_tiles();
+    nk_shop_category_tiles();
 }
-function ng_shop_category_tiles_bottom() {
+function nk_shop_category_tiles_bottom() {
     if ( ! function_exists('is_product_category') ) return;
     if ( ! is_product_category() ) return; // bare shop renders via _top
-    ng_shop_category_tiles();
+    nk_shop_category_tiles();
 }
 
-function ng_shop_category_tiles() {
+function nk_shop_category_tiles() {
     if ( ! function_exists('is_shop') ) return;
     if ( ! ( is_shop() || is_product_category() ) ) return;
-    if ( ! function_exists('ng_top_product_cats') ) return;
+    if ( ! function_exists('nk_top_product_cats') ) return;
 
     // v1.34.1: skip on gift-cards parent — the brand grid below
     // (ng_gift_cards_brand_grid, prio 9) is the primary cross-nav
@@ -324,7 +337,7 @@ function ng_shop_category_tiles() {
     if ( is_product_category( 'gift-cards' ) ) return;
 
     $current_id = is_product_category() ? get_queried_object_id() : 0;
-    $cats = ng_top_product_cats(6);
+    $cats = nk_top_product_cats(6);
     if ( empty( $cats ) ) return;
 
     $icons    = apply_filters('novakeys_theme_category_icons', []);
@@ -364,7 +377,7 @@ function ng_shop_category_tiles() {
         $link      = is_wp_error($link) ? '#' : $link;
         $is_curr   = ( (int) $term->term_id === $current_id );
         $ar_name   = trim((string) $term->description);
-        if ( $ar_name === '' ) { $ar_name = ng_ar_label( $term->name ); }
+        if ( $ar_name === '' ) { $ar_name = nk_ar_label( $term->name ); }
         $led       = $led_patterns[$i % count($led_patterns)];
         $rack_id   = sprintf('%02d · رف %s', $i + 1, chr(65 + $i));
         $cls       = 'ng-rack-unit reveal' . ( $is_curr ? ' is-current' : '' );
@@ -373,7 +386,7 @@ function ng_shop_category_tiles() {
         echo   '<span class="ng-rack-id">' . esc_html($rack_id) . '</span>';
         echo   '<span class="ng-rack-led" aria-hidden="true">' . $led . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-        $fallback_url = ng_category_image_fallback( $slug );
+        $fallback_url = nk_category_image_fallback( $slug );
 
         if ( $thumb_id ) {
             // Admin-uploaded term thumbnail wins over everything.
@@ -454,8 +467,8 @@ add_action('pre_get_posts', function ($q) {
     $q->set( 'meta_query', $existing );
 });
 
-add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
-function ng_gift_cards_archive_extras() {
+add_action('woocommerce_before_shop_loop', 'nk_gift_cards_archive_extras', 8);
+function nk_gift_cards_archive_extras() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
 
     // Region tabs — wired to ?region= via the pre_get_posts hook above.
@@ -527,8 +540,8 @@ function ng_gift_cards_archive_extras() {
  * filter fallback. Only fires on /product-category/gift-cards/ when
  * no brand filter is active.
  */
-add_action('woocommerce_before_shop_loop', 'ng_gift_cards_brand_grid', 9);
-function ng_gift_cards_brand_grid() {
+add_action('woocommerce_before_shop_loop', 'nk_gift_cards_brand_grid', 9);
+function nk_gift_cards_brand_grid() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
     if ( ! empty( $_GET['brand'] ) ) { return; }
 
@@ -681,7 +694,7 @@ function ng_gift_cards_brand_grid() {
  * Real legal copy arrives via add_action('novakeys_info_extra_<slug>',
  * fn($cr) => echo '<div>...</div>'). The registry stays factual.
  */
-function ng_info_pages() {
+function nk_info_pages() {
     static $cached = null;
     if ($cached !== null) { return $cached; }
 
@@ -1195,7 +1208,10 @@ add_action('wp_head', function () {
  */
 add_action('wp_head', function () {
     if ( is_admin() || is_customize_preview() ) return;
-    $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    $gtm_id = (string) get_option( 'nk_gtm_container_id', '' );
+    if ( '' === $gtm_id ) {
+        $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    }
     $gtm_id = preg_replace( '/[^A-Za-z0-9_\-]/', '', $gtm_id );
     if ( $gtm_id === '' ) return;
     ?>
@@ -1214,7 +1230,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
  */
 add_action('wp_body_open', function () {
     if ( is_admin() || is_customize_preview() ) return;
-    $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    $gtm_id = (string) get_option( 'nk_gtm_container_id', '' );
+    if ( '' === $gtm_id ) {
+        $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    }
     $gtm_id = preg_replace( '/[^A-Za-z0-9_\-]/', '', $gtm_id );
     if ( $gtm_id === '' ) return;
     ?>
@@ -1329,12 +1348,12 @@ add_action('wp_head', function () {
 }, 5);
 
 /**
- * Custom routes — /legal/ + the seven info pages from ng_info_pages().
+ * Custom routes — /legal/ + the seven info pages from nk_info_pages().
  * One rewrite rule per slug, all driven by the novakeys_page query var.
  * Rewrite cache flushed exactly once per theme version (keyed option).
  */
 add_action('init', function () {
-    $slugs = array_merge(['legal'], array_keys(ng_info_pages()));
+    $slugs = array_merge(['legal'], array_keys(nk_info_pages()));
     foreach ($slugs as $slug) {
         // v1.31.0: yield to a real published WP page if one exists at
         // this slug — lets the operator edit the content via wp-admin.
@@ -1383,8 +1402,8 @@ add_filter('pre_get_document_title', function ($title) {
     if ($page === 'legal') {
         return 'Legal Disclosure — ' . $site;
     }
-    if (function_exists('ng_info_pages')) {
-        $info = ng_info_pages();
+    if (function_exists('nk_info_pages')) {
+        $info = nk_info_pages();
         if (isset($info[$page]['h1_en']) && $info[$page]['h1_en']) {
             return ucwords(strtolower($info[$page]['h1_en'])) . ' — ' . $site;
         }
@@ -1444,7 +1463,7 @@ add_filter('template_include', function ($template) {
         return $legal;
     }
 
-    $info = ng_info_pages();
+    $info = nk_info_pages();
     if (isset($info[$page])) {
         $tpl = NG_THEME_ASSET_DIR . '/templates/info-page.php';
         if (!file_exists($tpl)) { return $template; }
@@ -1578,7 +1597,7 @@ add_action('woocommerce_archive_description', function () {
         <span class="sep"></span>
         <span><?php echo esc_html(sprintf(_n('%d SKU', '%d SKUs', $count, 'neogen'), $count)); ?></span>
       </div>
-      <h1 class="ng-cat-h1"><?php echo esc_html( ng_ar_label( $term->name ) ); ?></h1>
+      <h1 class="ng-cat-h1"><?php echo esc_html( nk_ar_label( $term->name ) ); ?></h1>
       <?php if ($desc) : ?>
         <div class="ng-cat-desc"><?php echo wp_kses_post($desc); ?></div>
       <?php endif; ?>
@@ -1666,7 +1685,7 @@ add_action('wp_body_open', function () {
     }
 
     // Top 5 live product categories for the nav (cached, 1h TTL).
-    $cats = ng_top_product_cats(5);
+    $cats = nk_top_product_cats(5);
 
     // Queue seed — a plausible in-range number; nudged by JS client-side.
     $queue_seed = 14;
@@ -1697,7 +1716,7 @@ add_action('wp_body_open', function () {
         $link = get_term_link( $term );
         if ( is_wp_error( $link ) ) { continue; }
     ?>
-      <a href="<?php echo esc_url( $link ); ?>"><span class="dot"></span><?php echo esc_html( ng_ar_label( $term->name ) ); ?></a>
+      <a href="<?php echo esc_url( $link ); ?>"><span class="dot"></span><?php echo esc_html( nk_ar_label( $term->name ) ); ?></a>
     <?php endforeach; ?>
       <a href="<?php echo esc_url( home_url("/vouchers/") ); ?>"><span class="dot"></span>بطاقات</a>
   </div>
@@ -1742,7 +1761,7 @@ add_action('wp_footer', function () {
 
     $home = home_url('/');
     $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : $home;
-    $cats = ng_top_product_cats(6);
+    $cats = nk_top_product_cats(6);
     $year = date_i18n('Y');
     ?>
 <footer class="ng-footer">
@@ -1823,7 +1842,7 @@ add_action('wp_footer', function () {
                 $link = get_term_link( $term );
                 if ( is_wp_error( $link ) ) { continue; }
         ?>
-          <li><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( ng_ar_label( $term->name ) ); ?></a></li>
+          <li><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( nk_ar_label( $term->name ) ); ?></a></li>
         <?php   endforeach;
         else : ?>
           <li><a href="<?php echo esc_url( $shop ); ?>">تصفّح المتجر</a></li>

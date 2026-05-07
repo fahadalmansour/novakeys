@@ -1454,6 +1454,36 @@ add_filter( 'the_posts', function ( $posts, $query ) {
  * so it cannot leak into other templates. Print only on the routes that
  * use it so /shop/ and /single-product/ stay byte-for-byte unchanged.
  */
+/**
+ * Site-wide chrome icon hotfix. The legacy `neogen.css` enqueued by
+ * the chrome loader 404s on live (`/wp-content/mu-plugins/novakeys-
+ * custom/mu-plugins/neogen-theme-assets/neogen.css`), so the inline
+ * SVGs in the header tools and footer trust strip render at browser
+ * default sizes (huge). Inject the size constraints inline until the
+ * full chrome stylesheet is rebuilt.
+ */
+add_action( 'wp_head', function () {
+    ?>
+<style id="nk-chrome-icon-hotfix">
+.ng-nav-tools{display:inline-flex;gap:.5rem;align-items:center}
+.ng-nav-tool{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;color:inherit;text-decoration:none;transition:background .15s ease}
+.ng-nav-tool:hover{background:rgba(0,0,0,.04)}
+.ng-nav-tool svg{width:22px;height:22px;display:block}
+.ng-foot-trust{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;padding:1rem 0}
+.ng-foot-trust-item{display:flex;gap:.6rem;align-items:flex-start}
+.ng-foot-trust-icon{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;color:inherit}
+.ng-foot-trust-icon svg{width:24px;height:24px;display:block}
+.ng-foot-trust svg:not(.ng-foot-trust-icon svg){width:24px;height:24px}
+.ng-foot-pay{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.ng-foot-pay img{height:18px;width:auto;display:block}
+.wc-block-customer-account__account-icon{width:24px!important;height:24px!important}
+.wc-block-mini-cart__icon{width:24px!important;height:24px!important}
+.wp-block-woocommerce-customer-account .wc-block-customer-account__account-icon{width:22px!important;height:22px!important}
+.nk-info-page svg{max-width:24px;max-height:24px}
+</style>
+    <?php
+}, 5 );
+
 add_action( 'wp_head', function () {
     if ( ! get_query_var( 'novakeys_page' ) || 'legal' === get_query_var( 'novakeys_page' ) ) {
         return;

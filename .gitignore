@@ -1,0 +1,59 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# PHP / Composer
+/vendor/
+composer.lock
+*.log
+.phpcs-cache
+.php-cs-fixer.cache
+.phpunit.result.cache
+
+# Node / build
+/node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# WordPress local artifacts (this is a theme + plugin repo, not a full WP install)
+wp-config.php
+wp-config-local.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-cli.local.yml
+
+# Backups produced by the global backup-before-modify rule
+*.backup-*
+*.bak
+*.orig
+
+# Repo-internal scratch
+/.scratch/
+/tmp/
+/scripts/local/
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# Test outputs
+/coverage/
+/.nyc_output/
+junit.xml
+phpunit.xml
+phpunit.xml.dist

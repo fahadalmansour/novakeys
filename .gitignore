@@ -42,6 +42,11 @@ wp-cli.local.yml
 /tmp/
 /scripts/local/
 
+# .claude/ session-local artifacts
+/.claude/scheduled_tasks.lock
+/.claude/study/
+/.claude/agent-memory/
+
 # Secrets — never commit
 .env
 .env.*

@@ -2229,17 +2229,12 @@ add_action('wp_body_open', function () {
 
     // Top 5 live product categories for the nav (cached, 1h TTL).
     $cats = nk_top_product_cats(5);
-
-    // Queue seed — a plausible in-range number; nudged by JS client-side.
-    $queue_seed = 14;
     ?>
 <div class="ng-sysbar" aria-label="حالة النظام">
   <span class="led" aria-hidden="true"></span>
   <span>الساعة <b id="ng-clock">00:00:00</b> الرياض</span>
   <span class="sep"></span>
   <span>المخزون <b class="cyan">مباشر</b></span>
-  <span class="sep hide-sm"></span>
-  <span class="hide-sm">في الانتظار <b id="ng-queue"><?php echo esc_html( $queue_seed ); ?></b> طلب</span>
   <span class="sep hide-sm"></span>
   <span class="hide-sm">شحن 2-5 أيام · الرياض · جدة · الدمام</span>
   <span class="spacer"></span>

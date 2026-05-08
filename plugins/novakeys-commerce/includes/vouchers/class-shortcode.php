@@ -68,27 +68,13 @@ final class Shortcode {
 		add_shortcode( 'nk_vouchers', array( $this, 'render' ) );
 	}
 
-	/**
-	 * Resolve the base URL where brand SVGs live.
-	 *
-	 * Live install path: `wp-content/mu-plugins/novakeys-custom/mu-plugins/neogen-theme-assets/img/brands/`
-	 * Filter to override when assets move (e.g. into the FSE theme).
-	 *
-	 * @since 0.1.0
-	 * @return string Trailing-slashed URL.
+	/*
+	 * brand_url_base() removed 2026-05-08. Voucher cards no longer
+	 * load third-party brand SVGs from a runtime path — they emit
+	 * typographic monograms via .nk-card-mono spans instead.
+	 * The `nk_vouchers_brand_url_base` filter is gone with it; no
+	 * known external callers.
 	 */
-	private function brand_url_base(): string {
-		$default = WP_CONTENT_URL . '/mu-plugins/novakeys-custom/mu-plugins/neogen-theme-assets/img/brands/';
-
-		/**
-		 * Filter the brand-artwork URL base.
-		 *
-		 * @since 0.1.0
-		 *
-		 * @param string $url Trailing-slashed base URL.
-		 */
-		return (string) apply_filters( 'nk_vouchers_brand_url_base', $default );
-	}
 
 	/**
 	 * Get the bilingual label set for the current locale.
@@ -147,7 +133,10 @@ final class Shortcode {
 	 */
 	public function render( $atts = array() ): string {
 		unset( $atts );
-		$brand_url = $this->brand_url_base();
+		// brand_url_base() retired 2026-05-08 — voucher cards now use
+		// typographic monograms (.nk-card-mono) instead of <img> brand
+		// art, sidestepping the dead mu-plugins asset path and the
+		// trademark exposure that comes with bundling third-party logos.
 		$is_ar     = function_exists( 'is_rtl' ) && is_rtl();
 		$t         = $this->labels( $is_ar );
 		// Store the bare direction value (`rtl|''`) so each echo site
@@ -235,11 +224,11 @@ final class Shortcode {
   <div class="nk-v-section" data-section="gaming"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['gaming'] ); ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'playstation.svg' ); ?>" alt="PlayStation Store"></div><div class="nk-card-bottom"><div><div class="nk-card-name">PlayStation Store</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'xbox.svg' ); ?>" alt="Xbox"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Xbox</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'steam.svg' ); ?>" alt="Steam"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Steam</div><div class="nk-card-range">SAR 25–300</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Hot</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'pubg.svg' ); ?>" alt="PUBG Mobile"></div><div class="nk-card-bottom"><div><div class="nk-card-name">PUBG Mobile</div><div class="nk-card-range">SAR 15–200</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'ROBLOX.svg' ); ?>" alt="Roblox"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Roblox</div><div class="nk-card-range">SAR 15–150</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="PlayStation Store">PS</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">PlayStation Store</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Xbox">XB</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Xbox</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Steam">ST</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Steam</div><div class="nk-card-range">SAR 25–300</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Hot</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="PUBG Mobile">PG</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">PUBG Mobile</div><div class="nk-card-range">SAR 15–200</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Roblox">RX</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Roblox</div><div class="nk-card-range">SAR 15–150</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 
@@ -247,9 +236,9 @@ final class Shortcode {
   <div class="nk-v-section" data-section="shopping"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['shopping'] ); ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'amazon.svg' ); ?>" alt="Amazon"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon</div><div class="nk-card-range">SAR 50–1000</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'NOON.svg' ); ?>" alt="NOON"></div><div class="nk-card-bottom"><div><div class="nk-card-name">NOON</div><div class="nk-card-range">SAR 50–2000</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'KSP.svg' ); ?>" alt="KSP"></div><div class="nk-card-bottom"><div><div class="nk-card-name">KSP</div><div class="nk-card-range">SAR 100–2000</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Amazon">AM</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon</div><div class="nk-card-range">SAR 50–1000</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="NOON">NN</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">NOON</div><div class="nk-card-range">SAR 50–2000</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="KSP">KS</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">KSP</div><div class="nk-card-range">SAR 100–2000</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 
@@ -257,8 +246,8 @@ final class Shortcode {
   <div class="nk-v-section" data-section="entertainment"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['entertainment'] ); ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'AMAZON_PRIME.svg' ); ?>" alt="Amazon Prime"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon Prime</div><div class="nk-card-range">SAR 30–200</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Twitch.svg' ); ?>" alt="Twitch"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Twitch</div><div class="nk-card-range">SAR 25–150</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Amazon Prime">PR</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon Prime</div><div class="nk-card-range">SAR 30–200</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Twitch">TW</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Twitch</div><div class="nk-card-range">SAR 25–150</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 
@@ -266,8 +255,8 @@ final class Shortcode {
   <div class="nk-v-section" data-section="apps"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo $t['apps_section']; // safe: '&amp;' entity ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Google_Play.svg' ); ?>" alt="Google Play"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Apple.svg' ); ?>" alt="Apple Gift Card"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Apple Gift Card</div><div class="nk-card-range">SAR 25–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Google Play">GP</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Apple Gift Card">AP</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Apple Gift Card</div><div class="nk-card-range">SAR 25–500</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 
@@ -275,9 +264,9 @@ final class Shortcode {
   <div class="nk-v-section" data-section="telecom"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['telecom'] ); ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'stc.svg' ); ?>" alt="STC"></div><div class="nk-card-bottom"><div><div class="nk-card-name">STC Cards</div><div class="nk-card-range">SAR 30–500</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Zain.svg' ); ?>" alt="Zain"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Zain Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Mobily.svg' ); ?>" alt="Mobily"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Mobily Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="STC Cards">SC</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">STC Cards</div><div class="nk-card-range">SAR 30–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Zain Cards">ZN</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Zain Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Mobily Cards">MB</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Mobily Cards</div><div class="nk-card-range">SAR 10–500</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 
@@ -285,9 +274,9 @@ final class Shortcode {
   <div class="nk-v-section" data-section="productivity"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['productivity'] ); ?></div>
 	<div class="nk-v-grid">
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Adobe.svg' ); ?>" alt="Adobe"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Adobe</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'microsoft.svg' ); ?>" alt="Microsoft"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Microsoft</div><div class="nk-card-range">SAR 50–800</div></div><div class="nk-card-arrow">→</div></div></div>
-	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'mcafee.svg' ); ?>" alt="McAfee"></div><div class="nk-card-bottom"><div><div class="nk-card-name">McAfee</div><div class="nk-card-range">SAR 60–300</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Adobe">AD</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Adobe</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="Microsoft">MS</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">Microsoft</div><div class="nk-card-range">SAR 50–800</div></div><div class="nk-card-arrow">→</div></div></div>
+	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><span class="nk-card-mono" aria-label="McAfee">MC</span></div><div class="nk-card-bottom"><div><div class="nk-card-name">McAfee</div><div class="nk-card-range">SAR 60–300</div></div><div class="nk-card-arrow">→</div></div></div>
 	</div>
   </div>
 

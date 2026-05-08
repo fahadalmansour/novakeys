@@ -1276,3 +1276,37 @@ nav.woocommerce-pagination ul li a:hover {
 .nk-legal-table th { background: var(--wp--preset--color--brand-mist, #f5f5f5); font-weight: 600; }
 [dir="rtl"] .nk-legal-table th,
 [dir="rtl"] .nk-legal-table td { text-align: start; }
+
+/* Voucher card monogram --------------------------------------------- */
+/* 18 voucher cards previously loaded brand SVGs from a runtime
+   asset path that 404s on live and would have been a trademark
+   exposure. Replaced with a 2-letter typographic monogram in a
+   circular badge — single CSS rule, zero asset files, distinct
+   per brand via the inline letters.  */
+.nk-card-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nk-card-mono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--nk-color-paper);
+    border: 1px solid var(--nk-color-mist);
+    color: var(--nk-color-ink);
+    font-family: "Chakra Petch", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .02em;
+    line-height: 1;
+    user-select: none;
+}
+.nk-card:hover .nk-card-mono {
+    background: var(--nk-color-white);
+    border-color: var(--nk-color-sky);
+    color: var(--nk-color-link);
+}

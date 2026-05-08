@@ -707,7 +707,9 @@ body {
     gap: .5rem 1rem;
     padding: 1rem clamp(1rem, 3vw, 2rem);
     border-top: 1px solid rgba(255,255,255,.06);
-    color: #64748B;
+    /* slate-400 — 7.3:1 on the #0B1220 footer; was #64748B at 3.93:1
+       which fails AA for 12px text. */
+    color: #94A3B8;
     font-size: 12px;
     font-family: "IBM Plex Mono", ui-monospace, monospace;
     letter-spacing: .03em;

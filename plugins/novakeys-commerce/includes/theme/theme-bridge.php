@@ -1792,7 +1792,7 @@ add_action( 'wp_body_open', function () {
 <div class="ng-news-notice ng-news-notice--<?php echo esc_attr( $state ); ?>" role="status" aria-live="polite" data-nk-news>
     <span class="ng-news-notice-text"<?php echo $first_attrs; ?>><?php echo esc_html( $first ); ?></span>
     <span class="ng-news-notice-text"<?php echo $second_attrs; ?>><?php echo esc_html( $second ); ?></span>
-    <button type="button" class="ng-news-notice-close" aria-label="<?php echo esc_attr__( 'Dismiss', 'novakeys-commerce' ); ?>">
+    <button type="button" class="ng-news-notice-close" aria-label="<?php echo esc_attr( $is_ar ? 'إغلاق' : 'Dismiss' ); ?>">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="14" height="14"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
 </div>
@@ -2319,7 +2319,7 @@ add_action('wp_body_open', function () {
   <span class="sep"></span>
   <span>المخزون <b class="cyan">مباشر</b></span>
   <span class="sep hide-sm"></span>
-  <span class="hide-sm">شحن 2-5 أيام · الرياض · جدة · الدمام</span>
+  <span class="hide-sm">تسليم فوري · الرياض · جدة · الدمام</span>
   <span class="spacer"></span>
   <span>الضريبة <b>15%</b> شاملة</span>
   <span class="sep hide-sm"></span>
@@ -2473,13 +2473,10 @@ add_action('wp_footer', function () {
     </div>
     <div class="ng-foot-trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-        <path d="M3 7h11v9H3z"/>
-        <path d="M14 10h4l3 3v3h-7"/>
-        <circle cx="7" cy="18" r="2"/>
-        <circle cx="17" cy="18" r="2"/>
+        <path d="M13 2 4 14h7l-1 8 9-12h-7z"/>
       </svg>
-      <span class="ng-foot-trust-label">شحن سريع</span>
-      <span class="ng-foot-trust-sub">2-5 أيام داخل المملكة</span>
+      <span class="ng-foot-trust-label">تسليم فوري</span>
+      <span class="ng-foot-trust-sub">رمز التفعيل خلال دقيقة عادةً</span>
     </div>
     <div class="ng-foot-trust-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
@@ -2613,7 +2610,7 @@ add_action('wp_footer', function () {
     </a>
   </div>
   <div class="ng-foot-bottom">
-    <span>© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b> · جميع الحقوق محفوظة</span>
+    <span><span dir="ltr" style="unicode-bidi:isolate">© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b></span> · <span dir="rtl" lang="ar">جميع الحقوق محفوظة</span></span>
     <span>الرياض · جدة · الدمام</span>
     <span>NOVAKEYS.STORE</span>
   </div>

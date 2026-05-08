@@ -160,16 +160,17 @@ final class Shortcode {
 .nk-v-label::before{content:'';width:6px;height:6px;background:#38BDF8;border-radius:50%;animation:nkpulse 2s ease-in-out infinite;}
 @keyframes nkpulse{0%,100%{opacity:1}50%{opacity:.4}}
 .nk-v-hero h2{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--nk-color-ink, #0F172A);margin-bottom:12px;}
-.nk-v-hero h2 .nk-v-em{color:#38BDF8;}
-.nk-v-sub{font-size:15px;font-weight:300;color:#78746E;max-width:480px;line-height:1.65;margin-bottom:28px;}
+.nk-v-hero h2 .nk-v-em{color:#0284C7;}
+.nk-v-sub{font-size:15px;font-weight:300;color:#5C5953;max-width:480px;line-height:1.65;margin-bottom:28px;}
 .nk-v-stats{display:flex;gap:28px;flex-wrap:wrap;}
 .nk-v-stat-num{font-size:26px;font-weight:800;letter-spacing:-.04em;color:var(--nk-color-ink, #0F172A);display:block;line-height:1;}
 .nk-v-stat-lbl{font-size:11px;color:#ABA79F;}
 
 .nk-v-filters{padding:24px 16px 8px;display:flex;gap:8px;flex-wrap:wrap;}
 .nk-vf-btn{background:#fff;border:1px solid #E3DDD4;color:#78746E;font-size:13px;font-weight:500;padding:7px 16px;border-radius:100px;cursor:pointer;transition:all .18s;font-family:inherit;}
-.nk-vf-btn:hover{border-color:#38BDF8;color:#0EA5E9;}
-.nk-vf-btn.nk-active{background:#181714;border-color:#181714;color:#fff;}
+.nk-vf-btn:hover{border-color:#38BDF8;color:var(--nk-color-link, #0369A1);}
+.nk-vf-btn:focus-visible{outline:2px solid var(--nk-color-link, #0369A1);outline-offset:2px;}
+.nk-vf-btn.nk-active{background:var(--nk-color-ink, #0F172A);border-color:var(--nk-color-ink, #0F172A);color:#fff;}
 .nk-vf-count{font-size:11px;opacity:.55;margin-inline-start:2px;}
 
 .nk-v-section{padding:20px 16px 4px;}
@@ -188,18 +189,18 @@ final class Shortcode {
 .nk-card:hover .nk-card-logo img{transform:scale(1.05);}
 
 .nk-card-top{padding:14px 14px 0;display:flex;align-items:center;justify-content:space-between;}
-.nk-card-cat{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#ABA79F;}
+.nk-card-cat{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#78746E;}
 .nk-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:100px;}
 .nk-badge-hot{background:#FEF2F2;color:#B91C1C;}
-.nk-badge-new{background:#EFF9FF;color:#0EA5E9;}
-.nk-badge-pop{background:#F0FDF4;color:#16A34A;}
+.nk-badge-new{background:#EFF9FF;color:#0369A1;}
+.nk-badge-pop{background:#F0FDF4;color:#15803D;}
 
 .nk-card-logo{height:96px;display:flex;align-items:center;justify-content:center;padding:16px 20px;}
 .nk-card-logo img{max-width:100%;max-height:64px;object-fit:contain;transition:transform .22s ease;}
 
 .nk-card-bottom{padding:11px 14px 14px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid #F0EDE8;margin-top:auto;}
 .nk-card-name{font-weight:700;font-size:13px;color:var(--nk-color-ink, #0F172A);letter-spacing:-.01em;line-height:1.2;}
-.nk-card-range{font-size:11px;color:#ABA79F;margin-top:3px;font-weight:400;}
+.nk-card-range{font-size:11px;color:#78746E;margin-top:3px;font-weight:400;}
 .nk-card-arrow{width:32px;height:32px;border-radius:8px;background:#F7F6F3;border:1px solid #E3DDD4;display:flex;align-items:center;justify-content:center;color:#78746E;font-size:14px;transition:all .18s;flex-shrink:0;}
 [dir="rtl"] .nk-card-arrow{transform:scaleX(-1);}
 </style>

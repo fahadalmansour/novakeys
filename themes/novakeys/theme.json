@@ -8,6 +8,7 @@
 			"palette": [
 				{ "slug": "brand-sky",        "name": "NovaKeys Sky",       "color": "#38BDF8" },
 				{ "slug": "brand-sky-deep",   "name": "Sky Deep",           "color": "#0EA5E9" },
+				{ "slug": "brand-link",       "name": "Link (AA on paper)", "color": "#0369A1" },
 				{ "slug": "brand-ink",        "name": "Operator Ink",       "color": "#0F172A" },
 				{ "slug": "brand-cool-white", "name": "Cool White",         "color": "#F8FAFC" },
 				{ "slug": "brand-slate",      "name": "Slate",              "color": "#334155" },
@@ -83,7 +84,7 @@
 			"lineHeight": "1.6"
 		},
 		"elements": {
-			"link":   { "color": { "text": "var(--wp--preset--color--brand-sky-deep)" } },
+			"link":   { "color": { "text": "var(--wp--preset--color--brand-link)" } },
 			"button": {
 				"color":      { "background": "var(--wp--preset--color--brand-ink)", "text": "var(--wp--preset--color--brand-cool-white)" },
 				"typography": { "fontWeight": "600" },

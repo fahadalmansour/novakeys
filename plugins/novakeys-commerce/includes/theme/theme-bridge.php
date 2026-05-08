@@ -1780,10 +1780,18 @@ add_action( 'wp_body_open', function () {
     $msg_ar = ( 'ok' === $state )
         ? 'شكراً — تم الاشتراك.'
         : 'تعذّر الاشتراك. تحقّق من البريد وحاول مجددًا.';
+    // Round-4 audit H4: emit AR span first when the page is RTL so
+    // screen readers + visual reading order both lead with the locale
+    // the user is actually browsing in.
+    $is_ar  = function_exists( 'is_rtl' ) && is_rtl();
+    $first  = $is_ar ? $msg_ar : $msg_en;
+    $second = $is_ar ? $msg_en : $msg_ar;
+    $first_attrs  = $is_ar ? ' dir="rtl" lang="ar"' : '';
+    $second_attrs = $is_ar ? '' : ' dir="rtl" lang="ar"';
     ?>
 <div class="ng-news-notice ng-news-notice--<?php echo esc_attr( $state ); ?>" role="status" aria-live="polite" data-nk-news>
-    <span class="ng-news-notice-text"><?php echo esc_html( $msg_en ); ?></span>
-    <span class="ng-news-notice-text" dir="rtl" lang="ar"><?php echo esc_html( $msg_ar ); ?></span>
+    <span class="ng-news-notice-text"<?php echo $first_attrs; ?>><?php echo esc_html( $first ); ?></span>
+    <span class="ng-news-notice-text"<?php echo $second_attrs; ?>><?php echo esc_html( $second ); ?></span>
     <button type="button" class="ng-news-notice-close" aria-label="<?php echo esc_attr__( 'Dismiss', 'novakeys-commerce' ); ?>">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="14" height="14"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
@@ -1869,7 +1877,9 @@ add_action('wp_head', function () {
             'telephone'         => $tel_e164,
             'email'             => $cr['email'],
             'contactType'       => 'customer support',
-            'availableLanguage' => ['Arabic', 'English'],
+            // BCP-47 codes (locale-neutral); the human-readable "Arabic"/"English"
+            // strings leaked the EN label into AR-route schema (round-4 audit M4).
+            'availableLanguage' => ['ar', 'en'],
             'areaServed'        => 'SA',
         ]],
     ];

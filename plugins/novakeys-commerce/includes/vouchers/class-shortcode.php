@@ -150,7 +150,11 @@ final class Shortcode {
 		$brand_url = $this->brand_url_base();
 		$is_ar     = function_exists( 'is_rtl' ) && is_rtl();
 		$t         = $this->labels( $is_ar );
-		$dir_attr  = $is_ar ? ' dir="rtl"' : '';
+		// Store the bare direction value (`rtl|''`) so each echo site
+		// can build the attribute through esc_attr() — was previously
+		// the full literal `' dir="rtl"'` echoed unescaped (WPCS flag
+		// from readiness-2026-05-08 HIGH).
+		$dir_attr  = $is_ar ? 'rtl' : '';
 
 		ob_start();
 		?>
@@ -206,7 +210,7 @@ final class Shortcode {
 
 <div id="nk-vouchers-wrap">
 
-  <div class="nk-v-hero"<?php echo $dir_attr; // safe: literal ' dir="rtl"' or empty ?>>
+  <div class="nk-v-hero"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-label"><?php echo esc_html( $t['eyebrow'] ); ?></div>
 	<h2><?php echo $t['heading_a']; // safe: contains '&amp;' entity ?><em><?php echo esc_html( $t['heading_b'] ); ?></em></h2>
 	<p class="nk-v-sub"><?php echo esc_html( $t['sub'] ); ?></p>
@@ -217,7 +221,7 @@ final class Shortcode {
 	</div>
   </div>
 
-  <div class="nk-v-filters"<?php echo $dir_attr; ?>>
+  <div class="nk-v-filters"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<button class="nk-vf-btn nk-active" data-cat="all"           onclick="nkFilter(this)"><?php echo esc_html( $t['all'] ); ?> <span class="nk-vf-count">18</span></button>
 	<button class="nk-vf-btn" data-cat="gaming"                  onclick="nkFilter(this)"><?php echo esc_html( $t['gaming'] ); ?> <span class="nk-vf-count">5</span></button>
 	<button class="nk-vf-btn" data-cat="shopping"                onclick="nkFilter(this)"><?php echo esc_html( $t['shopping'] ); ?> <span class="nk-vf-count">3</span></button>
@@ -228,7 +232,7 @@ final class Shortcode {
   </div>
 
   <!-- GAMING -->
-  <div class="nk-v-section" data-section="gaming"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="gaming"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['gaming'] ); ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Gaming</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'playstation.svg' ); ?>" alt="PlayStation Store"></div><div class="nk-card-bottom"><div><div class="nk-card-name">PlayStation Store</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -240,7 +244,7 @@ final class Shortcode {
   </div>
 
   <!-- SHOPPING -->
-  <div class="nk-v-section" data-section="shopping"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="shopping"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['shopping'] ); ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Shopping</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'amazon.svg' ); ?>" alt="Amazon"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon</div><div class="nk-card-range">SAR 50–1000</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -250,7 +254,7 @@ final class Shortcode {
   </div>
 
   <!-- ENTERTAINMENT -->
-  <div class="nk-v-section" data-section="entertainment"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="entertainment"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['entertainment'] ); ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Entertainment</span><span class="nk-badge nk-badge-pop">Trending</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'AMAZON_PRIME.svg' ); ?>" alt="Amazon Prime"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Amazon Prime</div><div class="nk-card-range">SAR 30–200</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -259,7 +263,7 @@ final class Shortcode {
   </div>
 
   <!-- APPS -->
-  <div class="nk-v-section" data-section="apps"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="apps"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo $t['apps_section']; // safe: '&amp;' entity ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Apps</span><span class="nk-badge nk-badge-new">New</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Google_Play.svg' ); ?>" alt="Google Play"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Google Play</div><div class="nk-card-range">SAR 25–400</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -268,7 +272,7 @@ final class Shortcode {
   </div>
 
   <!-- TELECOM -->
-  <div class="nk-v-section" data-section="telecom"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="telecom"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['telecom'] ); ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Telecom</span><span class="nk-badge nk-badge-hot">Popular</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'stc.svg' ); ?>" alt="STC"></div><div class="nk-card-bottom"><div><div class="nk-card-name">STC Cards</div><div class="nk-card-range">SAR 30–500</div></div><div class="nk-card-arrow">→</div></div></div>
@@ -278,7 +282,7 @@ final class Shortcode {
   </div>
 
   <!-- PRODUCTIVITY -->
-  <div class="nk-v-section" data-section="productivity"<?php echo $dir_attr; ?>>
+  <div class="nk-v-section" data-section="productivity"<?php echo $dir_attr ? ' dir="' . esc_attr( $dir_attr ) . '"' : ''; ?>>
 	<div class="nk-v-cat-lbl"><?php echo esc_html( $t['productivity'] ); ?></div>
 	<div class="nk-v-grid">
 	  <div class="nk-card"><div class="nk-card-top"><span class="nk-card-cat">Productivity</span></div><div class="nk-card-logo"><img src="<?php echo esc_url( $brand_url . 'Adobe.svg' ); ?>" alt="Adobe"></div><div class="nk-card-bottom"><div><div class="nk-card-name">Adobe</div><div class="nk-card-range">SAR 50–500</div></div><div class="nk-card-arrow">→</div></div></div>

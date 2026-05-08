@@ -145,19 +145,22 @@ add_filter( 'list_cats',         'nk_ar_label', 5 );
 add_filter( 'woocommerce_product_title', 'nk_ar_label', 5 );
 
 /**
- * Mark <html> as Arabic-primary on the public surface.
+ * Mark <html> with the locale TranslatePress is currently serving.
  *
- * The WP site language is en-US (TranslatePress runs the bilingual
- * EN/AR layer), so language_attributes() defaults to lang="en-US"
- * even though the chrome (sysbar, topnav, footer) and most page
- * copy is Arabic. Screen readers picked up the wrong voice profile.
+ * The WP site language is en-US; TranslatePress flips locale to
+ * ar / ar_SA on /ar/* paths via its own `locale` filter. Read the
+ * effective locale at filter time and emit the matching BCP-47
+ * tag — `ar-SA` on Arabic routes, `en-US` on English. Earlier
+ * round-2 fix hardcoded `ar-SA` site-wide, which the readiness
+ * audit (2026-05-08, B-2) flagged as wrong on EN routes.
  *
- * Swap the lang token to ar-SA while preserving dir — flipping
- * dir="rtl" cascades through every WC block layout and is a
- * separate decision. Admin + customizer requests skip the filter
- * so the editor stays in its native locale.
+ * dir is intentionally preserved — flipping rtl cascades through
+ * every WC block layout and is a separate decision.
  *
- * @since 0.2.4
+ * Admin + customizer requests skip the filter so the editor stays
+ * in its native locale.
+ *
+ * @since 0.2.5
  * @param string $output  Full attribute string WP emitted.
  * @param string $doctype Document type ('html' or 'xhtml').
  * @return string
@@ -169,7 +172,9 @@ add_filter( 'language_attributes', function ( $output, $doctype = 'html' ) {
     if ( 'html' !== $doctype ) {
         return $output;
     }
-    return preg_replace( '/lang="[^"]*"/', 'lang="ar-SA"', (string) $output, 1 );
+    $locale = (string) get_locale();
+    $lang   = ( 0 === strpos( $locale, 'ar' ) ) ? 'ar-SA' : 'en-US';
+    return preg_replace( '/lang="[^"]*"/', 'lang="' . $lang . '"', (string) $output, 1 );
 }, 10, 2 );
 
 // Scope the_title to products only — protects WC order item titles,

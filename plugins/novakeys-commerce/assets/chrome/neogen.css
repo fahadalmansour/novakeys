@@ -16,6 +16,12 @@
     --nk-color-paper: var(--wp--preset--color--brand-paper, #F8FAFC);
     --nk-color-sky: var(--wp--preset--color--brand-sky, #38BDF8);
     --nk-color-cyan: var(--wp--preset--color--brand-cyan, #06B6D4);
+    /* Body-text link colour — sky-700, ~6.5:1 vs paper. The brand
+       --nk-color-sky (#38BDF8) is a 2.8:1 against paper and fails
+       WCAG AA for normal text; reserve sky for accents (focus rings,
+       brand cyan badges, gen wordmark) and route textual links
+       through this AA-compliant token (readiness 2026-05-08 HIGH). */
+    --nk-color-link: #0369A1;
     --nk-color-emerald: var(--wp--preset--color--brand-emerald, #10B981);
     --nk-color-amber: var(--wp--preset--color--brand-amber, #F59E0B);
     --nk-color-white: #FFFFFF;
@@ -1258,6 +1264,10 @@ nav.woocommerce-pagination ul li a:hover {
 .nk-info-page .nk-info-section-h-ar { font-size: 1.05rem; font-weight: 500; margin: 0 0 .5em; color: var(--wp--preset--color--brand-slate, #666); }
 .nk-info-page p { margin: 0 0 1em; }
 .nk-info-page strong { font-weight: 600; }
+/* WCAG AA-compliant link colour on paper-tone body. underline kept
+   so colour isn't the sole affordance. */
+.nk-info-page a { color: var(--nk-color-link); text-decoration: underline; text-underline-offset: 2px; }
+.nk-info-page a:hover { color: var(--nk-color-cyan); }
 .nk-info-page code { background: var(--wp--preset--color--brand-mist, #f1f3f5); padding: .05em .35em; border-radius: .25em; font-size: .92em; }
 .nk-info-page [dir="rtl"] { font-family: "IBM Plex Sans Arabic", "Tajawal", system-ui, sans-serif; }
 .nk-legal-table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: .95em; }

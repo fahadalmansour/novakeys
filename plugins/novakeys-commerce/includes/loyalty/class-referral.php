@@ -98,15 +98,22 @@ final class Referral {
 	public static function register_rest(): void {
 		register_rest_route(
 			'nk/v1',
-			'/referral/(?P<code>[a-z0-9]+)',
+			// Route regex tightened to ^u\d+$ so malformed input never
+			// dispatches; the args validate_callback below is a second
+			// guard for any case the routing layer accepts on a future
+			// WP version that loosens path-regex semantics.
+			'/referral/(?P<code>u\d+)',
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( __CLASS__, 'rest_handler' ),
 				'permission_callback' => '__return_true', // Public by design — sets a cookie.
 				'args'                => array(
 					'code' => array(
-						'type'     => 'string',
-						'required' => true,
+						'type'              => 'string',
+						'required'          => true,
+						'validate_callback' => static function ( $value ): bool {
+							return self::valid_code( (string) $value );
+						},
 					),
 				),
 			)

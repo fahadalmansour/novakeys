@@ -78,6 +78,8 @@ final class Plugin {
 		require_once NK_COMMERCE_DIR . 'includes/theme/theme-bridge.php';
 		require_once NK_COMMERCE_DIR . 'includes/security/class-mcp-meta-guard.php';
 		\NovaKeys\Commerce\Security\MCP_Meta_Guard::register();
+		require_once NK_COMMERCE_DIR . 'includes/security/class-user-enum-shield.php';
+		\NovaKeys\Commerce\Security\User_Enum_Shield::register();
 
 		// Load i18n early so module strings translate.
 		add_action( 'init', array( $this, 'load_textdomain' ) );

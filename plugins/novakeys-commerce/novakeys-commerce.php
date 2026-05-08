@@ -36,6 +36,28 @@ function nk_commerce_boot() {
 add_action( 'plugins_loaded', 'nk_commerce_boot', 5 );
 
 /**
+ * Declare HPOS (custom_order_tables) compatibility.
+ *
+ * Plugin already uses HPOS-safe APIs (wc_get_order, $item->get_meta,
+ * $order->save) end-to-end; this is the WC contract that surfaces
+ * "Compatible" in WooCommerce → Status → Plugins instead of the
+ * default "Uncertified" warning, and unblocks HPOS-default sites
+ * from gating plugin features.
+ *
+ * @since 0.2.5
+ * @return void
+ */
+add_action( 'before_woocommerce_init', function () {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+			'custom_order_tables',
+			NK_COMMERCE_FILE,
+			true
+		);
+	}
+} );
+
+/**
  * Activation hook — runs the one-shot option migrator and flushes rewrites.
  *
  * @since 0.1.0

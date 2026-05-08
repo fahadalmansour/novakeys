@@ -119,6 +119,14 @@ final class Recommender {
 		array_unshift( $existing, $id );
 		$existing = array_slice( $existing, 0, NK_REC_MAX );
 
+		// PDPL gate — `ng_recent` is a functional cookie. Skip the
+		// write entirely when the visitor hasn't consented to
+		// functional cookies (or hasn't decided yet — fail-closed).
+		if ( class_exists( '\NovaKeys\Commerce\Consent\Cookie_Consent' )
+			&& ! \NovaKeys\Commerce\Consent\Cookie_Consent::has( 'functional' )
+		) {
+			return;
+		}
 		$value = implode( ',', array_map( 'intval', $existing ) );
 		if ( ! headers_sent() ) {
 			setcookie(

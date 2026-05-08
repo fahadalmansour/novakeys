@@ -182,6 +182,14 @@ final class Referral {
 		if ( headers_sent() ) {
 			return;
 		}
+		// PDPL gate — `nk_ref` is marketing/attribution. Skip the
+		// write entirely when the visitor hasn't consented to
+		// marketing cookies (or hasn't decided yet — fail-closed).
+		if ( class_exists( '\NovaKeys\Commerce\Consent\Cookie_Consent' )
+			&& ! \NovaKeys\Commerce\Consent\Cookie_Consent::has( 'marketing' )
+		) {
+			return;
+		}
 		setcookie(
 			self::COOKIE,
 			$code,

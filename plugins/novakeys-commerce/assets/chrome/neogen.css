@@ -1312,3 +1312,121 @@ nav.woocommerce-pagination ul li a:hover {
     border-color: var(--nk-color-sky);
     color: var(--nk-color-link);
 }
+
+/* PDPL cookie-consent banner + modal ------------------------------- */
+
+.nk-consent-banner {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 9998;
+    background: var(--nk-color-paper);
+    border-top: 1px solid var(--nk-color-mist);
+    box-shadow: 0 -2px 12px rgba(15, 23, 42, .08);
+    color: var(--nk-color-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    animation: nk-consent-slide-up .25s ease-out;
+}
+
+@keyframes nk-consent-slide-up {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+}
+
+.nk-consent-banner-inner {
+    max-width: var(--nk-wide);
+    margin-inline: auto;
+    padding: 1rem clamp(1rem, 3vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .75rem;
+    align-items: start;
+}
+
+@media (min-width: 768px) {
+    .nk-consent-banner-inner {
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+        align-items: center;
+    }
+}
+
+.nk-consent-text { min-width: 0; }
+.nk-consent-title { display: block; font-weight: 600; font-size: 14px; margin-bottom: .15rem; }
+.nk-consent-body  { margin: 0; color: var(--nk-color-slate); font-size: 13px; }
+.nk-consent-body a { color: var(--nk-color-link); text-decoration: underline; text-underline-offset: 2px; }
+
+.nk-consent-actions { display: flex; }
+.nk-consent-form    { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.nk-consent-btn {
+    appearance: none;
+    border: 1px solid var(--nk-color-mist);
+    background: var(--nk-color-white);
+    color: var(--nk-color-ink);
+    padding: .55rem 1rem;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: var(--nk-radius-sm);
+    cursor: pointer;
+    transition: background .12s, border-color .12s, color .12s;
+}
+.nk-consent-btn:hover { background: var(--nk-color-paper); border-color: var(--nk-color-slate); }
+.nk-consent-btn:focus-visible {
+    outline: 2px solid var(--nk-color-link);
+    outline-offset: 2px;
+}
+.nk-consent-btn--primary {
+    background: var(--nk-color-link);
+    border-color: var(--nk-color-link);
+    color: var(--nk-color-white);
+}
+.nk-consent-btn--primary:hover { background: var(--nk-color-ink); border-color: var(--nk-color-ink); color: var(--nk-color-white); }
+.nk-consent-btn--ghost { background: transparent; border-color: transparent; color: var(--nk-color-link); text-decoration: underline; text-underline-offset: 3px; }
+.nk-consent-btn--ghost:hover { background: transparent; color: var(--nk-color-ink); border-color: transparent; }
+
+/* Manage modal */
+.nk-consent-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: nk-consent-fade .15s ease-out;
+}
+.nk-consent-modal[hidden] { display: none; }
+
+@keyframes nk-consent-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.nk-consent-modal-card {
+    background: var(--nk-color-white);
+    border-radius: var(--nk-radius-lg);
+    box-shadow: var(--nk-shadow);
+    padding: 1.5rem clamp(1rem, 3vw, 1.75rem);
+    width: 100%;
+    max-width: 520px;
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+.nk-consent-modal-title { font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem; color: var(--nk-color-ink); }
+.nk-consent-modal-form { display: flex; flex-direction: column; gap: 1rem; }
+
+.nk-consent-fieldset { border: 1px solid var(--nk-color-mist); border-radius: var(--nk-radius); padding: .75rem 1rem; margin: 0; }
+.nk-consent-fieldset legend { font-weight: 600; font-size: 13px; padding: 0 .35rem; color: var(--nk-color-ink); display: inline-flex; align-items: center; gap: .5rem; }
+.nk-consent-fieldset legend label { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; }
+.nk-consent-fieldset legend input[type="checkbox"] { accent-color: var(--nk-color-link); }
+.nk-consent-fieldset p { margin: .35rem 0 0; font-size: 12px; color: var(--nk-color-slate); }
+.nk-consent-always { font-size: 11px; font-weight: 500; color: var(--nk-color-slate); background: var(--nk-color-paper); border-radius: 999px; padding: .15rem .55rem; letter-spacing: .03em; text-transform: uppercase; }
+
+.nk-consent-modal-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .5rem; }
+
+@media (max-width: 600px) {
+    .nk-consent-banner-inner { padding: .75rem 1rem; }
+    .nk-consent-form .nk-consent-btn { flex: 1 1 auto; min-width: 0; text-align: center; }
+}

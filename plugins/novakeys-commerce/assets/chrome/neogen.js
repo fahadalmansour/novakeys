@@ -70,10 +70,49 @@
         });
     }
 
+    function manageConsent() {
+        var openBtn  = document.querySelector('[data-nk-consent-manage]');
+        var modal    = document.querySelector('[data-nk-consent-modal]');
+        var cancel   = modal && modal.querySelector('[data-nk-consent-cancel]');
+        if (!openBtn || !modal) { return; }
+
+        var lastFocus = null;
+
+        function open() {
+            lastFocus = document.activeElement;
+            modal.removeAttribute('hidden');
+            var firstField = modal.querySelector('input, button, [tabindex="0"]');
+            if (firstField) { firstField.focus(); }
+            document.addEventListener('keydown', onKey);
+            modal.addEventListener('click', onBackdrop);
+        }
+
+        function close() {
+            modal.setAttribute('hidden', '');
+            document.removeEventListener('keydown', onKey);
+            modal.removeEventListener('click', onBackdrop);
+            if (lastFocus && typeof lastFocus.focus === 'function') {
+                lastFocus.focus();
+            }
+        }
+
+        function onKey(e) {
+            if (e.key === 'Escape') { close(); }
+        }
+
+        function onBackdrop(e) {
+            if (e.target === modal) { close(); }
+        }
+
+        openBtn.addEventListener('click', open);
+        if (cancel) { cancel.addEventListener('click', close); }
+    }
+
     function init() {
         tickClock();
         setInterval(tickClock, 1000);
         dismissNewsNotice();
         disableNewsletterDoubleSubmit();
+        manageConsent();
     }
 }());

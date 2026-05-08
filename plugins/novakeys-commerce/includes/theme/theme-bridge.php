@@ -1800,6 +1800,113 @@ add_action( 'wp_body_open', function () {
 }, 1 );
 
 /**
+ * PDPL cookie-consent banner + manage modal. Emits on first-time
+ * visitors (no consent cookie yet); the banner is a footer ribbon,
+ * the modal opens from the "Manage preferences" button.
+ *
+ * @since 0.3.0
+ * @return void
+ */
+add_action( 'wp_body_open', function () {
+    if ( is_admin() || is_customize_preview() ) {
+        return;
+    }
+    if ( ! class_exists( '\NovaKeys\Commerce\Consent\Cookie_Consent' ) ) {
+        return;
+    }
+    if ( \NovaKeys\Commerce\Consent\Cookie_Consent::is_set() ) {
+        return;
+    }
+    $is_ar  = function_exists( 'is_rtl' ) && is_rtl();
+    $action = esc_url( admin_url( 'admin-post.php' ) );
+    $nonce  = wp_create_nonce( 'nk_consent' );
+
+    $t = $is_ar
+        ? array(
+            'title'    => 'نستخدم ملفات الارتباط',
+            'body'     => 'نستخدم ملفات ارتباط ضرورية لتشغيل الموقع، وأخرى وظيفية وتسويقية لتذكّر المنتجات التي تصفّحتها واحتساب الإحالات. باستمرارك دون تعديل التفضيلات لا تُكتب الملفات غير الضرورية. وفق نظام حماية البيانات الشخصية (PDPL).',
+            'accept'   => 'قبول الكل',
+            'reject'   => 'رفض',
+            'manage'   => 'تعديل التفضيلات',
+            'dismiss'  => 'إغلاق',
+            'modal_h'  => 'تفضيلات ملفات الارتباط',
+            'cat_nec'  => 'ضرورية',
+            'cat_nec_d'=> 'لازمة لعمل السلة والجلسة والأمن. لا يمكن إيقافها.',
+            'cat_fun'  => 'وظيفية',
+            'cat_fun_d'=> 'قائمة المنتجات التي تصفّحتها مؤخرًا (ng_recent، 30 يوم).',
+            'cat_mkt'  => 'تسويقية',
+            'cat_mkt_d'=> 'احتساب إحالات الدعوة (nk_ref، 7 أيام).',
+            'cancel'   => 'إلغاء',
+            'save'     => 'حفظ التفضيلات',
+            'always'   => 'مفعّلة دائمًا',
+        )
+        : array(
+            'title'    => 'We use cookies',
+            'body'     => 'We use strictly necessary cookies for cart, session, and security; functional and marketing cookies remember items you\'ve viewed and attribute referrals. They are not set unless you choose to allow them. PDPL-compliant.',
+            'accept'   => 'Accept all',
+            'reject'   => 'Reject',
+            'manage'   => 'Manage preferences',
+            'dismiss'  => 'Dismiss',
+            'modal_h'  => 'Cookie preferences',
+            'cat_nec'  => 'Strictly necessary',
+            'cat_nec_d'=> 'Required for cart, session, and security. Cannot be turned off.',
+            'cat_fun'  => 'Functional',
+            'cat_fun_d'=> 'Recently-viewed product list (ng_recent, 30 days).',
+            'cat_mkt'  => 'Marketing',
+            'cat_mkt_d'=> 'Referral-link attribution (nk_ref, 7 days).',
+            'cancel'   => 'Cancel',
+            'save'     => 'Save preferences',
+            'always'   => 'Always on',
+        );
+    ?>
+<div class="nk-consent-banner" role="region" aria-label="<?php echo esc_attr( $t['title'] ); ?>" data-nk-consent-banner<?php echo $is_ar ? ' dir="rtl" lang="ar"' : ''; ?>>
+    <div class="nk-consent-banner-inner">
+        <div class="nk-consent-text">
+            <strong class="nk-consent-title"><?php echo esc_html( $t['title'] ); ?></strong>
+            <p class="nk-consent-body"><?php echo esc_html( $t['body'] ); ?> <a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>"><?php echo esc_html( $is_ar ? 'سياسة الخصوصية' : 'Privacy policy' ); ?></a></p>
+        </div>
+        <div class="nk-consent-actions">
+            <form method="post" action="<?php echo $action; ?>" class="nk-consent-form">
+                <input type="hidden" name="action" value="nk_consent_save">
+                <input type="hidden" name="nk_consent_nonce" value="<?php echo esc_attr( $nonce ); ?>">
+                <button type="submit" name="decision" value="accept_all" class="nk-consent-btn nk-consent-btn--primary"><?php echo esc_html( $t['accept'] ); ?></button>
+                <button type="submit" name="decision" value="reject" class="nk-consent-btn"><?php echo esc_html( $t['reject'] ); ?></button>
+                <button type="button" class="nk-consent-btn nk-consent-btn--ghost" data-nk-consent-manage><?php echo esc_html( $t['manage'] ); ?></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="nk-consent-modal" role="dialog" aria-modal="true" aria-labelledby="nk-consent-modal-title" data-nk-consent-modal hidden<?php echo $is_ar ? ' dir="rtl" lang="ar"' : ''; ?>>
+    <div class="nk-consent-modal-card">
+        <h2 id="nk-consent-modal-title" class="nk-consent-modal-title"><?php echo esc_html( $t['modal_h'] ); ?></h2>
+        <form method="post" action="<?php echo $action; ?>" class="nk-consent-modal-form">
+            <input type="hidden" name="action" value="nk_consent_save">
+            <input type="hidden" name="nk_consent_nonce" value="<?php echo esc_attr( $nonce ); ?>">
+            <input type="hidden" name="decision" value="save">
+            <fieldset class="nk-consent-fieldset">
+                <legend><?php echo esc_html( $t['cat_nec'] ); ?> <span class="nk-consent-always"><?php echo esc_html( $t['always'] ); ?></span></legend>
+                <p><?php echo esc_html( $t['cat_nec_d'] ); ?></p>
+            </fieldset>
+            <fieldset class="nk-consent-fieldset">
+                <legend><label><input type="checkbox" name="functional" value="1"> <?php echo esc_html( $t['cat_fun'] ); ?></label></legend>
+                <p><?php echo esc_html( $t['cat_fun_d'] ); ?></p>
+            </fieldset>
+            <fieldset class="nk-consent-fieldset">
+                <legend><label><input type="checkbox" name="marketing" value="1"> <?php echo esc_html( $t['cat_mkt'] ); ?></label></legend>
+                <p><?php echo esc_html( $t['cat_mkt_d'] ); ?></p>
+            </fieldset>
+            <div class="nk-consent-modal-actions">
+                <button type="button" class="nk-consent-btn nk-consent-btn--ghost" data-nk-consent-cancel><?php echo esc_html( $t['cancel'] ); ?></button>
+                <button type="submit" class="nk-consent-btn nk-consent-btn--primary"><?php echo esc_html( $t['save'] ); ?></button>
+            </div>
+        </form>
+    </div>
+</div>
+    <?php
+}, 2 );
+
+/**
  * Google Tag Manager — noscript iframe at the very top of <body>.
  */
 add_action('wp_body_open', function () {

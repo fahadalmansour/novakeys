@@ -349,6 +349,35 @@ add_action( 'woocommerce_no_products_found', 'nk_gift_cards_brand_grid', 7 );
 add_action( 'woocommerce_no_products_found', 'nk_shop_category_tiles_bottom', 20 );
 
 /**
+ * Replace WC's default "No products were found matching your selection."
+ * banner on the gift-cards archive with a styled bilingual coming-soon
+ * placeholder. Default WC callback (`wc_no_products_found` at priority
+ * 10) is unhooked only on this archive — every other empty WC archive
+ * keeps the standard message.
+ *
+ * @since 0.2.3
+ * @return void
+ */
+function nk_gift_cards_coming_soon() {
+    if ( ! function_exists( 'is_product_category' ) || ! is_product_category( 'gift-cards' ) ) {
+        return;
+    }
+    ?>
+<div class="ng-gc-empty" role="status">
+    <p class="ng-gc-empty-en">Coming soon — gift cards launching shortly.</p>
+    <p class="ng-gc-empty-ar" dir="rtl" lang="ar">قريبًا — بطاقات الهدايا في الطريق.</p>
+</div>
+    <?php
+}
+add_action( 'wp', function () {
+    if ( ! function_exists( 'is_product_category' ) || ! is_product_category( 'gift-cards' ) ) {
+        return;
+    }
+    remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 );
+    add_action( 'woocommerce_no_products_found', 'nk_gift_cards_coming_soon', 8 );
+} );
+
+/**
  * Render archive chrome around the WC product-collection block (DA-H5).
  *
  * The FSE archive templates (themes/novakeys/templates/archive-product.html
@@ -460,7 +489,7 @@ function nk_shop_category_tiles() {
     echo '<section class="' . esc_attr( $section_cls ) . '">';
     echo '<div class="ng-container">';
     echo '<div class="ng-section-head">';
-    echo   '<div class="ng-section-kicker"><span></span>المتجر · <b>حسب الفئة</b></div>';
+    echo   '<div class="ng-section-kicker">المتجر · <b>حسب الفئة</b></div>';
     echo   '<div class="ng-section-titles">';
     if ( $is_inside_cat ) {
         echo '<h2 class="ng-section-en">تصفّح فئات أخرى.</h2>';
@@ -714,7 +743,7 @@ function nk_gift_cards_brand_grid() {
     }
 
     echo   '<div class="ng-gc-brands-head">';
-    echo     '<div class="ng-gc-brands-kicker"><span></span>المتجر · <b>بطاقات رقمية</b></div>';
+    echo     '<div class="ng-gc-brands-kicker">المتجر · <b>بطاقات رقمية</b></div>';
     echo     '<h2 class="ng-gc-brands-h">العلامات التجارية</h2>';
     echo     '<div class="ng-gc-brands-sub">' . (int) $total_brands . ' علامة · ' . (int) $total_cards . ' بطاقة · ' . count( $lanes ) . ' فئات</div>';
     echo   '</div>';
@@ -2390,14 +2419,14 @@ add_action('wp_footer', function () {
         <h3>عروض المشغّلين · مباشرة لبريدك</h3>
         <p>منتجات جديدة، تخفيضات حصرية، ونصائح تقنية مختصرة. لا سبام — يمكنك إلغاء الاشتراك في أي وقت.</p>
       </div>
-      <form class="ng-foot-newsletter-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+      <form class="ng-foot-newsletter-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" dir="rtl">
         <input type="hidden" name="action" value="ng_newsletter_subscribe">
         <?php wp_nonce_field( 'ng_newsletter', 'ng_newsletter_nonce' ); ?>
         <label class="ng-foot-newsletter-field">
           <span class="screen-reader-text">بريدك الإلكتروني</span>
           <input type="email" name="email" placeholder="بريدك الإلكتروني" autocomplete="email" required>
         </label>
-        <button type="submit" class="btn btn-primary" dir="rtl">
+        <button type="submit" class="btn btn-primary">
           اشترك
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </button>

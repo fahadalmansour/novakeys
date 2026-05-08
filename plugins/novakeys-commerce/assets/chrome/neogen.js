@@ -64,7 +64,10 @@
 
         var btn = n.querySelector('.ng-news-notice-close');
         if (btn) { btn.addEventListener('click', leave); }
-        setTimeout(leave, 8000);
+        // Error variant carries longer Arabic copy; give screen-reader
+        // users + aria-live announcers extra time before auto-dismiss.
+        var hold = n.classList.contains('ng-news-notice--err') ? 12000 : 8000;
+        setTimeout(leave, hold);
     }
 
     function disableNewsletterDoubleSubmit() {

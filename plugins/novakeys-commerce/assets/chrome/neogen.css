@@ -30,6 +30,16 @@
     --nk-wide: 1280px;
 }
 
+/* Page canvas ------------------------------------------------------- */
+
+/* Paper-tone body so the white .ng-topnav and any white WC card
+   inside FSE templates (cart / checkout / my-account) read as
+   distinct surfaces against the page body. The dark .ng-footer
+   provides its own contrast at the bottom. */
+body {
+    background: var(--nk-color-paper);
+}
+
 /* Container --------------------------------------------------------- */
 
 .ng-container {

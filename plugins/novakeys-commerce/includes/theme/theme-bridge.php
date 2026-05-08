@@ -144,6 +144,34 @@ add_filter( 'single_cat_title',  'nk_ar_label', 5 );
 add_filter( 'list_cats',         'nk_ar_label', 5 );
 add_filter( 'woocommerce_product_title', 'nk_ar_label', 5 );
 
+/**
+ * Mark <html> as Arabic-primary on the public surface.
+ *
+ * The WP site language is en-US (TranslatePress runs the bilingual
+ * EN/AR layer), so language_attributes() defaults to lang="en-US"
+ * even though the chrome (sysbar, topnav, footer) and most page
+ * copy is Arabic. Screen readers picked up the wrong voice profile.
+ *
+ * Swap the lang token to ar-SA while preserving dir — flipping
+ * dir="rtl" cascades through every WC block layout and is a
+ * separate decision. Admin + customizer requests skip the filter
+ * so the editor stays in its native locale.
+ *
+ * @since 0.2.4
+ * @param string $output  Full attribute string WP emitted.
+ * @param string $doctype Document type ('html' or 'xhtml').
+ * @return string
+ */
+add_filter( 'language_attributes', function ( $output, $doctype = 'html' ) {
+    if ( is_admin() || is_customize_preview() ) {
+        return $output;
+    }
+    if ( 'html' !== $doctype ) {
+        return $output;
+    }
+    return preg_replace( '/lang="[^"]*"/', 'lang="ar-SA"', (string) $output, 1 );
+}, 10, 2 );
+
 // Scope the_title to products only — protects WC order item titles,
 // blog post titles, and any non-product titles that legitimately
 // contain a "|" character.
@@ -610,15 +638,18 @@ function nk_gift_cards_archive_extras() {
     // Each region: [label, svg-icon]. Flag glyphs replaced with line-art
     // SVGs so the chrome doesn't depend on emoji-font availability and
     // sidesteps the trademark/cultural questions of country-flag art.
-    $svg_globe = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
-    $svg_pin   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+    $svg_globe  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
+    $svg_pin    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s-7-7.4-7-12a7 7 0 1 1 14 0c0 4.6-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+    // GCC isn't a single country — render as a triangle of joined nodes
+    // (cluster-of-nations icon) rather than borrowing one member's flag.
+    $svg_region = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><circle cx="12" cy="16" r="3"/></svg>';
     $regions = array(
-        ''       => array( 'الكل',                $svg_globe ),
-        'ksa'    => array( 'السعودية',            $svg_pin   ),
-        'gcc'    => array( 'دول الخليج',          ''         ),
-        'us'     => array( 'الولايات المتحدة',     $svg_pin   ),
-        'uk'     => array( 'المملكة المتحدة',      $svg_pin   ),
-        'global' => array( 'عالمي',               $svg_globe ),
+        ''       => array( 'الكل',                $svg_globe  ),
+        'ksa'    => array( 'السعودية',            $svg_pin    ),
+        'gcc'    => array( 'دول الخليج',          $svg_region ),
+        'us'     => array( 'الولايات المتحدة',     $svg_pin    ),
+        'uk'     => array( 'المملكة المتحدة',      $svg_pin    ),
+        'global' => array( 'عالمي',               $svg_globe  ),
     );
     $current = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
 

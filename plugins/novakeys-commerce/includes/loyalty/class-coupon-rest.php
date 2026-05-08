@@ -113,23 +113,19 @@ final class Coupon_REST {
 			);
 		}
 
-		// Use WC_Coupon CRUD for HPOS-aligned writes; falls back to raw
-		// post-meta only if WC isn't loaded (shouldn't happen in prod).
-		if ( class_exists( '\WC_Coupon' ) ) {
-			$coupon = new \WC_Coupon( (int) $coupon_id );
-			$coupon->set_discount_type( 'percent' );
-			$coupon->set_amount( 10 );
-			$coupon->set_usage_limit( 1 );
-			$coupon->set_usage_limit_per_user( 1 );
-			$coupon->set_date_expires( strtotime( $tomorrow ) );
-			$coupon->save();
-		} else {
-			update_post_meta( $coupon_id, 'discount_type', 'percent' );
-			update_post_meta( $coupon_id, 'coupon_amount', '10' );
-			update_post_meta( $coupon_id, 'usage_limit', '1' );
-			update_post_meta( $coupon_id, 'usage_limit_per_user', '1' );
-			update_post_meta( $coupon_id, 'date_expires', strtotime( $tomorrow ) );
-		}
+		// WC_Coupon CRUD is the only supported write path. The plugin
+		// header declares `Requires Plugins: woocommerce` so WC is
+		// always loaded by the time this REST route can fire — the
+		// previous post-meta fallback was unreachable defensive code
+		// that violated the engineering-standards "WC CRUD over
+		// postmeta" rule (readiness-2026-05-08 MEDIUM).
+		$coupon = new \WC_Coupon( (int) $coupon_id );
+		$coupon->set_discount_type( 'percent' );
+		$coupon->set_amount( 10 );
+		$coupon->set_usage_limit( 1 );
+		$coupon->set_usage_limit_per_user( 1 );
+		$coupon->set_date_expires( strtotime( $tomorrow ) );
+		$coupon->save();
 
 		set_transient( $throttle_key, 1, DAY_IN_SECONDS );
 

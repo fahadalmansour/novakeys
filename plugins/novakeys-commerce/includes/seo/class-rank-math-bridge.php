@@ -356,6 +356,18 @@ final class Rank_Math_Bridge {
 						continue 2;
 					}
 				}
+				// Round-3 H3: WebPage/CollectionPage/ItemPage nodes
+				// previously shipped `inLanguage: en` on archives whose
+				// content is Arabic. The site-wide <html lang> was just
+				// flipped to ar-SA; mirror that on the page-level
+				// schema entities so search-engine + a11y signals agree.
+				$page_types = array( 'WebPage', 'CollectionPage', 'ItemPage', 'ProductPage', 'ContactPage', 'AboutPage' );
+				foreach ( $node_types as $t ) {
+					if ( in_array( $t, $page_types, true ) ) {
+						$data[ $key ]['inLanguage'] = 'ar-SA';
+						break;
+					}
+				}
 			}
 			if ( isset( $node['name'] )
 				&& (

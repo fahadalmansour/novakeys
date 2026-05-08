@@ -21,6 +21,13 @@
     --nk-color-white: #FFFFFF;
     --nk-color-bg: #0B1220;
     --nk-color-bg-soft: #111827;
+    /* WC blocktheme references this token in `box-shadow: ... var(
+       --wp--preset--color--background, #fff)` for the active tab
+       seam (single-product page). theme.json doesn't expose it, so
+       the seam was rendering #fff against the paper-tone body and
+       leaving a visible white edge. Define it here so WC's CSS
+       resolves to paper instead of the fallback. */
+    --wp--preset--color--background: var(--nk-color-paper);
     --nk-radius-sm: 6px;
     --nk-radius: 10px;
     --nk-radius-lg: 16px;
@@ -254,6 +261,13 @@ body {
     width: 22px !important;
     height: 22px !important;
 }
+
+/* Single-product gallery — WC initialises with inline `style="opacity:0"`
+   and lets flexslider raise it to 1 on JS load. On the no-image
+   placeholder case JS never fires the opacity bump, leaving the
+   placeholder invisible. Force visible only for the no-images variant
+   so real galleries still get the WC fade-in on initial paint. */
+.woocommerce-product-gallery--without-images { opacity: 1 !important; }
 
 /* Buttons ----------------------------------------------------------- */
 
@@ -832,10 +846,10 @@ body {
 .ng-gc-empty {
     text-align: center;
     padding: 2.5rem 1rem;
-    margin: 1rem 0;
+    margin: 1.5rem 0 1rem;
     border: 1px dashed var(--nk-color-mist);
     border-radius: var(--nk-radius-lg);
-    background: var(--nk-color-paper);
+    background: var(--nk-color-white);
 }
 .ng-gc-empty-en { font-size: 14px; color: var(--nk-color-slate); margin: 0 0 .35rem; }
 .ng-gc-empty-ar { font-size: 14px; color: var(--nk-color-ink); margin: 0; font-weight: 500; }
@@ -899,6 +913,11 @@ body {
     transform: translateY(-2px);
     box-shadow: var(--nk-shadow);
     border-color: var(--nk-color-sky);
+}
+
+.ng-rack-unit:focus-visible {
+    outline: 2px solid var(--nk-color-sky);
+    outline-offset: 2px;
 }
 
 .ng-rack-unit.is-current {

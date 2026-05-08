@@ -2157,6 +2157,45 @@ add_action('woocommerce_process_product_meta', function ($post_id) {
  * on /product-category/<slug>/ pages. Uses the term's description
  * verbatim (admins can enter AR + EN there).
  */
+/**
+ * Suppress WC's default `woocommerce-products-header__title` H1 on
+ * category/tag archives — the `.ng-cat-header` injected below is
+ * the canonical heading. Without this, every product taxonomy
+ * archive emits two H1 elements (B1, round-3 audit).
+ */
+add_filter( 'woocommerce_show_page_title', function ( $show ) {
+    if ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) {
+        return false;
+    }
+    return $show;
+} );
+
+/**
+ * Replace WC's placeholder image alt text "Awaiting product image"
+ * (announced verbatim by screen readers on every PDP without a
+ * featured image) with the product title. Falls back to the original
+ * string when no product context is available (e.g. shop archive
+ * placeholders before the loop primes the query).
+ */
+add_filter( 'woocommerce_get_image_size_woocommerce_thumbnail', function ( $size ) { return $size; } );
+add_filter( 'wp_get_attachment_image_attributes', function ( $attr, $attachment ) {
+    if ( ! is_product() ) {
+        return $attr;
+    }
+    if ( ! isset( $attr['src'] ) || false === stripos( (string) $attr['src'], 'woocommerce-placeholder' ) ) {
+        return $attr;
+    }
+    if ( isset( $attr['alt'] )
+        && ( 'Awaiting product image' === $attr['alt'] || 'Placeholder' === $attr['alt'] )
+    ) {
+        global $product;
+        if ( $product instanceof \WC_Product ) {
+            $attr['alt'] = $product->get_name();
+        }
+    }
+    return $attr;
+}, 10, 2 );
+
 add_action('woocommerce_archive_description', function () {
     if (!is_product_taxonomy()) { return; }
     $term = get_queried_object();
@@ -2269,7 +2308,7 @@ add_action('wp_body_open', function () {
   <span class="spacer"></span>
   <span>الضريبة <b>15%</b> شاملة</span>
   <span class="sep hide-sm"></span>
-  <span class="hide-sm">عربي</span>
+  <span class="hide-sm"><?php echo 0 === strpos( get_locale(), 'ar' ) ? 'عربي' : 'English'; ?></span>
 </div>
 
 <nav class="ng-topnav" aria-label="القائمة الرئيسية">

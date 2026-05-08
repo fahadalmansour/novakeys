@@ -207,14 +207,18 @@ function nk_top_product_cats($limit = 6) {
  * Covers the three limit values currently called from this codebase
  * (5, 6, plus a safety margin in case future call sites add more).
  */
-$ng_bust_cats = function () {
+$nk_bust_cats = function () {
     foreach ([4, 5, 6, 7, 8] as $n) {
         delete_transient('novakeys_top_cats_' . $n);
     }
+    // Bust the gift-cards brand-grid object cache too — the brand grid
+    // groups by `_ng_gift_card_brand` postmeta and category CRUD often
+    // coincides with brand catalogue edits.
+    wp_cache_delete( 'nk_gc_brand_grid_rows_v1', 'nk_commerce' );
 };
-add_action('edited_product_cat',  $ng_bust_cats);
-add_action('created_product_cat', $ng_bust_cats);
-add_action('delete_product_cat',  $ng_bust_cats);
+add_action('edited_product_cat',  $nk_bust_cats);
+add_action('created_product_cat', $nk_bust_cats);
+add_action('delete_product_cat',  $nk_bust_cats);
 
 /**
  * Resolve a product's primary-category slug, honoring Rank Math then
@@ -679,17 +683,28 @@ function nk_gift_cards_brand_grid() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
     if ( ! empty( $_GET['brand'] ) ) { return; }
 
-    global $wpdb;
-    $rows = $wpdb->get_results(
-        "SELECT pm.meta_value AS brand_slug, MIN(p.ID) AS sample_pid, COUNT(*) AS variant_count
-           FROM {$wpdb->postmeta} pm
-           JOIN {$wpdb->posts}    p  ON p.ID = pm.post_id
-          WHERE pm.meta_key = '_ng_gift_card_brand'
-            AND p.post_type = 'product'
-            AND p.post_status = 'publish'
-          GROUP BY pm.meta_value
-          ORDER BY variant_count DESC"
-    );
+    // Object-cache the GROUP BY so each /product-category/gift-cards/
+    // request doesn't re-run the join. 5-minute TTL trades off
+    // freshness against MySQL load on hosts without a persistent
+    // cache (Blocksy on blazr.net VPS); brand catalogue edits bust
+    // the key via `$nk_bust_cats` above.
+    $cache_key   = 'nk_gc_brand_grid_rows_v1';
+    $cache_group = 'nk_commerce';
+    $rows        = wp_cache_get( $cache_key, $cache_group );
+    if ( false === $rows ) {
+        global $wpdb;
+        $rows = $wpdb->get_results(
+            "SELECT pm.meta_value AS brand_slug, MIN(p.ID) AS sample_pid, COUNT(*) AS variant_count
+               FROM {$wpdb->postmeta} pm
+               JOIN {$wpdb->posts}    p  ON p.ID = pm.post_id
+              WHERE pm.meta_key = '_ng_gift_card_brand'
+                AND p.post_type = 'product'
+                AND p.post_status = 'publish'
+              GROUP BY pm.meta_value
+              ORDER BY variant_count DESC"
+        );
+        wp_cache_set( $cache_key, $rows, $cache_group, 5 * MINUTE_IN_SECONDS );
+    }
     if ( empty( $rows ) ) { return; }
 
     // Brand → AR label + parent lane. Keep in sync with
@@ -1568,32 +1583,10 @@ add_filter( 'the_posts', function ( $posts, $query ) {
  * so it cannot leak into other templates. Print only on the routes that
  * use it so /shop/ and /single-product/ stay byte-for-byte unchanged.
  */
-add_action( 'wp_head', function () {
-    if ( ! get_query_var( 'novakeys_page' ) || 'legal' === get_query_var( 'novakeys_page' ) ) {
-        return;
-    }
-    ?>
-<style id="nk-info-page-css">
-.nk-info-page{max-width:760px;margin-inline:auto;font-size:1rem;line-height:1.65;color:var(--wp--preset--color--brand-ink,#1a1a1a)}
-.nk-info-page .nk-info-kicker{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
-.nk-info-page .nk-info-h1-ar{font-size:1.4rem;font-weight:600;margin:.25em 0 1.2em;color:var(--wp--preset--color--brand-ink,#1a1a1a)}
-.nk-info-page .nk-info-lede{font-size:1.05rem;line-height:1.7;margin:0 0 1.4em;color:var(--wp--preset--color--brand-slate,#444)}
-.nk-info-page .nk-info-section{margin:2.2em 0;padding-block:1.4em 0;border-top:1px solid var(--wp--preset--color--brand-mist,#e6e6e6)}
-.nk-info-page .nk-info-section:first-of-type{border-top:0;padding-top:0}
-.nk-info-page .nk-info-section-kicker{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--wp--preset--color--brand-slate,#666);margin:0 0 .35em}
-.nk-info-page .nk-info-section-h{font-size:1.18rem;font-weight:600;margin:0 0 .5em;line-height:1.35}
-.nk-info-page .nk-info-section-h-ar{font-size:1.05rem;font-weight:500;margin:0 0 .5em;color:var(--wp--preset--color--brand-slate,#666)}
-.nk-info-page p{margin:0 0 1em}
-.nk-info-page strong{font-weight:600}
-.nk-info-page code{background:var(--wp--preset--color--brand-mist,#f1f3f5);padding:.05em .35em;border-radius:.25em;font-size:.92em}
-.nk-info-page [dir="rtl"]{font-family:"IBM Plex Sans Arabic","Tajawal",system-ui,sans-serif}
-.nk-legal-table{width:100%;border-collapse:collapse;margin:1em 0;font-size:.95em}
-.nk-legal-table th,.nk-legal-table td{padding:.55em .75em;border:1px solid var(--wp--preset--color--brand-mist,#e6e6e6);text-align:start;vertical-align:top}
-.nk-legal-table th{background:var(--wp--preset--color--brand-mist,#f5f5f5);font-weight:600}
-[dir="rtl"] .nk-legal-table th,[dir="rtl"] .nk-legal-table td{text-align:start}
-</style>
-    <?php
-}, 99 );
+// .nk-info-page styling lives in assets/chrome/neogen.css now (sitewide
+// chrome bundle) so the wp_head emission was retired — adding ~1 KB to
+// every page beats render-blocking inline CSS on the eight legal/info
+// routes.
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
 $ng_theme_asset_dir = __DIR__ . '/neogen-theme-assets';
@@ -2063,7 +2056,12 @@ add_filter('wc_get_template_part', function ($template, $slug, $name) {
  * archive (shop / product_cat / tag / search). Remove it once.
  */
 add_action( 'init', function () {
-    remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+    // Guard explicitly: if WC isn't loaded the function won't exist and the
+    // remove_action would silently no-op. Future WC versions could rename or
+    // re-prioritise the callback — surface that here rather than swallow it.
+    if ( function_exists( 'woocommerce_template_loop_product_thumbnail' ) ) {
+        remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+    }
 }, 20 );
 
 /**
@@ -2311,7 +2309,16 @@ function nk_newsletter_subscribe_handler() {
     $ip      = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
     $rate_k  = 'nk_news_' . md5( $ip );
     if ( $ip && false !== get_transient( $rate_k ) ) {
-        wp_safe_redirect( add_query_arg( 'nk_news', 'ok', $back ) ); // Pretend success on rate-limit.
+        // Per-IP rate-limit: redirect with `ok` instead of a distinct `rate`
+        // status. The audit flagged this branch because the response masks
+        // the throttle — that's intentional. Distinguishing rate-limit from
+        // real success would surface a confusing error to a legitimate
+        // double-submitter (page back, re-tap), and the rate-limit's actual
+        // job is to absorb bot bursts where misleading the source is fine.
+        // Net effect: a real human posting twice within 60 s sees the same
+        // success toast both times instead of "already subscribed", which
+        // is acceptable UX for a single-field newsletter form.
+        wp_safe_redirect( add_query_arg( 'nk_news', 'ok', $back ) );
         exit;
     }
 

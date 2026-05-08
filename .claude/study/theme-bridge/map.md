@@ -25,7 +25,7 @@ are intentionally preserved for live-data compatibility.
 | Symbol | Where | Notes |
 |---|---|---|
 | `NOVAKEYS_THEME_VERSION` | `theme-bridge.php:24–26` | `1.5.9`. Used as a rewrite-flush key (`novakeys_rewrites_flushed_<ver>`). |
-| `NK_CR` | `theme-bridge.php:35–106` | CR record literal. Owner / phones / email / parent-LLC block / regulatory list (ZATCA + Council of Saudi Chambers). Includes brand strings — note `brand_ar` is currently `'نيوجين ستور'` (NeoGen brand), not NovaKeys: stale literal. |
+| `NK_CR` | `theme-bridge.php:35–106` | CR record literal. Owner / phones / email / parent-LLC block / regulatory list (ZATCA + Council of Saudi Chambers). The Latin brand is `NovaKeys Store` and the Arabic brand is intentionally `نيوجين ستور` (NeoGen Store) — the IP clause at `theme-bridge.php:1083–1084` lists both as official; this is a deliberate Latin-Arabic split, not a stale literal. |
 | `NG_THEME_ASSET_DIR` | `theme-bridge.php:1487–1496` | `__DIR__ . '/neogen-theme-assets'`. Legacy NG prefix kept; phase-4 cleanup didn't rename. |
 | `NG_THEME_ASSET_URL` | `theme-bridge.php:1497–1499` | URL form via `content_url()`. |
 
@@ -187,7 +187,7 @@ GET /product-category/gift-cards/
 ## Constraints
 
 1. **Postmeta keys must remain `_ng_*`-prefixed.** Renaming `_ng_ar_title`, `_ng_gift_card_region`, `_ng_gift_card_brand` would orphan live product data and break: Woo product editor field, content-product.php override, gift-cards `pre_get_posts` filter, brand-grid SQL. Documented intent (CLAUDE-style header at lines 13–16: "rename `ng_*` symbols to `nk_*` with compat shims" — postmeta excluded).
-2. **`NK_CR['brand_ar']`** is currently `'نيوجين ستور'` (NeoGen brand) at line 39 — stale literal. Marketing copy that pulls from this will misbrand. Fix likely needs cross-check with content-import work.
+2. **`NK_CR['brand_ar']` is intentionally `'نيوجين ستور'`** at line 39 (deliberate Latin-Arabic brand split, confirmed 2026-05-08). The IP clause at lines 1083–1084 lists both `"NovaKeys"` and `"نيوجين ستور"` as official names, and the same Arabic string appears across the legal-page ledes (returns / warranty / terms / privacy) and in `class-rank-math-bridge.php` / `class-text-routes.php`. Don't auto-replace.
 3. **Newsletter form action name `ng_newsletter_subscribe`** must stay — the form posts to `admin-post.php?action=ng_newsletter_subscribe` and a rename breaks any in-flight POST and any cached page.
 4. **Chrome injectors (`wp_body_open`, `wp_footer`@5)** must run before / after Blocksy's own; they assume Blocksy's header/footer are CSS-hidden. Toggling `ng_blocksy_chrome_handoff()` ON without un-hiding Blocksy gives a missing header.
 5. **template_include priority 1001** is deliberate — runs after the active theme's priority-999 filter that otherwise blanket-rewrites `is_home()` requests to `app-shell.php` (clobbering the virtual-page route). Don't reduce this priority.
@@ -198,15 +198,14 @@ GET /product-category/gift-cards/
 
 | Severity | Where | Issue |
 |---|---|---|
-| HIGH | `assets/chrome/neogen.js:29–45` | `#ng-queue` indicator is **fake** — random walk in [8, 22] every 12s, no real network call. Implies live order queue size to customers; consumer-deceptive under Saudi Consumer Protection regime. The clock at `#ng-clock` is genuine (Asia/Riyadh time) so the bar reads as authoritative. |
-| HIGH | `theme-bridge.php:39` | `'brand_ar' => 'نيوجين ستور'` — Arabic brand string still shows NeoGen, not NovaKeys. Misbranding wherever `nk_cr()['brand_ar']` is rendered. |
-| MEDIUM | `theme-bridge.php:2178` | `wp_safe_redirect( add_query_arg( 'nk_news', 'ok', $back ) )` on rate-limit hit. Pretends success silently — comment "Pretend success on rate-limit" — legitimate burst submitter gets a fake "ok" with no data stored beyond the first hit. UX choice but undocumented in user-facing copy. |
-| MEDIUM | `theme-bridge.php:572–581` | Direct `$wpdb->get_results()` SQL for brand-grid query bypasses `WP_Query` and the term cache. No user input → not injectable, but caching layer is missed. |
-| MEDIUM | `theme-bridge.php:210–217` | Closure `$ng_bust_cats` still uses `ng_` prefix. Phase-4 retired `ng_*` symbols (commit a6bf4ac) but this one was missed. Cosmetic — closure is internal. |
-| MEDIUM | Whole file | No `__()` / `_e()` calls — visible Arabic strings are hard-coded. Cannot be localized to other languages without rewriting. |
-| LOW | `theme-bridge.php:1487–1499` | `NG_THEME_ASSET_DIR` / `_URL` constants still NG-prefixed; `__DIR__ . '/neogen-theme-assets'` is the underlying path. Renaming would require coordinated move + define swap + check across the plugin. |
-| LOW | `theme-bridge.php:1466–1483` | Inline `<style id="nk-info-page-css">` adds render-blocking CSS on the info routes. Could be moved to `neogen.css` and gated by body class — adds <2 KB to chrome load but eliminates the inline. |
-| LOW | `theme-bridge.php:1922` | `remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10)` runs at `init` priority 20. If anything else hooks the same callback at the same priority later, removal silently fails. Wrap in a guard if uncertain. |
+| ~~HIGH~~ | `assets/chrome/neogen.js` | ~~`#ng-queue` indicator is **fake**~~ — **resolved 2026-05-07 in commit `4f9244f`**: queue line removed from the sysbar markup; `nudgeQueue` deleted from neogen.js. |
+| MEDIUM | Whole file | No `__()` / `_e()` calls — visible Arabic strings are hard-coded. Cannot be localized to other languages without rewriting. **Deferred** — needs a translation-infrastructure decision first (text domain, translator workflow, whether the site even needs a non-Arabic locale). |
+| ~~MEDIUM~~ | `theme-bridge.php:2298–2316` (newsletter) | ~~"Pretend success on rate-limit" reads undocumented~~ — **resolved 2026-05-08**: behaviour preserved (silent dedup is intentional UX) but the inline comment now spells out the trade-off explicitly. |
+| ~~MEDIUM~~ | `theme-bridge.php:683` (brand-grid SQL) | ~~Direct `$wpdb->get_results()` bypasses object cache~~ — **resolved 2026-05-08**: wrapped in `wp_cache_get` / `wp_cache_set` (group `nk_commerce`, key `nk_gc_brand_grid_rows_v1`, 5-minute TTL); `$nk_bust_cats` busts the key on category CRUD. |
+| ~~MEDIUM~~ | `theme-bridge.php:210` | ~~Closure `$ng_bust_cats` still uses `ng_` prefix~~ — **resolved 2026-05-08**: renamed to `$nk_bust_cats`. |
+| LOW | `theme-bridge.php:1487–1499` | `NG_THEME_ASSET_DIR` / `_URL` constants still NG-prefixed; `__DIR__ . '/neogen-theme-assets'` is the underlying path. **Deferred** — multi-file rename + on-disk dir move. |
+| ~~LOW~~ | `theme-bridge.php:1571–1596` (was `1466–1483`) | ~~Inline `<style id="nk-info-page-css">` adds render-blocking CSS on the info routes~~ — **resolved 2026-05-08**: rules moved to `assets/chrome/neogen.css` under the "Legal / info pages — `.nk-info-page`" section; the wp_head emission was retired. |
+| ~~LOW~~ | `theme-bridge.php:2065–2070` | ~~`remove_action` for the WC loop thumbnail silently no-ops if the callback is renamed/re-prioritised~~ — **resolved 2026-05-08**: wrapped in `function_exists( 'woocommerce_template_loop_product_thumbnail' )` guard. |
 | INFO | Whole file | 2,394 lines is too large for a single file. Natural seams: brand identity / nk_cr (1–119), nk_ar_label + filters (120–162), top-cats + image fallback (163–319), shop tiles (320–433), gift-cards extras (434–709), info-pages registry + virtual-post + render (710–1485), asset paths + chrome enqueue + favicons + GTM (1486–1638), Schema.org (1639–1741), virtual routes (1742–1885), WC template overrides (1886–1952), product-meta + archive header + front-page (1953–2053), sysbar/topnav (2054–2142), newsletter (2143–2208), cart fragment + footer (2209–2393). |
 
 ## Citations
